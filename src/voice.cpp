@@ -5,6 +5,7 @@
  */
 Voice::Voice(const std::string& userInputText) : userInputText(userInputText) {
     // Constructor code here
+
 }
 
 /**
