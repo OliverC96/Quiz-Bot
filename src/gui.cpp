@@ -29,10 +29,12 @@ void GUI::displayLoginPage() {
 }
 
 /**
- * @brief Update the leaderboard.
+ * @author Oliver Clennan
+ * @brief Updates the leaderboard with the current user's score
  */
 void GUI::updateLeaderboard() {
-    // Implementation for updating the leaderboard
+    std::tuple<std::string, int> newEntry = make_tuple(currentUser.userID, finalScore);
+    leaderboard.push_back(newEntry);
 }
 
 /**
