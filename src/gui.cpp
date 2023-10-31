@@ -1,8 +1,9 @@
 #include "../include/gui.h"
 
 /**
- * Initializes a Wt application
+ * @brief Initializes the Wt GUI for the QuizBot application
  * @param env the Wt environment
+ * @author Oliver Clennan
  */
 GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
@@ -10,43 +11,40 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     currentUser = new User("userid", "userpass", 200, 1);
 
     setTitle("QuizBot");
+    useStyleSheet("src/styles.css");
 
+    pages = root()->addWidget(std::make_unique<Wt::WStackedWidget>());
+    std::unique_ptr<Wt::WContainerWidget> mainPage = std::make_unique<Wt::WContainerWidget>();
 
-//    // Linking an external stylesheet to the application
-//    useStyleSheet("./resources/styles.css");
-//
-//    // Configuring the wrapper (highest-level container element)
-//    wrapper_ = root()->addWidget(std::make_unique<Wt::WContainerWidget>());
-//    wrapper_->setStyleClass("wrapper");
-//
-//    // Configuring the title header
-//    titleHeader_ = wrapper_->addWidget(std::make_unique<Wt::WText>("Wordle"));
-//    titleHeader_->setStyleClass("title");
-//
-//    // Configuring the wordle grid
-//    gridContainer_ = wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
-//    gridContainer_->setStyleClass("grid");
-//    guessGrid_ = gridContainer_->setLayout(std::make_unique<Wt::WGridLayout>());
-//
-//    // Configuring the input area (composed of the status message and input field)
-//    inputArea_ = wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
-//    inputArea_->setStyleClass("input-area");
-//
-//    // Configuring the components of the input area
-//    statusText_ = inputArea_->addWidget(std::make_unique<Wt::WText>());
-//    guessInput_ = inputArea_->addWidget(std::make_unique<Wt::WLineEdit>());
-//    guessInput_->setStyleClass("guess-input");
-//    guessInput_->enterPressed().connect(this, &Wordle::checkGuess);
-//
-//    // Configuring the status button
-//    statusButton_ = wrapper_->addWidget(std::make_unique<Wt::WPushButton>());
-//    statusButton_->setStyleClass("status-btn");
-//
-//    // Read in all the words contained within the word bank file
-//    parseWords("./resources/word_bank.txt");
-//
-//    // Initialize a new game
-//    initializeGame();
+    Wt::WContainerWidget* navBar = mainPage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    Wt::WContainerWidget* pageContent = mainPage->addWidget(std::make_unique<Wt::WContainerWidget>());
+
+    navBar->setStyleClass("nav-bar");
+    pageContent->setStyleClass("wrapper");
+
+    Wt::WText* appTitle = navBar->addWidget(std::make_unique<Wt::WText>("QuizBot"));
+    Wt::WContainerWidget* navItems = navBar->addWidget(std::make_unique<Wt::WContainerWidget>());
+
+    appTitle->setStyleClass("title");
+    navItems->setStyleClass("nav-items");
+
+    Wt::WPushButton* homeButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Home"));
+    Wt::WPushButton* profileButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Profile"));
+    Wt::WPushButton* leaderboardButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Leaderboard"));
+
+    Wt::WContainerWidget* welcomeText = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    welcomeText->setStyleClass("welcome-text");
+
+    Wt::WText* firstSection = welcomeText->addWidget(std::make_unique<Wt::WText>("Welcome to QuizBot, your go-to destination for trivia fun and excitement! Our web application is designed with trivia enthusiasts in mind, offering a seamless and enjoyable experience for users of all levels. With a sleek and user-friendly interface, QuizBot opens the door to a world of trivia quizzes spanning a wide range of categories, ensuring there's something for everyone."));
+    Wt::WText* secondSection = welcomeText->addWidget(std::make_unique<Wt::WText>("What sets QuizBot apart is its commitment to accessibility and engagement. We believe that trivia should be a delightful experience for all, and that's why we provide both text input and speech recognition options for answering questions. Whether you prefer typing out your answers or speaking them aloud, QuizBot has you covered."));
+    Wt::WText* thirdSection = welcomeText->addWidget(std::make_unique<Wt::WText>("At the heart of QuizBot is our mission to make trivia enjoyable and hassle-free. You can easily browse and select quiz categories that pique your interest, dive into quizzes, and keep track of your scores. With an extensive and diverse database of trivia questions meticulously organized by topics, finding quizzes that match your interests has never been easier."));
+    Wt::WText* fourthSection = welcomeText->addWidget(std::make_unique<Wt::WText>("Join us on a journey of knowledge, fun, and friendly competition with QuizBot. Let's get started!"));
+
+    Wt::WPushButton* startButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Start Quiz"));
+    startButton->setStyleClass("start-button");
+
+    pages->addWidget(std::move(mainPage));
+    pages->setCurrentIndex(0);
 
 }
 

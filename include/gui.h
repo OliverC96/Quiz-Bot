@@ -9,6 +9,7 @@
 #include <tuple>
 #include <string>
 
+#include <Wt/WStackedWidget.h>
 #include <Wt/WApplication.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WWidget.h>
@@ -104,6 +105,7 @@ private:
     QA *currentQuestion; /**< The current question being displayed. */
     User *currentUser; /**< The currently logged-in user. */
     int finalScore; /**< The user's final score. */
+    Wt::WStackedWidget* pages;
     std::vector<std::tuple<std::string, int>> leaderboard; /**< The leaderboard data. */
 };
 

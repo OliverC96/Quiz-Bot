@@ -1,0 +1,83 @@
+:root {
+    --grey: #555B6E;
+    --darkgreen: #89B0AE;
+    --lightgreen: #BEE3DB;
+    --white: #FAF9F9;
+    --orange: #FFD6BA;
+    --bg: #EAEAEA;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    align-items: center;
+    height: 10vh;
+    background-color: var(--white);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--grey);
+}
+
+.nav-items > button {
+    outline: none;
+    border: none;
+    color: var(--grey);
+    margin-left: 20px;
+    background-color: inherit;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nav-items > button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    height: 90vh;
+}
+
+.welcome-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--grey);
+    font-weight: bold;
+    width: 55%;
+    text-align: center;
+}
+
+.start-button {
+    color: var(--white);
+    background-color: var(--darkgreen);
+    font-weight: bold;
+    font-size: inherit;
+    text-decoration: none;
+    border: var(--darkgreen) 4px solid;
+    border-radius: 5px;
+    padding: 10px 70px;
+    transition-duration: 0.3s;
+}
+
+.start-button:hover {
+    background-color: var(--lightgreen);
+    border-color: var(--lightgreen);
+    color: var(--grey);
+    cursor: pointer;
+}
