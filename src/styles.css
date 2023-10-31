@@ -5,6 +5,7 @@
     --white: #FAF9F9;
     --orange: #FFD6BA;
     --bg: #EAEAEA;
+    --gridbg: #D9D9D9;
 }
 
 body {
@@ -23,10 +24,16 @@ body {
     background-color: var(--white);
 }
 
+.title-container {
+    display: flex;
+    align-items: flex-end;
+}
+
 .title {
     font-size: 28px;
     font-weight: bold;
     color: var(--grey);
+    margin-right: 10px;
 }
 
 .nav-items > button {
@@ -50,7 +57,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 50px;
-    height: 90vh;
+    padding: 50px 0;
 }
 
 .welcome-text {
@@ -80,4 +87,47 @@ body {
     border-color: var(--lightgreen);
     color: var(--grey);
     cursor: pointer;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 80%;
+    gap: 50px;
+}
+
+.category-grid > div > div {
+    background-color: var(--gridbg);
+    border-radius: 4px;
+    color: var(--grey);
+    font-weight: bold;
+    display: flex;
+    position: relative;
+    padding: 45px 30px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.category-grid > div {
+    transition-duration: 0.3s;
+}
+
+.category-grid > div:hover {
+    scale: 105%;
+    cursor: pointer;
+}
+
+.category-grid > div > div > img {
+    border-radius: 4px;
+}
+
+.category-grid > div > div > div {
+    position: absolute;
+    background-color: var(--orange);
+    top: 12px;
+    left: 12px;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    z-index: -1;
 }

@@ -17,6 +17,7 @@
 #include <Wt/WLayoutItem.h>
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
+#include <Wt/WImage.h>
 #include <Wt/WText.h>
 #include <Wt/WSignal.h>
 
@@ -26,8 +27,23 @@
  */
 class GUI : public Wt::WApplication{
 public:
+
+    /**
+     * @brief Constructor to initialize the GUI
+     * @param env
+     */
     GUI(const Wt::WEnvironment &env);
+
+    /**
+     * @brief Destructor
+     */
     ~GUI(void);
+
+    /**
+     * @brief Initializes the main page of the application
+     */
+    void initializeMainPage(void);
+
     /**
      * @brief Display the question page.
      */
@@ -107,6 +123,11 @@ private:
     int finalScore; /**< The user's final score. */
     Wt::WStackedWidget* pages;
     std::vector<std::tuple<std::string, int>> leaderboard; /**< The leaderboard data. */
+    std::unique_ptr<Wt::WContainerWidget> mainPage;
+    std::unique_ptr<Wt::WContainerWidget> difficultyPage;
+    std::unique_ptr<Wt::WContainerWidget> questionPage;
+    std::unique_ptr<Wt::WContainerWidget> profilePage;
+    std::unique_ptr<Wt::WContainerWidget> leaderboardPage;
 };
 
 #endif
