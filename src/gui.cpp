@@ -1,4 +1,56 @@
-#include "gui.h"
+#include "../include/gui.h"
+
+/**
+ * Initializes a Wt application
+ * @param env the Wt environment
+ */
+GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
+
+    currentQuestion = new QA(1, "question", "answer", "difficulty", "category");
+    currentUser = new User("userid", "userpass", 200, 1);
+
+    setTitle("QuizBot");
+
+
+//    // Linking an external stylesheet to the application
+//    useStyleSheet("./resources/styles.css");
+//
+//    // Configuring the wrapper (highest-level container element)
+//    wrapper_ = root()->addWidget(std::make_unique<Wt::WContainerWidget>());
+//    wrapper_->setStyleClass("wrapper");
+//
+//    // Configuring the title header
+//    titleHeader_ = wrapper_->addWidget(std::make_unique<Wt::WText>("Wordle"));
+//    titleHeader_->setStyleClass("title");
+//
+//    // Configuring the wordle grid
+//    gridContainer_ = wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
+//    gridContainer_->setStyleClass("grid");
+//    guessGrid_ = gridContainer_->setLayout(std::make_unique<Wt::WGridLayout>());
+//
+//    // Configuring the input area (composed of the status message and input field)
+//    inputArea_ = wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
+//    inputArea_->setStyleClass("input-area");
+//
+//    // Configuring the components of the input area
+//    statusText_ = inputArea_->addWidget(std::make_unique<Wt::WText>());
+//    guessInput_ = inputArea_->addWidget(std::make_unique<Wt::WLineEdit>());
+//    guessInput_->setStyleClass("guess-input");
+//    guessInput_->enterPressed().connect(this, &Wordle::checkGuess);
+//
+//    // Configuring the status button
+//    statusButton_ = wrapper_->addWidget(std::make_unique<Wt::WPushButton>());
+//    statusButton_->setStyleClass("status-btn");
+//
+//    // Read in all the words contained within the word bank file
+//    parseWords("./resources/word_bank.txt");
+//
+//    // Initialize a new game
+//    initializeGame();
+
+}
+
+GUI::~GUI() {}
 
 /**
  * @brief Display the question page.

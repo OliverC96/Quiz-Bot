@@ -4,16 +4,29 @@
 #include "qa.h"
 #include "qaSet.h"
 #include "user.h"
+#include "voice.h"
 #include <vector>
 #include <tuple>
 #include <string>
+
+#include <Wt/WApplication.h>
+#include <Wt/WContainerWidget.h>
+#include <Wt/WWidget.h>
+#include <Wt/WGridLayout.h>
+#include <Wt/WLayoutItem.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WPushButton.h>
+#include <Wt/WText.h>
+#include <Wt/WSignal.h>
 
 /**
  * @class GUI
  * @brief A class representing the graphical user interface for a quiz application.
  */
-class GUI {
+class GUI : public Wt::WApplication{
 public:
+    GUI(const Wt::WEnvironment &env);
+    ~GUI(void);
     /**
      * @brief Display the question page.
      */
@@ -88,8 +101,8 @@ public:
 private:
     QASet answerKey; /**< The answer key for questions. */
     QASet userAnswers; /**< The user's answers. */
-    QA currentQuestion; /**< The current question being displayed. */
-    User currentUser; /**< The currently logged-in user. */
+    QA *currentQuestion; /**< The current question being displayed. */
+    User *currentUser; /**< The currently logged-in user. */
     int finalScore; /**< The user's final score. */
     std::vector<std::tuple<std::string, int>> leaderboard; /**< The leaderboard data. */
 };
