@@ -1,11 +1,12 @@
-#include "qa.h"
-#include "qaSet.h"
-#include "user.h"
-#include "gui.h"
-#include "voice.h"
+#include "../include/gui.h"
 
-int main() {
+int main(int argc, char **argv) {
 //use for testing for now
 
-    return 0;
+    return Wt::WRun(argc, argv, [](const Wt::WEnvironment &env) {
+
+        return std::make_unique<GUI>(env);
+
+    });
+
 }
