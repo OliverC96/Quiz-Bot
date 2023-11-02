@@ -1,4 +1,4 @@
-#include "../include/gui.h"
+#include "gui.h"
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application

@@ -1,4 +1,4 @@
-#include "../include/qaSet.h"
+#include "qaSet.h"
 
 /**
  * @brief Constructs a QA set
