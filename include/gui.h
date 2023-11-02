@@ -8,6 +8,9 @@
 #include <vector>
 #include <tuple>
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WApplication.h>
@@ -19,6 +22,8 @@
 #include <Wt/WPushButton.h>
 #include <Wt/WImage.h>
 #include <Wt/WText.h>
+#include <Wt/WTable.h>
+#include <Wt/WTableRow.h>
 #include <Wt/WSignal.h>
 
 /**
@@ -40,9 +45,26 @@ public:
     ~GUI(void);
 
     /**
+     * @brief Generates a navigation bar component
+     * @return The navbar widget
+     */
+    std::unique_ptr<Wt::WContainerWidget> generateNavBar(void);
+
+    /**
      * @brief Initializes the main page of the application
      */
     void initializeMainPage(void);
+
+    /**
+     * @brief Initializes the leaderboard page
+     */
+    void initializeLeaderboardPage(void);
+
+    /**
+     * @brief Fetches the current leaderboard data from the specified file
+     * @param filePath
+     */
+    void loadLeaderboard(std::string filePath);
 
     /**
      * @brief Display the question page.
@@ -58,6 +80,11 @@ public:
      * @brief Display the leaderboard page.
      */
     void displayLeaderboard();
+
+    /**
+     * @brief Display the main/welcome page.
+     */
+    void displayMainPage();
 
     /**
      * @brief Display the login page.
@@ -78,12 +105,6 @@ public:
      * @brief Store the user's score.
      */
     void storeUserScore();
-
-    /**
-     * @brief Get the leaderboard data.
-     * @return A vector of tuples containing userID and userRanking.
-     */
-    std::vector<std::tuple<std::string, int>> getLeaderboardData();
 
     /**
      * @brief Show the answer button on the question page.
@@ -116,13 +137,13 @@ public:
     void registerUser();
 
 private:
-    QASet answerKey; /**< The answer key for questions. */
-    QASet userAnswers; /**< The user's answers. */
+    QASet *answerKey; /**< The answer key for questions. */
+    QASet *userAnswers; /**< The user's answers. */
     QA *currentQuestion; /**< The current question being displayed. */
     User *currentUser; /**< The currently logged-in user. */
     int finalScore; /**< The user's final score. */
     Wt::WStackedWidget* pages;
-    std::vector<std::tuple<std::string, int>> leaderboard; /**< The leaderboard data. */
+    std::vector<std::tuple<std::string, int, std::string, std::string>> leaderboard; /**< The leaderboard data. */
     std::unique_ptr<Wt::WContainerWidget> mainPage;
     std::unique_ptr<Wt::WContainerWidget> difficultyPage;
     std::unique_ptr<Wt::WContainerWidget> questionPage;

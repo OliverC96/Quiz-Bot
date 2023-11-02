@@ -31,6 +31,8 @@ public:
      */
     std::string convertSpeechToText();
 
+    int main();
+
 private:
     std::string userInputText; /**< The user input text. */
 };
