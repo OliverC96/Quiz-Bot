@@ -1,7 +1,6 @@
 #include "../include/voice.h"
 #include <iostream>
 #include <string>
-
 using namespace std;
 
 /**
