@@ -1,10 +1,10 @@
 CXX=g++
 WT_BASE=/usr/local
-CXXFLAGS=--std=c++14 -I$(WT_BASE)/include
+CXXFLAGS=--std=c++14 -I$(WT_BASE)/include -I./include
 LDFLAGS=-L$(WT_BASE)/lib -Wl,-rpath,$(WT_BASE)/lib -lwthttp -lwt -lboost_thread -lboost_atomic -lboost_filesystem
 
 DEPS = include/gui.h
-OBJS = src/main.o src/gui.o src/qa.o src/user.o
+OBJS = src/main.o src/gui.o src/qa.o src/user.o src/qaSet.o
 
 %.o: %.cc $(DEPS)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<

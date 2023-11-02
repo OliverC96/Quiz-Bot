@@ -1,4 +1,29 @@
-#include "qaSet.h"
+#include "../include/qaSet.h"
+
+/**
+ * @brief Constructs a QA set
+ * @param category The category of questions in the set
+ */
+QASet::QASet(std::string category, std::string difficulty) {
+    this->category = category;
+    this->difficultyLevel = difficulty;
+}
+
+/**
+ * @brief Retrieves the category associated with this QA set
+ * @return The category
+ */
+std::string QASet::getCategory() {
+    return this->category;
+}
+
+/**
+ * @brief Retrieves the difficulty level associated with this QA set
+ * @return The difficulty level
+ */
+ std::string QASet::getDifficultyLevel() {
+     return this->difficultyLevel;
+ }
 
 /**
  * @brief Get a specific question by its ID.

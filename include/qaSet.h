@@ -2,6 +2,7 @@
 #define QASET_H
 
 #include "qa.h"
+#include <string>
 #include <map>
 
 /**
@@ -10,6 +11,19 @@
  */
 class QASet {
 public:
+
+    /**
+     * @brief Constructs a QA set
+     * @param category The category of questions in the set
+     * @param difficulty The difficulty level of questions in the set
+     */
+    QASet(std::string category, std::string difficulty);
+
+    /**
+     * @brief Destructor
+     */
+    ~QASet(void);
+
     /**
      * @brief Get a specific question by its ID.
      * @param id The ID of the question to retrieve.
@@ -17,8 +31,22 @@ public:
      */
     QA getQuestion(int id);
 
+    /**
+     * @brief Retrieves the category associated with this QA set
+     * @return The category of the set
+     */
+    std::string getCategory(void);
+
+    /**
+     * @brief Retrieves the difficulty level associated with this QA set
+     * @return The difficulty level of the set
+     */
+    std::string getDifficultyLevel(void);
+
 private:
     std::map<int, QA> questions; /**< A map of question IDs to QA objects. */
+    std::string category;
+    std::string difficultyLevel;
 };
 
 #endif
