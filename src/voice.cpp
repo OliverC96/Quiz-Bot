@@ -39,7 +39,7 @@ std::string Voice::convertSpeechToText() {
  * to test speech-to-text etc.
  * @return
  */
-int main(){
+int Voice::main(){
     string s = "This is a string var";
     cout << s << endl;
 
