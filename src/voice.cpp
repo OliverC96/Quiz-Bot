@@ -1,4 +1,7 @@
-#include "voice.h"
+#include "../include/voice.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
 /**
  * @brief Constructor for the Voice class.
@@ -29,4 +32,16 @@ void Voice::endVoiceAPI() {
 std::string Voice::convertSpeechToText() {
     // Code to convert speech to text
     return ""; // Placeholder return, actual implementation needed
+}
+
+/**
+ * main method for this class
+ * to test speech-to-text etc.
+ * @return
+ */
+int main(){
+    string s = "This is a string var";
+    cout << s << endl;
+
+    return 0;
 }
