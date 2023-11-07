@@ -19,6 +19,7 @@
 #include <Wt/WGridLayout.h>
 #include <Wt/WLayoutItem.h>
 #include <Wt/WLineEdit.h>
+#include <Wt/WTextArea.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WImage.h>
 #include <Wt/WText.h>
@@ -61,6 +62,16 @@ public:
     void initializeLeaderboardPage(void);
 
     /**
+     * @brief Initializes the difficulty page
+     */
+    void initializeDifficultyPage(void);
+
+    /**
+     * @brief Initializes the question page
+     */
+    void initializeQuestionPage(void);
+
+    /**
      * @brief Fetches the current leaderboard data from the specified file
      * @param filePath
      */
@@ -70,6 +81,11 @@ public:
      * @brief Display the question page.
      */
     void displayQuestionPage();
+
+    /**
+     * @brief Display the difficulty page.
+     */
+    void displayDifficultyPage();
 
     /**
      * @brief Display the user profile page.
