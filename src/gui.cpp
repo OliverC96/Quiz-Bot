@@ -9,7 +9,7 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
     answerKey = new QASet("nature", "easy");
     userAnswers = new QASet("geography", "hard");
-    currentQuestion = new QA(1, "question", "answer", "difficulty", "category");
+    currentQuestion = new QA(1, "Who is the best CS Prof at Western?", "answer", "difficulty", "category");
     currentUser = new User("userid", "userpass", 200, 1);
 
     // Configure metadata
@@ -22,6 +22,8 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     // Initialize the primary pages of the application
     this->initializeMainPage();
     this->initializeLeaderboardPage();
+    this->initializeDifficultyPage();
+    this->initializeQuestionPage();
 
     // Display the main page
     pages->setCurrentIndex(0);
@@ -31,17 +33,24 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 GUI::~GUI() {}
 
 /**
- * @brief Display the question page.
- */
-void GUI::displayQuestionPage() {
-    // Implementation for displaying the question page
-}
-
-/**
  * @brief Display the user profile page.
  */
 void GUI::displayUserProfile() {
     // Implementation for displaying the user profile page
+}
+
+/**
+ * @brief Displays the question page
+ */
+void GUI::displayQuestionPage() {
+    pages->setCurrentIndex(3);
+}
+
+/**
+ * @brief Displays the difficulty page
+ */
+void GUI::displayDifficultyPage() {
+    pages->setCurrentIndex(2);
 }
 
 /**
@@ -196,6 +205,82 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar() {
 }
 
 /**
+ * @brief Initializes the question page (where the user can view and answer a question in the quiz)
+ * @todo Show progress (current question number), add microphone icons, figure out how to work with multiple questions
+ * @author Oliver Clennan
+ */
+void GUI::initializeQuestionPage() {
+
+    // Creating the question page, and generating/attaching the navbar
+    questionPage = std::make_unique<Wt::WContainerWidget>();
+    questionPage->addWidget(this->generateNavBar());
+
+    Wt::WContainerWidget* pageContent = questionPage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    pageContent->setStyleClass("question");
+
+    // Configuring the question label and input
+    Wt::WContainerWidget* questionWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    questionWrapper->setStyleClass("question-wrapper");
+    Wt::WText* questionLabel = questionWrapper->addWidget(std::make_unique<Wt::WText>("Question"));
+    Wt::WLineEdit* questionInput = questionWrapper->addWidget(std::make_unique<Wt::WLineEdit>());
+    questionInput->setPlaceholderText(currentQuestion->getQuestionText());
+    questionInput->setDisabled(true);
+
+    // Configuring the answer label and textarea
+    Wt::WContainerWidget* answerWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    answerWrapper->setStyleClass("answer-wrapper");
+    Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
+    Wt::WTextArea* answerInput = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
+
+    // Configuring the submit button
+    Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    buttonWrapper->setStyleClass("button-wrapper");
+    Wt::WPushButton* submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Submit"));
+
+    pages->addWidget(std::move(questionPage));
+
+}
+
+/**
+ * @brief Initializes the difficulty page (where the user selects a difficulty level for the quiz)
+ * @author Oliver Clennan
+ */
+void GUI::initializeDifficultyPage() {
+
+    // Defining the page content
+    const std::string SECTION_HEADER = "Select your preferred difficulty level, and let the games begin!";
+    const std::string SECTION_NOTE = "Note: you can always change the difficulty level later on, in case you want to try something more challenging, or more relaxed.";
+    const std::vector<std::string> DIFFICULTY_LEVELS = {"Easy", "Medium", "Hard"};
+
+    // Creating the difficulty page, and generating/attaching the navbar
+    difficultyPage = std::make_unique<Wt::WContainerWidget>();
+    difficultyPage->addWidget(this->generateNavBar());
+
+    Wt::WContainerWidget* pageContent = difficultyPage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    pageContent->setStyleClass("difficulty");
+
+    // Defining the page header
+    Wt::WText* sectionHeader = pageContent->addWidget(std::make_unique<Wt::WText>(SECTION_HEADER));
+    sectionHeader->setStyleClass("difficulty-header");
+
+    Wt::WContainerWidget* levelsWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    levelsWrapper->setStyleClass("levels-wrapper");
+
+    // Attach all buttons (one per difficulty level)
+    for (int i = 0; i < DIFFICULTY_LEVELS.size(); i++) {
+        Wt::WPushButton* difficultyButton = levelsWrapper->addWidget(std::make_unique<Wt::WPushButton>(DIFFICULTY_LEVELS[i]));
+        difficultyButton->setStyleClass("primary-button");
+        difficultyButton->clicked().connect(this, &GUI::displayQuestionPage);
+    }
+
+    // Defining the side note
+    Wt::WText* sideNote = pageContent->addWidget(std::make_unique<Wt::WText>(SECTION_NOTE));
+
+    pages->addWidget(std::move(difficultyPage));
+
+}
+
+/**
  * @brief Initializes the leaderboard page
  * @author Oliver Clennan
  */
@@ -266,21 +351,24 @@ void GUI::initializeMainPage() {
         welcomeText->addWidget(std::make_unique<Wt::WText>(WELCOME_MESSAGES[i]));
     }
 
-    // Attach the start quiz button
+    // Attach the start quiz button, and make it functional (redirect to the difficult page when clicked)
     Wt::WPushButton* startButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Start Quiz"));
-    startButton->setStyleClass("start-button");
+    startButton->setStyleClass("primary-button");
+    startButton->clicked().connect(this, &GUI::displayDifficultyPage);
 
     // Create and style the category grid
     Wt::WContainerWidget* categoryGrid = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     categoryGrid->setStyleClass("category-grid");
 
-    // Define the category options
+    // Defining the category options
+    // When a category is clicked/selected, it will redirect the user to the difficulty page
     for (int i = 0; i < CATEGORIES.size(); i++) {
         Wt::WContainerWidget* categoryWrapper = categoryGrid->addWidget(std::make_unique<Wt::WContainerWidget>());
         Wt::WContainerWidget* category = categoryWrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         category->addWidget(std::make_unique<Wt::WContainerWidget>());
         category->addWidget(std::make_unique<Wt::WImage>(std::get<0>(CATEGORIES[i])));
         category->addWidget(std::make_unique<Wt::WText>(std::get<1>(CATEGORIES[i])));
+        category->clicked().connect(this, &GUI::displayDifficultyPage);
     }
 
     pages->addWidget(std::move(mainPage));
