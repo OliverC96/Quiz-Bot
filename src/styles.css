@@ -10,6 +10,7 @@
     --gold: #ffd166;
     --silver: #c0c0c0;
     --bronze: #cd7f32;
+    --blue: #4361ee;
 }
 /******************** Main/Welcome Page Styles ********************/
 body {
@@ -31,6 +32,10 @@ body {
 .title-container {
     display: flex;
     align-items: flex-end;
+}
+
+.title-container:hover {
+    cursor: pointer;
 }
 
 .title {
@@ -239,7 +244,7 @@ body {
     font-family: "Roboto", sans-serif;
     font-weight: bold;
     color: var(--grey);
-    height: 60vh;
+    height: 70vh;
 }
 
 .question-wrapper {
@@ -283,21 +288,34 @@ body {
 .button-wrapper {
     display: flex;
     width: 50%;
-    align-items: start;
+    justify-content: space-between;
 }
 
 .button-wrapper > button {
     color: var(--white);
-    background-color: var(--darkgreen);
+    background-color: var(--blue);
     font-weight: bold;
     font-size: inherit;
     text-decoration: none;
-    border: var(--darkgreen) 4px solid;
+    border: var(--blue) 4px solid;
+    opacity: 0.9;
     border-radius: 5px;
-    padding: 10px 70px;
+    padding: 9px 50px;
     transition-duration: 0.3s;
 }
 
 .button-wrapper > button:hover {
     cursor: pointer;
+}
+
+.icon-wrapper > img:nth-of-type(1) {
+    margin-right: 10px;
+}
+
+.icon-wrapper > img:hover {
+    cursor: pointer;
+}
+
+.question-progress {
+    font-size: 18px;
 }

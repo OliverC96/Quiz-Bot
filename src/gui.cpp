@@ -7,10 +7,20 @@
  */
 GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
+    // NOTE: the following attributes are currently hardcoded for testing purposes
+    // Will change later once other features have been implemented and integrated with the GUI class
     answerKey = new QASet("nature", "easy");
     userAnswers = new QASet("geography", "hard");
-    currentQuestion = new QA(1, "Who is the best CS Prof at Western?", "answer", "difficulty", "category");
+    currentQuestionID = 1;
     currentUser = new User("userid", "userpass", 200, 1);
+
+    quizQuestions = {
+            QA(1, "What is the capital city of France?", "Paris", "easy", "random"),
+            QA(2, "How many days are there in a year?", "365", "easy", "random"),
+            QA(3, "What is the world's longest river called?", "The Nile", "easy", "random"),
+            QA(4, "Which house was Harry Potter almost sorted into?", "Slytherin", "easy", "random"),
+            QA(5, "What planet is closest to Earth?", "Venus", "easy", "random")
+    };
 
     // Configure metadata
     setTitle("QuizBot");
@@ -43,6 +53,8 @@ void GUI::displayUserProfile() {
  * @brief Displays the question page
  */
 void GUI::displayQuestionPage() {
+    currentQuestionID = 1;
+    this->updateQuestionPage();
     pages->setCurrentIndex(3);
 }
 
@@ -112,7 +124,13 @@ void GUI::hideAnswerButton() {
  * @brief Process the current answer submitted by the user.
  */
 void GUI::processCurrAnswer() {
-    // Implementation for processing the current answer
+
+    // TODO - analyze the answer, and assign an appropriate score
+
+    currentQuestionID++;
+    // Update the question page GUI to reflect the next question in the quiz
+    this->updateQuestionPage();
+
 }
 
 /**
@@ -199,17 +217,48 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar() {
     leaderboardButton->clicked().connect(this, &GUI::displayLeaderboard);
     //profileButton->clicked().connect(this, &GUI::displayUserProfile);
     homeButton->clicked().connect(this, &GUI::displayMainPage);
+    titleContainer->clicked().connect(this, &GUI::displayMainPage);
 
     return navBar;
 
 }
 
 /**
+ * @brief Updates the question page with the information relevant to the next question in the quiz
+ * @author Oliver Clennan
+ */
+void GUI::updateQuestionPage() {
+
+    // Access the next question in the quiz
+    QA newQuestion = quizQuestions[currentQuestionID - 1];
+    bool isLastQuestion = currentQuestionID == quizQuestions.size();
+
+    std::string buttonText = isLastQuestion ? "Submit" : "Next";
+    std::string questionText = newQuestion.getQuestionText();
+    std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size());
+
+    // Update the relevant elements in the GUI to reflect the new question
+    questionInput->setPlaceholderText(questionText);
+    answerArea->setText("");
+    submitButton->setText(buttonText);
+    questionProgress->setText(currentProgress);
+
+    // Redirect to the leaderboard after the last question has been answered
+    if (isLastQuestion) {
+        submitButton->clicked().connect(this, &GUI::displayLeaderboard);
+        answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
+    }
+
+}
+
+/**
  * @brief Initializes the question page (where the user can view and answer a question in the quiz)
- * @todo Show progress (current question number), add microphone icons, figure out how to work with multiple questions
  * @author Oliver Clennan
  */
 void GUI::initializeQuestionPage() {
+
+    // Access the first question in the quiz
+    QA firstQuestion = quizQuestions[currentQuestionID - 1];
 
     // Creating the question page, and generating/attaching the navbar
     questionPage = std::make_unique<Wt::WContainerWidget>();
@@ -222,20 +271,33 @@ void GUI::initializeQuestionPage() {
     Wt::WContainerWidget* questionWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     questionWrapper->setStyleClass("question-wrapper");
     Wt::WText* questionLabel = questionWrapper->addWidget(std::make_unique<Wt::WText>("Question"));
-    Wt::WLineEdit* questionInput = questionWrapper->addWidget(std::make_unique<Wt::WLineEdit>());
-    questionInput->setPlaceholderText(currentQuestion->getQuestionText());
+    questionInput = questionWrapper->addWidget(std::make_unique<Wt::WLineEdit>());
+    questionInput->setPlaceholderText(firstQuestion.getQuestionText());
     questionInput->setDisabled(true);
 
     // Configuring the answer label and textarea
     Wt::WContainerWidget* answerWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     answerWrapper->setStyleClass("answer-wrapper");
     Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
-    Wt::WTextArea* answerInput = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
+    answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
+    enterConn = answerArea->enterPressed().connect(this, &GUI::processCurrAnswer);
 
     // Configuring the submit button
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
-    Wt::WPushButton* submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Submit"));
+    submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
+    submitButton->clicked().connect(this, &GUI::processCurrAnswer);
+
+    // Attaching the mute and unmute icons
+    Wt::WContainerWidget* iconWrapper = buttonWrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+    iconWrapper->setStyleClass("icon-wrapper");
+    Wt::WImage* startRecordingIcon = iconWrapper->addWidget(std::make_unique<Wt::WImage>("src/start-recording.png"));
+    Wt::WImage* stopRecordingIcon = iconWrapper->addWidget(std::make_unique<Wt::WImage>("src/stop-recording.png"));
+
+    // Attaching the current question number to illustrate the users progress through the quiz
+    questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));
+    questionProgress->setObjectName("questionProgress");
+    questionProgress->setStyleClass("question-progress");
 
     pages->addWidget(std::move(questionPage));
 
