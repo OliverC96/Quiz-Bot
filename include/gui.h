@@ -83,6 +83,11 @@ public:
     void displayQuestionPage();
 
     /**
+     * @brief Updates the question page.
+     */
+    void updateQuestionPage();
+
+    /**
      * @brief Display the difficulty page.
      */
     void displayDifficultyPage();
@@ -155,16 +160,24 @@ public:
 private:
     QASet *answerKey; /**< The answer key for questions. */
     QASet *userAnswers; /**< The user's answers. */
-    QA *currentQuestion; /**< The current question being displayed. */
+    int currentQuestionID; /**< The current question being displayed. */
     User *currentUser; /**< The currently logged-in user. */
     int finalScore; /**< The user's final score. */
     Wt::WStackedWidget* pages;
     std::vector<std::tuple<std::string, int, std::string, std::string>> leaderboard; /**< The leaderboard data. */
     std::unique_ptr<Wt::WContainerWidget> mainPage;
     std::unique_ptr<Wt::WContainerWidget> difficultyPage;
-    std::unique_ptr<Wt::WContainerWidget> questionPage;
     std::unique_ptr<Wt::WContainerWidget> profilePage;
     std::unique_ptr<Wt::WContainerWidget> leaderboardPage;
+
+    std::unique_ptr<Wt::WContainerWidget> questionPage;
+    Wt::WLineEdit* questionInput;
+    Wt::WTextArea* answerArea;
+    Wt::WPushButton* submitButton;
+    Wt::WText* questionProgress;
+    Wt::Signals::connection enterConn;
+
+    std::vector<QA> quizQuestions; // ONLY for testing purposes - will change later to QASet
 };
 
 #endif
