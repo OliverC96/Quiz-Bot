@@ -1,4 +1,5 @@
 #include "gui.h"
+#include <curl/curl.h>
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
