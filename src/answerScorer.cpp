@@ -1,31 +1,47 @@
 #include "answerScorer.h"
 
+
+
+std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string& text) {
+    std::vector<std::string> tokens = tokenize(text);
+    std::unordered_set<std::string> keywords;
+
+    std::unordered_set<std::string> stopWords = {"a", "an", "the", "and", "or", "this", "that", "is", "of"};// add more?
+
+    for (const std::string& token : tokens) {
+        if (stopWords.count(token) == 0) {
+            keywords.insert(token);
+        }
+    }
+
+    return keywords;
+}
+
 /**
  * @brief Calculate the score for a user's answer based on keyword matching.
  *
  * This function calculates a score for the user's answer based on keyword matching.
  *
  * @param userAnswer The user's answer represented as a QA object.
- * @param keywords The set of keywords for the question.
+ * @param correctAnswer The correct answer and the question.
  * @return The calculated score as a percentage.
  */
-double AnswerScorer::calculateAnswerScore(const QA& userAnswer, const std::unordered_set<std::string>& keywords) {
-    // Tokenize the user's answer.
-    std::vector<std::string> userTokens = tokenize(userAnswer.getAnswerText());
+double AnswerScorer::calculateAnswerScore(const QA& userAnswer, const QA& correctAnswer) {
 
-    // Initialize variables to keep track of found and total keywords.
-    int foundKeywords = 0;
-    int totalKeywords = keywords.size();
+    // Extract keywords from the user's and correct answers.
+    std::unordered_set<std::string> userKeywords = extractKeywords(userAnswer.getAnswerText());
+    std::unordered_set<std::string> correctKeywords = extractKeywords(correctAnswer.getAnswerText());
 
-    // Iterate through user's tokens and check if they match any of the question keywords.
-    for (const std::string& token : userTokens) {
-        if (keywords.count(token) > 0) {
-            foundKeywords++;
+    // Calculate the score based on the intersection of user and correct answer keywords.
+    std::unordered_set<std::string> commonKeywords;
+    for (const std::string& keyword : userKeywords) {
+        if (correctKeywords.count(keyword) > 0) {
+            commonKeywords.insert(keyword);
         }
     }
 
-    // Calculate the score as a percentage based on the number of found keywords.
-    double score = (static_cast<double>(foundKeywords) / totalKeywords) * 100.0;
+    // Calculate the score as a percentage based on the number of common keywords.
+    double score = (static_cast<double>(commonKeywords.size()) / correctKeywords.size()) * 100.0;
 
     return score;
 }
