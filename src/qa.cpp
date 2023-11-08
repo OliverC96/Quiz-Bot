@@ -1,4 +1,4 @@
-#include "../include/qa.h"
+#include "qa.h"
 
 /**
  * @brief Constructor for the QA class.
