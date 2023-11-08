@@ -23,11 +23,22 @@ public:
      * This function calculates a score for the user's answer based on keyword matching.
      *
      * @param userAnswer The user's answer represented as a QA object.
-     * @param keywords The set of keywords for the question.
+     * @param correctAnswer The correct answer represented as a QA object.
      * @return The calculated score as a percentage.
      */
-    double calculateAnswerScore(const QA& userAnswer, const std::unordered_set<std::string>& keywords);
+    double calculateAnswerScore(const QA& userAnswer, const QA& correctAnswer);
 private:
+
+    /**
+     * @brief Extract keywords from a given text.
+     *
+     * This function extracts keywords from the input text by tokenizing it and removing common stop words.
+     *
+     * @param text The input text from which keywords will be extracted.
+     * @return A set of keywords.
+     */
+    std::unordered_set<std::string> extractKeywords(const std::string& text);
+
     /**
      * @brief Tokenize a string into words and remove punctuation.
      *
