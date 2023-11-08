@@ -1,6 +1,7 @@
-#include "../include/voice.h"
+#include "voice.h"
 #include <iostream>
 #include <string>
+#include "curl/curl.h"
 using namespace std;
 
 /**
