@@ -13,7 +13,6 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     answerKey = new QASet("nature", "easy");
     userAnswers = new QASet("geography", "hard");
     currentQuestionID = 1;
-    currentUser = new User("userid", "userpass", 200, 1);
 
     quizQuestions = {
             QA(1, "What is the capital city of France?", "Paris", "easy", "random"),
@@ -31,12 +30,14 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     pages = root()->addWidget(std::make_unique<Wt::WStackedWidget>());
 
     // Initialize the primary pages of the application
+    this->initializeLoginPage();
+    this->initializeRegisterPage();
     this->initializeMainPage();
     this->initializeLeaderboardPage();
     this->initializeDifficultyPage();
     this->initializeQuestionPage();
 
-    // Display the main page
+    // Display the login/register page
     pages->setCurrentIndex(0);
 
 }
@@ -47,7 +48,7 @@ GUI::~GUI() {}
  * @brief Display the user profile page.
  */
 void GUI::displayUserProfile() {
-    // Implementation for displaying the user profile page
+    pages->setCurrentIndex(6);
 }
 
 /**
@@ -56,32 +57,43 @@ void GUI::displayUserProfile() {
 void GUI::displayQuestionPage() {
     currentQuestionID = 1;
     this->updateQuestionPage();
-    pages->setCurrentIndex(3);
+    pages->setCurrentIndex(5);
 }
 
 /**
  * @brief Displays the difficulty page
  */
 void GUI::displayDifficultyPage() {
-    pages->setCurrentIndex(2);
+    pages->setCurrentIndex(4);
 }
 
 /**
  * @brief Display the leaderboard page.
  */
 void GUI::displayLeaderboard() {
+    pages->setCurrentIndex(3);
+}
+
+/**
+ * @brief Display the main/welcome page.
+ */
+void GUI::displayMainPage() {
+    pages->setCurrentIndex(2);
+}
+
+/**
+ * @brief Display the register page.
+ */
+void GUI::displayRegisterPage() {
     pages->setCurrentIndex(1);
 }
 
-void GUI::displayMainPage() {
-    pages->setCurrentIndex(0);
-}
 
 /**
  * @brief Display the login page.
  */
 void GUI::displayLoginPage() {
-    // Implementation for displaying the login page
+    pages->setCurrentIndex(0);
 }
 
 /**
@@ -139,6 +151,12 @@ void GUI::processCurrAnswer() {
  */
 void GUI::loginUser() {
     // Implementation for user login
+    // If log in successful
+    if (true) {
+        currentUser = new User("userid", "userpass", 200, 1);
+        this->initializeProfilePage();
+        this->displayMainPage();
+    }
 }
 
 /**
@@ -146,6 +164,9 @@ void GUI::loginUser() {
  */
 void GUI::logoutUser() {
     // Implementation for user logout
+    std::cout << "User successfully logged out of the application." << std::endl;
+    currentUser = nullptr;
+    this->displayLoginPage();
 }
 
 /**
@@ -153,6 +174,12 @@ void GUI::logoutUser() {
  */
 void GUI::registerUser() {
     // Implementation for user registration
+    // If registration successful
+    if (true) {
+        currentUser = new User("userid", "userpass", 200, 1);
+        this->initializeProfilePage();
+        this->displayMainPage();
+    }
 }
 
 /**
@@ -188,10 +215,15 @@ void GUI::loadLeaderboard(std::string filePath) {
 /**
  * Creates a navigation bar component (allows for the easy reuse of the navbar across all pages in the application)
  * Note: this method is necessary because Wt does not directly support the sharing of widgets (due to unique pointers)
- * @return The navbar widget
+ * @param showPrivatePages used to customize the navbar links to reflect the user's current status (logged-in or anonymous)
+ *
+ * Public pages:  Login Register
+ * Private pages: Home Profile Leaderboard Logout
+ *
+ * @return The resulting navbar widget
  * @author Oliver Clennan
  */
-std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar() {
+std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages) {
 
     std::unique_ptr<Wt::WContainerWidget> navBar = std::make_unique<Wt::WContainerWidget>();
     navBar->setStyleClass("nav-bar");
@@ -209,16 +241,36 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar() {
     titleContainer->setStyleClass("title-container");
     navItems->setStyleClass("nav-items");
 
-    // Define the navbar items (i.e., links to the various pages of the application)
-    Wt::WPushButton* homeButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Home"));
-    Wt::WPushButton* profileButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Profile"));
-    Wt::WPushButton* leaderboardButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Leaderboard"));
+    // Provide links only to the pages accessible to anonymous users (i.e., public pages)
+    if (!showPrivatePages) {
 
-    // Make the links functional
-    leaderboardButton->clicked().connect(this, &GUI::displayLeaderboard);
-    //profileButton->clicked().connect(this, &GUI::displayUserProfile);
-    homeButton->clicked().connect(this, &GUI::displayMainPage);
-    titleContainer->clicked().connect(this, &GUI::displayMainPage);
+        // Define the appropriate page links
+        Wt::WPushButton* loginButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Login"));
+        Wt::WPushButton* registerButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Register"));
+
+        // Make the links functional
+        loginButton->clicked().connect(this, &GUI::displayLoginPage);
+        registerButton->clicked().connect(this, &GUI::displayRegisterPage);
+
+    }
+
+    // Provide links to all pages accessible to logged-in users (i.e., private pages)
+    else {
+
+        // Define the appropriate page links
+        Wt::WPushButton* homeButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Home"));
+        Wt::WPushButton* profileButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Profile"));
+        Wt::WPushButton* leaderboardButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Leaderboard"));
+        Wt::WPushButton* logoutButton = navItems->addWidget(std::make_unique<Wt::WPushButton>("Logout"));
+
+        // Make the links functional
+        homeButton->clicked().connect(this, &GUI::displayMainPage);
+        profileButton->clicked().connect(this, &GUI::displayUserProfile);
+        leaderboardButton->clicked().connect(this, &GUI::displayLeaderboard);
+        logoutButton->clicked().connect(this, &GUI::logoutUser);
+        titleContainer->clicked().connect(this, &GUI::displayMainPage);
+
+    }
 
     return navBar;
 
@@ -253,6 +305,24 @@ void GUI::updateQuestionPage() {
 }
 
 /**
+ * @todo Jiho - Design GUI for the user's profile page
+ */
+void GUI::initializeProfilePage() {
+
+    profilePage = std::make_unique<Wt::WContainerWidget>();
+    profilePage->addWidget(this->generateNavBar(true));
+
+    Wt::WContainerWidget* pageContent = profilePage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    pageContent->setStyleClass("profile");
+
+    // Add elements to the pageContent container
+
+
+    pages->addWidget(std::move(profilePage));
+
+}
+
+/**
  * @brief Initializes the question page (where the user can view and answer a question in the quiz)
  * @author Oliver Clennan
  */
@@ -263,7 +333,7 @@ void GUI::initializeQuestionPage() {
 
     // Creating the question page, and generating/attaching the navbar
     questionPage = std::make_unique<Wt::WContainerWidget>();
-    questionPage->addWidget(this->generateNavBar());
+    questionPage->addWidget(this->generateNavBar(true));
 
     Wt::WContainerWidget* pageContent = questionPage->addWidget(std::make_unique<Wt::WContainerWidget>());
     pageContent->setStyleClass("question");
@@ -289,12 +359,6 @@ void GUI::initializeQuestionPage() {
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
     submitButton->clicked().connect(this, &GUI::processCurrAnswer);
 
-    // Attaching the mute and unmute icons
-    Wt::WContainerWidget* iconWrapper = buttonWrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
-    iconWrapper->setStyleClass("icon-wrapper");
-    Wt::WImage* startRecordingIcon = iconWrapper->addWidget(std::make_unique<Wt::WImage>("src/start-recording.png"));
-    Wt::WImage* stopRecordingIcon = iconWrapper->addWidget(std::make_unique<Wt::WImage>("src/stop-recording.png"));
-
     // Attaching the current question number to illustrate the users progress through the quiz
     questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));
     questionProgress->setObjectName("questionProgress");
@@ -317,7 +381,7 @@ void GUI::initializeDifficultyPage() {
 
     // Creating the difficulty page, and generating/attaching the navbar
     difficultyPage = std::make_unique<Wt::WContainerWidget>();
-    difficultyPage->addWidget(this->generateNavBar());
+    difficultyPage->addWidget(this->generateNavBar(true));
 
     Wt::WContainerWidget* pageContent = difficultyPage->addWidget(std::make_unique<Wt::WContainerWidget>());
     pageContent->setStyleClass("difficulty");
@@ -352,7 +416,7 @@ void GUI::initializeLeaderboardPage() {
     // Load the leaderboard data and add the navbar to the leaderboard widget
     this->loadLeaderboard("src/leaderboardData.txt");
     leaderboardPage = std::make_unique<Wt::WContainerWidget>();
-    leaderboardPage->addWidget(this->generateNavBar());
+    leaderboardPage->addWidget(this->generateNavBar(true));
 
     Wt::WContainerWidget* pageContent = leaderboardPage->addWidget(std::make_unique<Wt::WContainerWidget>());
     pageContent->setStyleClass("leaderboard");
@@ -402,9 +466,9 @@ void GUI::initializeMainPage() {
 
     // Attach the navbar to the main page
     mainPage = std::make_unique<Wt::WContainerWidget>();
-    mainPage->addWidget(this->generateNavBar());
+    mainPage->addWidget(this->generateNavBar(true));
     Wt::WContainerWidget* pageContent = mainPage->addWidget(std::make_unique<Wt::WContainerWidget>());
-    pageContent->setStyleClass("wrapper");
+    pageContent->setStyleClass("main");
 
     Wt::WContainerWidget* welcomeText = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     welcomeText->setStyleClass("welcome-text");
@@ -435,5 +499,79 @@ void GUI::initializeMainPage() {
     }
 
     pages->addWidget(std::move(mainPage));
+
+}
+
+/**
+ * @brief Initializes the register page
+ * @author Oliver Clennan
+ */
+void GUI::initializeRegisterPage() {
+
+    registerPage = std::make_unique<Wt::WContainerWidget>();
+    registerPage->addWidget(this->generateNavBar(false));
+
+    Wt::WContainerWidget* pageContent = registerPage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    pageContent->setStyleClass("form-wrapper");
+
+    Wt::WContainerWidget* registerForm = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    registerForm->setStyleClass("form");
+
+    Wt::WText* registerHeader = registerForm->addWidget(std::make_unique<Wt::WText>("Create Account"));
+    registerHeader->setStyleClass("form-header");
+
+    Wt::WLineEdit* usernameField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    usernameField->setPlaceholderText("Username");
+    Wt::WLineEdit* passwordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    passwordField->setPlaceholderText("Password");
+    Wt::WLineEdit* confirmPasswordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    confirmPasswordField->setPlaceholderText("Confirm Password");
+
+    Wt::WPushButton* registerButton = registerForm->addWidget(std::make_unique<Wt::WPushButton>("Register"));
+    registerButton->clicked().connect(this, &GUI::registerUser);
+
+    Wt::WContainerWidget* redirectWrapper = registerForm->addWidget(std::make_unique<Wt::WContainerWidget>());
+    redirectWrapper->setStyleClass("form-redirect");
+    Wt::WText* redirectMessage = redirectWrapper->addWidget(std::make_unique<Wt::WText>("Already have an account?"));
+    Wt::WPushButton* redirectLink = redirectWrapper->addWidget(std::make_unique<Wt::WPushButton>("Login"));
+    redirectLink->clicked().connect(this, &GUI::displayLoginPage);
+
+    pages->addWidget(std::move(registerPage));
+
+}
+
+/**
+ * @brief Initializes the login page
+ * @author Oliver Clennan
+ */
+void GUI::initializeLoginPage() {
+
+    loginPage = std::make_unique<Wt::WContainerWidget>();
+    loginPage->addWidget(this->generateNavBar(false));
+
+    Wt::WContainerWidget* pageContent = loginPage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    pageContent->setStyleClass("form-wrapper");
+
+    Wt::WContainerWidget* loginForm = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    loginForm->setStyleClass("form");
+
+    Wt::WText* loginHeader = loginForm->addWidget(std::make_unique<Wt::WText>("Login"));
+    loginHeader->setStyleClass("form-header");
+
+    Wt::WLineEdit* usernameField = loginForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    usernameField->setPlaceholderText("Username");
+    Wt::WLineEdit* passwordField = loginForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    passwordField->setPlaceholderText("Password");
+
+    Wt::WPushButton* loginButton = loginForm->addWidget(std::make_unique<Wt::WPushButton>("Login"));
+    loginButton->clicked().connect(this, &GUI::loginUser);
+
+    Wt::WContainerWidget* redirectWrapper = loginForm->addWidget(std::make_unique<Wt::WContainerWidget>());
+    redirectWrapper->setStyleClass("form-redirect");
+    Wt::WText* redirectMessage = redirectWrapper->addWidget(std::make_unique<Wt::WText>("Don't have an account?"));
+    Wt::WPushButton* redirectLink = redirectWrapper->addWidget(std::make_unique<Wt::WPushButton>("Register"));
+    redirectLink->clicked().connect(this, &GUI::displayRegisterPage);
+
+    pages->addWidget(std::move(loginPage));
 
 }

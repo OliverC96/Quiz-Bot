@@ -47,14 +47,25 @@ public:
 
     /**
      * @brief Generates a navigation bar component
+     * @param showPrivatePages used to customize the navbar links to reflect the user's current status (logged-in or anonymous)
      * @return The navbar widget
      */
-    std::unique_ptr<Wt::WContainerWidget> generateNavBar(void);
+    std::unique_ptr<Wt::WContainerWidget> generateNavBar(bool showPrivatePages);
 
     /**
      * @brief Initializes the main page of the application
      */
     void initializeMainPage(void);
+
+    /**
+     * @brief Initializes the login page
+     */
+    void initializeLoginPage(void);
+
+    /**
+     * @brief Initializes the register page
+     */
+    void initializeRegisterPage(void);
 
     /**
      * @brief Initializes the leaderboard page
@@ -70,6 +81,11 @@ public:
      * @brief Initializes the question page
      */
     void initializeQuestionPage(void);
+
+    /**
+     * @brief Initializes the profile page containing all information relevant to the currently logged in user
+     */
+    void initializeProfilePage(void);
 
     /**
      * @brief Fetches the current leaderboard data from the specified file
@@ -111,6 +127,11 @@ public:
      * @brief Display the login page.
      */
     void displayLoginPage();
+
+    /**
+     * @brief Display the register page.
+     */
+    void displayRegisterPage();
 
     /**
      * @brief Update the leaderboard.
@@ -158,19 +179,30 @@ public:
     void registerUser();
 
 private:
+
+    // High-level application objects/components
     QASet *answerKey; /**< The answer key for questions. */
     QASet *userAnswers; /**< The user's answers. */
-    int currentQuestionID; /**< The current question being displayed. */
     User *currentUser; /**< The currently logged-in user. */
-    int finalScore; /**< The user's final score. */
-    Wt::WStackedWidget* pages;
+    Wt::WStackedWidget* pages; /**< Stores references to the various application pages. */
     std::vector<std::tuple<std::string, int, std::string, std::string>> leaderboard; /**< The leaderboard data. */
+
+    // Additional attributes critical to the game logic
+    int currentQuestionID; /**< The current question being displayed. */
+    int finalScore; /**< The user's final score. */
+
+    // Containers representing the various pages of the application
+    std::unique_ptr<Wt::WContainerWidget> loginPage;
+    std::unique_ptr<Wt::WContainerWidget> registerPage;
     std::unique_ptr<Wt::WContainerWidget> mainPage;
     std::unique_ptr<Wt::WContainerWidget> difficultyPage;
     std::unique_ptr<Wt::WContainerWidget> profilePage;
     std::unique_ptr<Wt::WContainerWidget> leaderboardPage;
-
     std::unique_ptr<Wt::WContainerWidget> questionPage;
+
+    /*
+     * Maintaining references to specific elements of the GUI to allow for them to be dynamically updated as necessary
+     */
     Wt::WLineEdit* questionInput;
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
@@ -178,6 +210,7 @@ private:
     Wt::Signals::connection enterConn;
 
     std::vector<QA> quizQuestions; // ONLY for testing purposes - will change later to QASet
+
 };
 
 #endif
