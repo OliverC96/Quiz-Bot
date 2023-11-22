@@ -1,5 +1,5 @@
 #include "gui.h"
-#include <curl/curl.h>
+// #include <curl/curl.h>
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
@@ -171,14 +171,34 @@ void GUI::logoutUser() {
 
 /**
  * @brief Register a new user.
+ * @author Oliver Clenna, Sung Kim
  */
 void GUI::registerUser() {
+    //Taking in the values from registration page
+    bool regOK = false;
+    std::string username = usernameField->text().toUTF8();
+    std::string password = passwordField->text().toUTF8();
+    std::string confirmPassword = confirmPasswordField->text().toUTF8();
+    
+    std::string filename = "/user/" + username + ".txt";
+
+
+
     // Implementation for user registration
     // If registration successful
-    if (true) {
-        currentUser = new User("userid", "userpass", 200, 1);
+    if (regOK == true) {
+        currentUser = new User(username, password, 0, 0);
         this->initializeProfilePage();
         this->displayMainPage();
+
+        // Create a text file in the 'user' directory
+        std::string filename = "user/" + currentUser->getID() + ".txt";
+        std::ofstream outfile(filename);
+
+        // Write user details to the file
+        outfile << currentUser->getID() << ", " << currentUser->getPW();
+        outfile.close();
+
     }
 }
 
@@ -504,7 +524,7 @@ void GUI::initializeMainPage() {
 
 /**
  * @brief Initializes the register page
- * @author Oliver Clennan
+ * @author Oliver Clennan, Sung Kim
  */
 void GUI::initializeRegisterPage() {
 
@@ -520,12 +540,13 @@ void GUI::initializeRegisterPage() {
     Wt::WText* registerHeader = registerForm->addWidget(std::make_unique<Wt::WText>("Create Account"));
     registerHeader->setStyleClass("form-header");
 
-    Wt::WLineEdit* usernameField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    //being tested by sung
+    usernameField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
     usernameField->setPlaceholderText("Username");
-    Wt::WLineEdit* passwordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    passwordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
     passwordField->setPlaceholderText("Password");
-    Wt::WLineEdit* confirmPasswordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
-    confirmPasswordField->setPlaceholderText("Confirm Password");
+    confirmPasswordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    confirmPasswordField->setPlaceholderText("Password");
 
     Wt::WPushButton* registerButton = registerForm->addWidget(std::make_unique<Wt::WPushButton>("Register"));
     registerButton->clicked().connect(this, &GUI::registerUser);
@@ -542,7 +563,7 @@ void GUI::initializeRegisterPage() {
 
 /**
  * @brief Initializes the login page
- * @author Oliver Clennan
+ * @author Oliver Clennan, Sung Kim
  */
 void GUI::initializeLoginPage() {
 
