@@ -54,6 +54,18 @@ public:
      */
     void setUserScore(int newScore);
 
+    /**
+     * @brief Get the user's rank.
+     * @return The user's rank.
+     */
+    int getUserRank() const;
+
+    /**
+     * @brief Set the user's rank.
+     * @param newRank The new rank to set.
+     */
+    void setUserRank(int newRank);
+
 private:
     std::string userID; /**< The user's ID. */
     std::string userPW; /**< The user's password. */

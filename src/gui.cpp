@@ -171,7 +171,7 @@ void GUI::logoutUser() {
 
 /**
  * @brief Register a new user.
- * @author Oliver Clenna, Sung Kim
+ * @author Sung Kim
  */
 void GUI::registerUser() {
     //Taking in the values from registration page
@@ -179,9 +179,25 @@ void GUI::registerUser() {
     std::string username = usernameField->text().toUTF8();
     std::string password = passwordField->text().toUTF8();
     std::string confirmPassword = confirmPasswordField->text().toUTF8();
-    
-    std::string filename = "/user/" + username + ".txt";
 
+    std::string filename = "user/" + username + ".txt";
+    std::fstream file;
+    file.open(filename.c_str(), std::ios::in | std::ios::out);
+    if(!file) {
+        std::cout << "Username available." << std::endl;
+        if (confirmPassword == password) {
+            regOK = true;
+            errorMessage->setText("");
+        } else {
+            std::cout << "Error: Password does not match" << std::endl;
+            errorMessage->setText("Error: Password does not match");
+        }
+    } else {
+        std::cout << "Error: Username already taken." << std::endl;
+        errorMessage->setText("Error: Username already taken.");
+        regOK = false; // set regOK to false if username exists
+    }
+    file.close();
 
 
     // Implementation for user registration
@@ -196,7 +212,7 @@ void GUI::registerUser() {
         std::ofstream outfile(filename);
 
         // Write user details to the file
-        outfile << currentUser->getID() << ", " << currentUser->getPW();
+        outfile << currentUser->getID() << ", " << currentUser->getPW() << ", " << currentUser->getUserScore() << ", " << currentUser->getUserRank();
         outfile.close();
 
     }
@@ -540,13 +556,17 @@ void GUI::initializeRegisterPage() {
     Wt::WText* registerHeader = registerForm->addWidget(std::make_unique<Wt::WText>("Create Account"));
     registerHeader->setStyleClass("form-header");
 
-    //being tested by sung
+    //being tested by sung. Original altered so the values can be passed on
     usernameField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
     usernameField->setPlaceholderText("Username");
     passwordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
     passwordField->setPlaceholderText("Password");
     confirmPasswordField = registerForm->addWidget(std::make_unique<Wt::WLineEdit>());
     confirmPasswordField->setPlaceholderText("Password");
+
+    //error message for registration error being tested
+    errorMessage = registerForm->addWidget(std::make_unique<Wt::WText>());
+    errorMessage->setStyleClass("form-errormessage");
 
     Wt::WPushButton* registerButton = registerForm->addWidget(std::make_unique<Wt::WPushButton>("Register"));
     registerButton->clicked().connect(this, &GUI::registerUser);

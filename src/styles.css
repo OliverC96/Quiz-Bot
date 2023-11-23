@@ -11,7 +11,9 @@
     --silver: #c0c0c0;
     --bronze: #cd7f32;
     --blue: #4361ee;
+    --errorpink: #C70D0F;
 }
+
 body {
     margin: 0;
     background-color: var(--bg);
@@ -70,6 +72,13 @@ body {
     border-radius: 5px;
     padding: 10px 0;
     width: 100%;
+}
+
+.form-errormessage {
+    font-weight: normal;
+    font-size: inherit;
+    color: var(--errorpink) !important;
+    margin-top: 10px;
 }
 
 .form > button:hover {
