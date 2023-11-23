@@ -209,6 +209,15 @@ private:
     Wt::WText* questionProgress;
     Wt::Signals::connection enterConn;
 
+    //being used for testing reigstration SUNG
+    Wt::WLineEdit* usernameField;
+    Wt::WLineEdit* passwordField;
+    Wt::WLineEdit* loginUsernameField;
+    Wt::WLineEdit* loginPasswordField;
+    Wt::WLineEdit* confirmPasswordField;
+    Wt::WText* loginErrorMessage;
+    Wt::WText* registerErrorMessage;
+
     std::vector<QA> quizQuestions; // ONLY for testing purposes - will change later to QASet
 
 };

@@ -51,3 +51,11 @@ int User::getUserScore() const {
 void User::setUserScore(int newScore) {
     userScore = newScore;
 }
+
+int User::getUserRank() const {
+    return ranking;
+}
+
+void User::setUserRank(int newRank) {
+    ranking = newRank;
+}
