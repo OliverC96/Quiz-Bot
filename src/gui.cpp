@@ -148,12 +148,50 @@ void GUI::processCurrAnswer() {
 
 /**
  * @brief Log in the user.
+ * @author Sung Kim
  */
 void GUI::loginUser() {
+    //Taking in the values from registration page
+    bool loginOK = false;
+    std::string username = loginUsernameField->text().toUTF8();
+    std::string password = loginPasswordField->text().toUTF8();
+    int score;
+    int rank;
+
+    std::string filename = "user/" + username + ".txt";
+    std::fstream file;
+    file.open(filename.c_str(), std::ios::in | std::ios::out);
+    if(!file) {
+        std::cout << "Error: user does not exist" << std::endl;
+        loginErrorMessage->setText("Username or Password does not exist");
+    } else {
+        std::string file_line;
+        std::getline(file, file_line);
+        std::vector<std::string> tokens;
+        std::stringstream ss(file_line);
+        std::string token;
+
+        while (std::getline(ss, token, ',')) {
+            token.erase(0, token.find_first_not_of(' ')); // leading spaces
+            token.erase(token.find_last_not_of(' ') + 1); // trailing spaces
+            tokens.push_back(token);
+        }
+
+        if (tokens.size() >= 2 && tokens[1] == password) {
+            score = std::stoi(tokens[2]);
+            rank = std::stoi(tokens[3]);
+            loginOK = true;
+        } else {
+            loginOK = false;
+            std::cout << "Error: password does not match" << std::endl;
+            loginErrorMessage->setText("Username or Password does not exist");
+        }
+    }
+
     // Implementation for user login
     // If log in successful
-    if (true) {
-        currentUser = new User("userid", "userpass", 200, 1);
+    if (loginOK == true) {
+        currentUser = new User(username, password, score, rank);
         this->initializeProfilePage();
         this->displayMainPage();
     }
@@ -175,7 +213,7 @@ void GUI::logoutUser() {
  */
 void GUI::registerUser() {
     //Taking in the values from registration page
-    bool regOK = false;
+    bool registerOK = false;
     std::string username = usernameField->text().toUTF8();
     std::string password = passwordField->text().toUTF8();
     std::string confirmPassword = confirmPasswordField->text().toUTF8();
@@ -186,23 +224,23 @@ void GUI::registerUser() {
     if(!file) {
         std::cout << "Username available." << std::endl;
         if (confirmPassword == password) {
-            regOK = true;
-            errorMessage->setText("");
+            registerOK = true;
+            registerErrorMessage->setText("");
         } else {
             std::cout << "Error: Password does not match" << std::endl;
-            errorMessage->setText("Error: Password does not match");
+            registerErrorMessage->setText("Error: Password does not match");
         }
     } else {
         std::cout << "Error: Username already taken." << std::endl;
-        errorMessage->setText("Error: Username already taken.");
-        regOK = false; // set regOK to false if username exists
+        registerErrorMessage->setText("Error: Username already taken.");
+        registerOK = false; // set regOK to false if username exists
     }
     file.close();
 
 
     // Implementation for user registration
     // If registration successful
-    if (regOK == true) {
+    if (registerOK == true) {
         currentUser = new User(username, password, 0, 0);
         this->initializeProfilePage();
         this->displayMainPage();
@@ -565,8 +603,8 @@ void GUI::initializeRegisterPage() {
     confirmPasswordField->setPlaceholderText("Password");
 
     //error message for registration error being tested
-    errorMessage = registerForm->addWidget(std::make_unique<Wt::WText>());
-    errorMessage->setStyleClass("form-errormessage");
+    registerErrorMessage = registerForm->addWidget(std::make_unique<Wt::WText>());
+    registerErrorMessage->setStyleClass("form-errormessage");
 
     Wt::WPushButton* registerButton = registerForm->addWidget(std::make_unique<Wt::WPushButton>("Register"));
     registerButton->clicked().connect(this, &GUI::registerUser);
@@ -599,10 +637,14 @@ void GUI::initializeLoginPage() {
     Wt::WText* loginHeader = loginForm->addWidget(std::make_unique<Wt::WText>("Login"));
     loginHeader->setStyleClass("form-header");
 
-    Wt::WLineEdit* usernameField = loginForm->addWidget(std::make_unique<Wt::WLineEdit>());
-    usernameField->setPlaceholderText("Username");
-    Wt::WLineEdit* passwordField = loginForm->addWidget(std::make_unique<Wt::WLineEdit>());
-    passwordField->setPlaceholderText("Password");
+    loginUsernameField = loginForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    loginUsernameField->setPlaceholderText("Username");
+    loginPasswordField = loginForm->addWidget(std::make_unique<Wt::WLineEdit>());
+    loginPasswordField->setPlaceholderText("Password");
+
+    //error message for login error being tested
+    loginErrorMessage = loginForm->addWidget(std::make_unique<Wt::WText>());
+    loginErrorMessage->setStyleClass("form-errormessage");
 
     Wt::WPushButton* loginButton = loginForm->addWidget(std::make_unique<Wt::WPushButton>("Login"));
     loginButton->clicked().connect(this, &GUI::loginUser);
