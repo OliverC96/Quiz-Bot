@@ -1,4 +1,4 @@
-#include "gui.h"
+#include "../include/gui.h"
 // #include <curl/curl.h>
 
 /**
@@ -107,6 +107,7 @@ void GUI::updateLeaderboard() {
 
 /**
  * @brief Update the user's score.
+ * @author Taegyun Kim
  */
 void GUI::updateScore() {
 
@@ -115,8 +116,10 @@ void GUI::updateScore() {
 
 /**
  * @brief Store the user's score.
+ * @author Taegyun Kim
  */
 void GUI::storeUserScore() {
+    finalScore = currentUser->getUserScore();
     // Implementation for storing the user's score
 }
 

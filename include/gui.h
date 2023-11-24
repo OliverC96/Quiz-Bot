@@ -206,6 +206,7 @@ private:
     Wt::WLineEdit* questionInput;
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
+    Wt::WPushBUtton* answerButton;
     Wt::WText* questionProgress;
     Wt::Signals::connection enterConn;
 
