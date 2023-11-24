@@ -12,8 +12,14 @@ Note - if CSS changes are not updating properly in the browser, clear your brows
 
 
 
-//vcpkg from GitHub won't allow use to commit and push to BitBucket
-// External Library curl folder won't commit and push to BitButcket
+// vcpkg from GitHub won't allow use to commit and push to BitBucket
+// External Library curl folder won't commit and push to BitBucket
+// In class quizapi.cpp curl Library cannot be pushed to BitBucket due to authentication/credential issue
+
+//api utilisation in cpp issue due to external lib issue
+
+
+
 
 // ** BELOW is the ERROR messge we get when trying to push **
 

@@ -5,6 +5,14 @@
 using namespace std;
 
 /**
+ * @Class Voice - Class for voice-to-text API
+ *        Allow the user to record their voice by pressing a key/button on the quiz site
+ * @param userInputText - user's speech, converted in text/String, from the API
+ * @author Taegyun Kim
+ */
+
+
+/**
  * @brief Constructor for the Voice class.
  */
 Voice::Voice(const std::string& userInputText) : userInputText(userInputText) {

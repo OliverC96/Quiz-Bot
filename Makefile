@@ -2,7 +2,7 @@ CXX=g++
 WT_BASE=/usr/local
 CXXFLAGS=--std=c++14 -I$(WT_BASE)/include -I./include
 
-LDFLAGS=-L$(WT_BASE)/lib -Wl,-rpath,$(WT_BASE)/lib -lwthttp -lwt -lboost_thread -lboost_atomic -lboost_filesystem
+LDFLAGS=-L$(WT_BASE)/lib -Wl,-rpath,$(WT_BASE)/lib -lwthttp -lwt
 
 DEPS = 
 OBJS = main.o qa.o qaSet.o voice.o gui.o user.o answerScorer.o
