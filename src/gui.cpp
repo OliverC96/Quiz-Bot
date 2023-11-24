@@ -109,6 +109,7 @@ void GUI::updateLeaderboard() {
  * @brief Update the user's score.
  */
 void GUI::updateScore() {
+
     // Implementation for updating the user's score
 }
 
