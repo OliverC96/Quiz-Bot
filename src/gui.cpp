@@ -1,4 +1,5 @@
-#include "../include/gui.h"
+#include "gui.h"
+#include <unistd.h>
 // #include <curl/curl.h>
 
 /**
@@ -39,10 +40,19 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
     // Display the login/register page
     pages->setCurrentIndex(0);
-
 }
 
 GUI::~GUI() {}
+
+
+/**
+ * @brief Display the current question's answer.
+ * @author Taegyun Kim
+ */
+void GUI::displayAnswer() {
+    std::cout << "Supposed to show the answer" << std::endl;
+    // still working on it
+}
 
 /**
  * @brief Display the user profile page.
@@ -124,10 +134,23 @@ void GUI::storeUserScore() {
 }
 
 /**
- * @brief Show the answer button on the question page.
+ * @brief Show the answer button on the question page
+ *         after n seconds.
+ * @author Taegyun Kim
  */
 void GUI::showAnswerButton() {
-    // Implementation for showing the answer button
+    int second = 0;
+    clock_t start = clock();
+    clock_t end = clock();
+
+    while (true) {
+        end = clock();
+        if (double(end - start) / CLOCKS_PER_SEC == second) {
+            break;
+        }
+    }
+    std::cout << "Timer done" << std::endl;
+    answerButton->show();
 }
 
 /**
@@ -437,13 +460,19 @@ void GUI::initializeQuestionPage() {
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
     submitButton->clicked().connect(this, &GUI::processCurrAnswer);
 
+    // Configuring the answer button
+    Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    answerButtonWrapper->setStyleClass("button-wrapper");
+    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Show Answer"));
+    answerButton->clicked().connect(this, &GUI::displayAnswer);
+    answerButton->show();
+
     // Attaching the current question number to illustrate the users progress through the quiz
     questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));
     questionProgress->setObjectName("questionProgress");
     questionProgress->setStyleClass("question-progress");
 
     pages->addWidget(std::move(questionPage));
-
 }
 
 /**
@@ -625,7 +654,7 @@ void GUI::initializeRegisterPage() {
 
 /**
  * @brief Initializes the login page
- * @author Oliver Clennan, Sung Kim
+ * @author Oliver Clennan, Sung Kim, Taegyun Kim
  */
 void GUI::initializeLoginPage() {
 
@@ -652,6 +681,7 @@ void GUI::initializeLoginPage() {
 
     Wt::WPushButton* loginButton = loginForm->addWidget(std::make_unique<Wt::WPushButton>("Login"));
     loginButton->clicked().connect(this, &GUI::loginUser);
+    loginPasswordField->enterPressed().connect(this, &GUI::loginUser);
 
     Wt::WContainerWidget* redirectWrapper = loginForm->addWidget(std::make_unique<Wt::WContainerWidget>());
     redirectWrapper->setStyleClass("form-redirect");

@@ -104,6 +104,11 @@ public:
     void updateQuestionPage();
 
     /**
+     * @brief Displays the current question's answer.
+     */
+    void displayAnswer();
+
+    /**
      * @brief Display the difficulty page.
      */
     void displayDifficultyPage();
@@ -206,7 +211,7 @@ private:
     Wt::WLineEdit* questionInput;
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
-    Wt::WPushBUtton* answerButton;
+    Wt::WPushButton* answerButton;
     Wt::WText* questionProgress;
     Wt::Signals::connection enterConn;
 
