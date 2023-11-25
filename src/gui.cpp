@@ -47,11 +47,18 @@ GUI::~GUI() {}
 
 /**
  * @brief Display the current question's answer.
+ * Once the answer is check, the user can proceed to next Q
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
-    std::cout << "Supposed to show the answer" << std::endl;
-    // still working on it
+    for (int i = 0; i < quizQuestions.size(); i++) {
+        if (quizQuestions.at(i).getQuestionId() == currentQuestionID){
+            answerButton->setText(quizQuestions.at(i).getAnswerText());
+            submitButton->show();
+            break;
+        }
+    }
+
 }
 
 /**
@@ -166,7 +173,9 @@ void GUI::hideAnswerButton() {
 void GUI::processCurrAnswer() {
 
     // TODO - analyze the answer, and assign an appropriate score
-
+    answerButton->show();
+    answerButton->setText("Check Answer");
+    answerButton->clicked().connect(this, &GUI::displayAnswer);
     currentQuestionID++;
     // Update the question page GUI to reflect the next question in the quiz
     this->updateQuestionPage();
@@ -395,12 +404,16 @@ void GUI::updateQuestionPage() {
     questionInput->setPlaceholderText(questionText);
     answerArea->setText("");
     submitButton->setText(buttonText);
+    submitButton->hide();
     questionProgress->setText(currentProgress);
+
 
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
+        answerButton->clicked().connect(this, &GUI::displayAnswer);
+        answerButton->show();
     }
 
 }
@@ -459,11 +472,12 @@ void GUI::initializeQuestionPage() {
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
     submitButton->clicked().connect(this, &GUI::processCurrAnswer);
+    submitButton->hide();
 
     // Configuring the answer button
     Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     answerButtonWrapper->setStyleClass("button-wrapper");
-    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Show Answer"));
+    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
     answerButton->show();
 
