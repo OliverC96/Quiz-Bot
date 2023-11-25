@@ -1,4 +1,4 @@
-#include "../include/gui.h"
+#include "gui.h"
 #include <unistd.h>
 // #include <curl/curl.h>
 
@@ -47,6 +47,7 @@ GUI::~GUI() {}
 
 /**
  * @brief Display the current question's answer.
+ * Once the answer is check, the user can proceed to next Q
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
