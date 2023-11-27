@@ -54,7 +54,6 @@ void GUI::displayAnswer() {
     for (int i = 0; i < quizQuestions.size(); i++) {
         if (quizQuestions.at(i).getQuestionId() == currentQuestionID){
             answerButton->setText(quizQuestions.at(i).getAnswerText());
-            submitButton->show();
             break;
         }
     }
@@ -164,9 +163,6 @@ void GUI::hideAnswerButton() {
 void GUI::processCurrAnswer() {
 
     // TODO - analyze the answer, and assign an appropriate score
-    answerButton->show();
-    answerButton->setText("Check Answer");
-    answerButton->clicked().connect(this, &GUI::displayAnswer);
     currentQuestionID++;
     // Update the question page GUI to reflect the next question in the quiz
     this->updateQuestionPage();
@@ -460,8 +456,8 @@ void GUI::updateQuestionPage() {
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
     answerArea->setText("");
+    answerButton->setText("Check Answer");
     submitButton->setText(buttonText);
-    submitButton->hide();
     questionProgress->setText(currentProgress);
 
     // Redirect to the leaderboard after the last question has been answered
@@ -470,7 +466,6 @@ void GUI::updateQuestionPage() {
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
         answerButton->clicked().connect(this, &GUI::displayAnswer);
-        answerButton->show();
     }
 
 }
@@ -522,14 +517,14 @@ void GUI::initializeQuestionPage() {
     answerWrapper->setStyleClass("answer-wrapper");
     Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
     answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
-    enterConn = answerArea->enterPressed().connect(this, &GUI::processCurrAnswer);
+    enterConn = answerArea->enterPressed().connect(this, &GUI::displayAnswer);
 
     // Configuring the submit button
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
     submitButton->clicked().connect(this, &GUI::processCurrAnswer);
-    submitButton->hide();
+    submitButton->show();
 
     // Configuring the answer button
     Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
