@@ -12,6 +12,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+#include <random>
+#include <functional>
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WApplication.h>
@@ -102,8 +105,17 @@ public:
 
     /**
      * @brief Display the question page.
+     * @param difficulty The difficulty level chosen by the user
      */
-    void displayQuestionPage();
+    void displayQuestionPage(std::string difficulty);
+
+    /**
+     * @brief Randomly selects a set of questions of the correct category and difficulty level for a quiz
+     * @param category The selected category
+     * @param difficulty The selected difficulty level (1 = "easy", 2 = "medium", 3 = "hard")
+     * @param amount The number of questions to be chosen for the quiz
+     */
+    void loadQuestionSet(std::string category, std::string difficulty, int amount = 5);
 
     /**
      * @brief Updates the question page.
@@ -117,8 +129,9 @@ public:
 
     /**
      * @brief Display the difficulty page.
+     * @param category The category chosen by the user
      */
-    void displayDifficultyPage();
+    void displayDifficultyPage(std::string category);
 
     /**
      * @brief Display the user profile page.
@@ -203,6 +216,7 @@ private:
     // Additional attributes critical to the game logic
     int currentQuestionID; /**< The current question being displayed. */
     int finalScore; /**< The user's final score. */
+    std::string selectedCategory;
 
     // Containers representing the various pages of the application
     std::unique_ptr<Wt::WContainerWidget> loginPage;
@@ -233,8 +247,6 @@ private:
     Wt::WLineEdit* confirmPasswordField;
     Wt::WText* loginErrorMessage;
     Wt::WText* registerErrorMessage;
-
-    std::vector<QA> quizQuestions; // ONLY for testing purposes - will change later to QASet
 
 };
 

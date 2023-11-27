@@ -1,7 +1,5 @@
 #include "answerScorer.h"
 
-
-
 std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string& text) {
     std::vector<std::string> tokens = tokenize(text);
     std::unordered_set<std::string> keywords;

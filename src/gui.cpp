@@ -12,18 +12,9 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     // NOTE: the following attributes are currently hardcoded for testing purposes
     // Will change later once other features have been implemented and integrated with the GUI class
     finalScore = 0;
-    currentQuestionID = 1;
     answerKey = new QASet("nature", "easy");
     userAnswers = new QASet("nature", "easy");
     scoreAnswer = new AnswerScorer();
-
-    quizQuestions = {
-            QA(1, "What is the capital city of France?", "Paris", "easy", "random"),
-            QA(2, "How many days are there in a year?", "365", "easy", "random"),
-            QA(3, "What is the world's longest river called?", "The Nile", "easy", "random"),
-            QA(4, "Which house was Harry Potter almost sorted into?", "Slytherin", "easy", "random"),
-            QA(5, "What planet is closest to Earth?", "Venus", "easy", "random")
-    };
 
     // Configure metadata
     setTitle("QuizBot");
@@ -38,7 +29,6 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     this->initializeMainPage();
     this->initializeLeaderboardPage();
     this->initializeDifficultyPage();
-    this->initializeQuestionPage();
 
     // Display the login/register page
     pages->setCurrentIndex(0);
@@ -53,38 +43,44 @@ GUI::~GUI() {}
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
-    for (int i = 0; i < quizQuestions.size(); i++) {
-        if (quizQuestions.at(i).getQuestionId() == currentQuestionID){
-            answerButton->setText(quizQuestions.at(i).getAnswerText());
-            break;
-        }
-    }
+    QA currQuestion = answerKey->getQuestion(currentQuestionID);
+    answerButton->setText(currQuestion.getAnswerText());
+    submitButton->show();
 
     std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
     processCurrAnswer();
+
 }
 
 /**
- * @brief Display the user profile page.6
+ * @brief Display the user profile page.
  */
 void GUI::displayUserProfile() {
-    pages->setCurrentIndex(6);
+    pages->setCurrentIndex(5);
 }
 
 /**
  * @brief Displays the question page
  */
-void GUI::displayQuestionPage() {
-    finalScore  = 0;
+void GUI::displayQuestionPage(std::string difficulty) {
+
+    // Load the appropriate question set
+    this->loadQuestionSet(selectedCategory, difficulty);
     currentQuestionID = 1;
-    this->updateQuestionPage();
-    pages->setCurrentIndex(5);
+    finalScore = 0;
+
+    // Initialize the question page with the first question in the set
+    this->initializeQuestionPage();
+    pages->setCurrentIndex(6);
+
 }
 
 /**
  * @brief Displays the difficulty page
  */
-void GUI::displayDifficultyPage() {
+void GUI::displayDifficultyPage(std::string category) {
+    selectedCategory = category;
+    selectedCategory[0] = std::tolower(selectedCategory[0]);
     pages->setCurrentIndex(4);
 }
 
@@ -158,7 +154,7 @@ void GUI::hideAnswerButton() {
 void GUI::processCurrAnswer() {
 
     // TODO - analyze the answer, and assign an appropriate score
-    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), quizQuestions[currentQuestionID - 1]);
+    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
 
     if (score > 80){
         finalScore ++;
@@ -168,6 +164,7 @@ void GUI::processCurrAnswer() {
     std::cout << "Current Score: " << finalScore << std::endl;
     currentQuestionID++;
     // Update the question page GUI to reflect the next question in the quiz
+    this->updateQuestionPage();
 
 }
 
@@ -287,6 +284,79 @@ void GUI::registerUser() {
 }
 
 /**
+ * @brief Randomly selects a set of questions of the correct category and difficulty level for a quiz
+ * @param category The selected category
+ * @param difficulty The selected difficulty level ("easy", "medium", or "hard")
+ * @param amount The number of questions to be chosen for the quiz (default = 5)
+ * @author Oliver Clennan
+ */
+void GUI::loadQuestionSet(std::string category, std::string difficulty, int amount) {
+
+    difficulty[0] = std::tolower(difficulty[0]);
+
+    // Define a mapping of difficulty levels to difficulty codes
+    std::map<std::string, char> difficultyCodes = {
+            {"easy", '0'},
+            {"medium", '1'},
+            {"hard", '2'}
+    };
+
+    // Open the appropriate question bank file for reading (i.e., the one corresponding to the specified category)
+    std::string filePath = "questions/" + category + ".txt";
+    std::ifstream inFile(filePath);
+    if (!inFile.is_open()) {
+        std::cerr << "Error - failed to locate question bank at: " << filePath << std::endl;
+        return;
+    }
+
+    std::vector<std::string> allQuestions;
+    std::string currQuestion;
+
+    // Retrieve all questions in the category which match the desired difficulty level
+    while (std::getline(inFile, currQuestion)) {
+        if (currQuestion[0] == difficultyCodes[difficulty]) {
+            allQuestions.push_back(currQuestion);
+        }
+    }
+
+    // Randomly shuffle the question collection
+    std::shuffle(allQuestions.begin(), allQuestions.end(), std::random_device());
+
+    // Select the desired amount of questions from the set
+    std::vector<std::string> chosenQuestions;
+    for (int i = 0; i < amount; i++) {
+        chosenQuestions.push_back(allQuestions[i]);
+    }
+
+    std::vector<std::string> currRow;
+    std::string currToken;
+
+    answerKey = new QASet(category, difficulty);
+    userAnswers = new QASet(category, difficulty);
+
+    // Iterate through all questions selected for the quiz
+    for (int i = 0; i < chosenQuestions.size(); i++) {
+
+        currRow.clear();
+        std::stringstream ss(chosenQuestions[i]);
+
+        while (std::getline(ss, currToken, ',')) {
+            currRow.push_back(currToken);
+        }
+
+        // Construct a QA object from the contents of the current row, and update the question sets accordingly
+        QA question(i + 1, currRow[1], currRow[2], difficulty, category);
+        answerKey->addQuestion(question);
+        userAnswers->addQuestion(question);
+
+    }
+
+    // Close the input file
+    inFile.close();
+
+}
+
+/**
  * @brief Writes the current contents of the leaderboard to the specified output file
  * @param filePath The path to the output file (relative to the root directory of the project)
  * @author Oliver Clennan
@@ -352,9 +422,21 @@ void GUI::loadLeaderboard(std::string filePath) {
  */
 void GUI::updateLeaderboard() {
 
-    // Update the leaderboard vector with the user's final score from the quiz
-    std::tuple<std::string, int, std::string, std::string> newEntry = make_tuple(currentUser->getID(), 265, answerKey->getCategory(), answerKey->getDifficultyLevel());
-    leaderboard.push_back(newEntry);
+    std::tuple<std::string, int, std::string, std::string> newEntry = make_tuple(currentUser->getID(), currentUser->getUserScore(), answerKey->getCategory(), answerKey->getDifficultyLevel());
+
+    bool highScore = true;
+    for (int i = 0; i < leaderboard.size(); i++) {
+        if ((std::get<0>(leaderboard[i]) == currentUser->getID()) && (std::get<2>(leaderboard[i]) == answerKey->getCategory()) && (std::get<3>(leaderboard[i]) == answerKey->getDifficultyLevel())) {
+            if (std::get<1>(leaderboard[i]) > currentUser->getUserScore()) {
+                highScore = false;
+            }
+        }
+    }
+
+    // Update the leaderboard with the user's final score from the quiz only if it is a high score for that category and difficulty level
+    if (highScore) {
+        leaderboard.push_back(newEntry);
+    }
 
     // Re-sort the leaderboard entries in descending order by the score field
     std::sort(leaderboard.begin(), leaderboard.end(), [](const std::tuple<std::string, int, std::string, std::string> left, std::tuple<std::string, int, std::string, std::string> right) {
@@ -419,7 +501,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     }
 
-        // Provide links to all pages accessible to logged-in users (i.e., private pages)
+    // Provide links to all pages accessible to logged-in users (i.e., private pages)
     else {
 
         // Define the appropriate page links
@@ -448,13 +530,13 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 void GUI::updateQuestionPage() {
 
     // Access the next question in the quiz
-    QA newQuestion = quizQuestions[currentQuestionID - 1];
-    bool isLastQuestion = currentQuestionID == quizQuestions.size();
+    QA nextQuestion = answerKey->getQuestion(currentQuestionID);
+    bool isLastQuestion = currentQuestionID == answerKey->getSize();
 
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
-    std::string questionText = newQuestion.getQuestionText();
-    std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size());
-    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(quizQuestions.size());
+    std::string questionText = nextQuestion.getQuestionText();
+    std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize());
+    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(answerKey->getSize());
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
@@ -499,7 +581,7 @@ void GUI::initializeProfilePage() {
 void GUI::initializeQuestionPage() {
 
     // Access the first question in the quiz
-    QA firstQuestion = quizQuestions[currentQuestionID - 1];
+    QA firstQuestion = answerKey->getQuestion(currentQuestionID);
 
     // Creating the question page, and generating/attaching the navbar
     questionPage = std::make_unique<Wt::WContainerWidget>();
@@ -540,7 +622,7 @@ void GUI::initializeQuestionPage() {
     scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz
-    questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));
+    questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize())));
     questionProgress->setObjectName("questionProgress");
     questionProgress->setStyleClass("question-progress");
 
@@ -576,7 +658,7 @@ void GUI::initializeDifficultyPage() {
     for (int i = 0; i < DIFFICULTY_LEVELS.size(); i++) {
         Wt::WPushButton* difficultyButton = levelsWrapper->addWidget(std::make_unique<Wt::WPushButton>(DIFFICULTY_LEVELS[i]));
         difficultyButton->setStyleClass("primary-button");
-        difficultyButton->clicked().connect(this, &GUI::displayQuestionPage);
+        difficultyButton->clicked().connect(std::bind(&GUI::displayQuestionPage, this, DIFFICULTY_LEVELS[i]));
     }
 
     // Defining the side note
@@ -641,10 +723,10 @@ void GUI::initializeMainPage() {
     // Defining the image and name of each category supported by the application
     const std::vector<std::tuple<std::string, std::string>> CATEGORIES = {
             std::make_tuple("content/science.png", "Science"),
-            std::make_tuple("content/sports.jpeg", "Sports"),
+            std::make_tuple("content/culture.jpg", "Culture"),
             std::make_tuple("content/geography.png", "Geography"),
             std::make_tuple("content/history.jpeg", "History"),
-            std::make_tuple("content/entertainment.jpg", "Entertainment"),
+            std::make_tuple("content/sports.jpeg", "Sports"),
             std::make_tuple("content/politics.jpg", "Politics"),
     };
 
@@ -665,7 +747,7 @@ void GUI::initializeMainPage() {
     // Attach the start quiz button, and make it functional (redirect to the difficult page when clicked)
     Wt::WPushButton* startButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Start Quiz"));
     startButton->setStyleClass("primary-button");
-    startButton->clicked().connect(this, &GUI::displayDifficultyPage);
+    startButton->clicked().connect(std::bind(&GUI::displayDifficultyPage, this, "science"));
 
     // Create and style the category grid
     Wt::WContainerWidget* categoryGrid = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
@@ -679,7 +761,7 @@ void GUI::initializeMainPage() {
         category->addWidget(std::make_unique<Wt::WContainerWidget>());
         category->addWidget(std::make_unique<Wt::WImage>(std::get<0>(CATEGORIES[i])));
         category->addWidget(std::make_unique<Wt::WText>(std::get<1>(CATEGORIES[i])));
-        category->clicked().connect(this, &GUI::displayDifficultyPage);
+        category->clicked().connect(std::bind(&GUI::displayDifficultyPage, this, std::get<1>(CATEGORIES[i])));
     }
 
     pages->addWidget(std::move(mainPage));
