@@ -11,9 +11,10 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
     // NOTE: the following attributes are currently hardcoded for testing purposes
     // Will change later once other features have been implemented and integrated with the GUI class
-    answerKey = new QASet("nature", "easy");
-    userAnswers = new QASet("geography", "hard");
+    finalScore = 0;
     currentQuestionID = 1;
+    answerKey = new QASet("nature", "easy");
+    userAnswers = new QASet("nature", "easy");
     scoreAnswer = new AnswerScorer();
 
     quizQuestions = {
@@ -59,12 +60,12 @@ void GUI::displayAnswer() {
         }
     }
 
-
-
+    std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+    processCurrAnswer();
 }
 
 /**
- * @brief Display the user profile page.
+ * @brief Display the user profile page.6
  */
 void GUI::displayUserProfile() {
     pages->setCurrentIndex(6);
@@ -74,6 +75,7 @@ void GUI::displayUserProfile() {
  * @brief Displays the question page
  */
 void GUI::displayQuestionPage() {
+    finalScore  = 0;
     currentQuestionID = 1;
     this->updateQuestionPage();
     pages->setCurrentIndex(5);
@@ -156,9 +158,16 @@ void GUI::hideAnswerButton() {
 void GUI::processCurrAnswer() {
 
     // TODO - analyze the answer, and assign an appropriate score
+    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), quizQuestions[currentQuestionID - 1]);
+
+    if (score > 80){
+        finalScore ++;
+        storeUserScore();
+    }
+
+    std::cout << "Current Score: " << finalScore << std::endl;
     currentQuestionID++;
     // Update the question page GUI to reflect the next question in the quiz
-    this->updateQuestionPage();
 
 }
 
@@ -410,7 +419,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     }
 
-    // Provide links to all pages accessible to logged-in users (i.e., private pages)
+        // Provide links to all pages accessible to logged-in users (i.e., private pages)
     else {
 
         // Define the appropriate page links
@@ -445,6 +454,7 @@ void GUI::updateQuestionPage() {
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = newQuestion.getQuestionText();
     std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size());
+    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(quizQuestions.size());
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
@@ -452,6 +462,7 @@ void GUI::updateQuestionPage() {
     answerButton->setText("Check Answer");
     submitButton->setText(buttonText);
     questionProgress->setText(currentProgress);
+    scoreDisplay->setText(currentScore);
 
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
@@ -516,7 +527,7 @@ void GUI::initializeQuestionPage() {
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
-    submitButton->clicked().connect(this, &GUI::processCurrAnswer);
+    submitButton->clicked().connect(this, &GUI::updateQuestionPage);
     submitButton->show();
 
     // Configuring the answer button
@@ -524,7 +535,9 @@ void GUI::initializeQuestionPage() {
     answerButtonWrapper->setStyleClass("button-wrapper");
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
-    showAnswerButton();
+
+    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore) + "/5"));
+    scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz
     questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));

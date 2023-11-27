@@ -220,6 +220,7 @@ private:
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
     Wt::WPushButton* answerButton;
+    Wt::WText* scoreDisplay;
     Wt::WText* questionProgress;
     Wt::WTable* leaderboardTable;
     Wt::Signals::connection enterConn;

@@ -26,10 +26,10 @@ std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string&
  * @param correctAnswer The correct answer and the question.
  * @return The calculated score as a percentage.
  */
-double AnswerScorer::calculateAnswerScore(const QA& userAnswer, const QA& correctAnswer) {
+double AnswerScorer::calculateAnswerScore(std::string userAnswer, const QA& correctAnswer) {
 
     // Extract keywords from the user's and correct answers.
-    std::unordered_set<std::string> userKeywords = extractKeywords(userAnswer.getAnswerText());
+    std::unordered_set<std::string> userKeywords = extractKeywords(userAnswer);
     std::unordered_set<std::string> correctKeywords = extractKeywords(correctAnswer.getAnswerText());
 
     // Calculate the score based on the intersection of user and correct answer keywords.
