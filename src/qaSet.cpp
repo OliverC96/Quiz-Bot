@@ -3,10 +3,27 @@
 /**
  * @brief Constructs a QA set
  * @param category The category of questions in the set
+ * @param difficulty The difficulty level
  */
 QASet::QASet(std::string category, std::string difficulty) {
     this->category = category;
     this->difficultyLevel = difficulty;
+}
+
+/**
+ * @brief Inserts the given question into the collection
+ * @param question The question to be inserted
+ */
+void QASet::addQuestion(QA question) {
+    this->questions.insert({question.getQuestionId(), question});
+}
+
+/**
+ * @brief Retrieves the size of the QA set (i.e., the number of QA pairs in the quiz)
+ * @return The size of the quiz
+ */
+int QASet::getSize() {
+    return this->questions.size();
 }
 
 /**

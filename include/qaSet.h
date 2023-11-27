@@ -25,6 +25,18 @@ public:
     ~QASet(void);
 
     /**
+     * @brief Adds the specified question to the question bank
+     * @param question The QA object
+     */
+    void addQuestion(QA question);
+
+    /**
+     * @brief Retrieves the size of the QA set (i.e., the number of QA pairs in the quiz)
+     * @return The size of the quiz
+     */
+    int getSize(void);
+
+    /**
      * @brief Get a specific question by its ID.
      * @param id The ID of the question to retrieve.
      * @return The QA object for the specified question ID. Returns an empty QA object if the question ID is not found.

@@ -1,4 +1,5 @@
 testCS,335,history,medium
+ed,265,nature,easy
 randomUser123,200,nature,easy
 otherUser98,160,geography,hard
 fourthPlace,89,science,hard
