@@ -14,6 +14,7 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     answerKey = new QASet("nature", "easy");
     userAnswers = new QASet("geography", "hard");
     currentQuestionID = 1;
+    scoreAnswer = new AnswerScorer();
 
     quizQuestions = {
             QA(1, "What is the capital city of France?", "Paris", "easy", "random"),
@@ -57,6 +58,8 @@ void GUI::displayAnswer() {
             break;
         }
     }
+
+
 
 }
 
@@ -126,7 +129,8 @@ void GUI::updateScore() {
  * @author Taegyun Kim
  */
 void GUI::storeUserScore() {
-    finalScore = currentUser->getUserScore();
+    currentUser->setUserScore(finalScore);
+
     // Implementation for storing the user's score
 }
 
@@ -136,17 +140,6 @@ void GUI::storeUserScore() {
  * @author Taegyun Kim
  */
 void GUI::showAnswerButton() {
-    int second = 0;
-    clock_t start = clock();
-    clock_t end = clock();
-
-    while (true) {
-        end = clock();
-        if (double(end - start) / CLOCKS_PER_SEC == second) {
-            break;
-        }
-    }
-    std::cout << "Timer done" << std::endl;
     answerButton->show();
 }
 
@@ -531,7 +524,7 @@ void GUI::initializeQuestionPage() {
     answerButtonWrapper->setStyleClass("button-wrapper");
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
-    answerButton->show();
+    showAnswerButton();
 
     // Attaching the current question number to illustrate the users progress through the quiz
     questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));
