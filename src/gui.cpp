@@ -154,7 +154,7 @@ void GUI::hideAnswerButton() {
 void GUI::processCurrAnswer() {
 
     // TODO - analyze the answer, and assign an appropriate score
-    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), quizQuestions[currentQuestionID - 1]);
+    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
 
     if (score > 80){
         finalScore ++;
@@ -426,7 +426,7 @@ void GUI::updateLeaderboard() {
 
     bool highScore = true;
     for (int i = 0; i < leaderboard.size(); i++) {
-        if ((std::get<0>(leaderboard[i]) == currentUser->getID()) && (std::get<2>(leaderboard[i]) == answerKey->getCategory()) && (std::get<3>(leaderboard[i] == answerKey->getDifficultyLevel ))) {
+        if ((std::get<0>(leaderboard[i]) == currentUser->getID()) && (std::get<2>(leaderboard[i]) == answerKey->getCategory()) && (std::get<3>(leaderboard[i]) == answerKey->getDifficultyLevel())) {
             if (std::get<1>(leaderboard[i]) > currentUser->getUserScore()) {
                 highScore = false;
             }
