@@ -94,6 +94,12 @@ public:
     void loadLeaderboard(std::string filePath);
 
     /**
+     * @brief Writes the current contents of the leaderboard to the specified file at the end of a user's session
+     * @param filePath
+     */
+    void saveLeaderboard(std::string filePath);
+
+    /**
      * @brief Display the question page.
      */
     void displayQuestionPage();
@@ -213,6 +219,7 @@ private:
     Wt::WPushButton* submitButton;
     Wt::WPushButton* answerButton;
     Wt::WText* questionProgress;
+    Wt::WTable* leaderboardTable;
     Wt::Signals::connection enterConn;
 
     //being used for testing reigstration SUNG

@@ -114,15 +114,6 @@ void GUI::displayLoginPage() {
 }
 
 /**
- * @author Oliver Clennan
- * @brief Updates the leaderboard with the current user's score
- */
-void GUI::updateLeaderboard() {
-    std::tuple<std::string, int, std::string, std::string> newEntry = make_tuple(currentUser->getID(), this->finalScore, answerKey->getCategory(), answerKey->getDifficultyLevel());
-    leaderboard.push_back(newEntry);
-}
-
-/**
  * @brief Update the user's score.
  * @author Taegyun Kim
  */
@@ -237,10 +228,15 @@ void GUI::loginUser() {
  * @brief Log out the user.
  */
 void GUI::logoutUser() {
+
     // Implementation for user logout
     std::cout << "User successfully logged out of the application." << std::endl;
     currentUser = nullptr;
+
+    saveLeaderboard("content/leaderboardData.txt");
+
     this->displayLoginPage();
+
 }
 
 /**
@@ -293,8 +289,35 @@ void GUI::registerUser() {
 }
 
 /**
+ * @brief Writes the current contents of the leaderboard to the specified output file
+ * @param filePath The path to the output file (relative to the root directory of the project)
+ * @author Oliver Clennan
+ */
+void GUI::saveLeaderboard(std::string filePath) {
+
+    // Opens the specified file for writing
+    std::ofstream outFile(filePath);
+    if (!outFile.is_open()) {
+        std::cerr << "Error - failed to locate the output file." << std::endl;
+        return;
+    }
+
+    // Write all the leaderboard entries to the file (one row per line)
+    for (int i = 0; i < leaderboard.size(); i++) {
+        outFile << std::get<0>(leaderboard[i]) << ",";
+        outFile << std::to_string(std::get<1>(leaderboard[i])) << ",";
+        outFile << std::get<2>(leaderboard[i]) << ",";
+        outFile << std::get<3>(leaderboard[i]) << std::endl;
+    }
+
+    // Close the file
+    outFile.close();
+
+}
+
+/**
  * @brief Fetches the current leaderboard data from the specified file
- * @param filePath
+ * @param filePath The path to the input data file (relative to the root directory of the project)
  * @author Oliver Clennan
  */
 void GUI::loadLeaderboard(std::string filePath) {
@@ -318,6 +341,40 @@ void GUI::loadLeaderboard(std::string filePath) {
         // Add each leaderboard entry to the leaderboard collection
         std::tuple<std::string, int, std::string, std::string> newEntry = make_tuple(currRow[0], std::stoi(currRow[1]), currRow[2], currRow[3]);
         leaderboard.push_back(newEntry);
+    }
+
+    // Close the file
+    dataFile.close();
+
+}
+
+/**
+ * @brief Updates the leaderboard with the current user's score
+ * @author Oliver Clennan
+ */
+void GUI::updateLeaderboard() {
+
+    // Update the leaderboard vector with the user's final score from the quiz
+    std::tuple<std::string, int, std::string, std::string> newEntry = make_tuple(currentUser->getID(), 265, answerKey->getCategory(), answerKey->getDifficultyLevel());
+    leaderboard.push_back(newEntry);
+
+    // Re-sort the leaderboard entries in descending order by the score field
+    std::sort(leaderboard.begin(), leaderboard.end(), [](const std::tuple<std::string, int, std::string, std::string> left, std::tuple<std::string, int, std::string, std::string> right) {
+        return std::get<1>(left) > std::get<1>(right);
+    });
+
+    // Reset the contents of the leaderboard table element
+    leaderboardTable->clear();
+
+    // Re-attach the newly updated entries to the leaderboard
+    for (int i = 0; i < leaderboard.size(); i++) {
+        Wt::WTableRow* leaderboardEntry = leaderboardTable->insertRow(i, std::make_unique<Wt::WTableRow>());
+        leaderboardEntry->setStyleClass("leaderboard-entry");
+        leaderboardEntry->elementAt(0)->addWidget(std::make_unique<Wt::WText>(std::to_string(i + 1)));
+        leaderboardEntry->elementAt(1)->addWidget(std::make_unique<Wt::WText>(std::get<0>(leaderboard[i])));
+        leaderboardEntry->elementAt(2)->addWidget(std::make_unique<Wt::WText>(std::to_string(std::get<1>(leaderboard[i]))));
+        leaderboardEntry->elementAt(3)->addWidget(std::make_unique<Wt::WText>(std::get<2>(leaderboard[i])));
+        leaderboardEntry->elementAt(4)->addWidget(std::make_unique<Wt::WText>(std::get<3>(leaderboard[i])));
     }
 
 }
@@ -344,7 +401,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     // Define the application name and logo
     Wt::WText* appTitle = titleContainer->addWidget(std::make_unique<Wt::WText>("QuizBot"));
-    Wt::WImage* appIcon = titleContainer->addWidget(std::make_unique<Wt::WImage>("src/appIcon.png"));
+    Wt::WImage* appIcon = titleContainer->addWidget(std::make_unique<Wt::WImage>("content/appIcon.png"));
 
     // Add additional styling for the elements in the navbar
     appTitle->setStyleClass("title");
@@ -407,9 +464,9 @@ void GUI::updateQuestionPage() {
     submitButton->hide();
     questionProgress->setText(currentProgress);
 
-
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
+        this->updateLeaderboard();
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
         answerButton->clicked().connect(this, &GUI::displayAnswer);
@@ -535,16 +592,21 @@ void GUI::initializeDifficultyPage() {
 void GUI::initializeLeaderboardPage() {
 
     // Load the leaderboard data and add the navbar to the leaderboard widget
-    this->loadLeaderboard("src/leaderboardData.txt");
+    this->loadLeaderboard("content/leaderboardData.txt");
     leaderboardPage = std::make_unique<Wt::WContainerWidget>();
     leaderboardPage->addWidget(this->generateNavBar(true));
+
+    // Re-sort the leaderboard entries in descending order by the score field
+    std::sort(leaderboard.begin(), leaderboard.end(), [](const std::tuple<std::string, int, std::string, std::string> left, std::tuple<std::string, int, std::string, std::string> right) {
+        return std::get<1>(left) > std::get<1>(right);
+    });
 
     Wt::WContainerWidget* pageContent = leaderboardPage->addWidget(std::make_unique<Wt::WContainerWidget>());
     pageContent->setStyleClass("leaderboard");
 
     Wt::WText* leaderboardTitle = pageContent->addWidget(std::make_unique<Wt::WText>("Leaderboard"));
     leaderboardTitle->setStyleClass("leaderboard-title");
-    Wt::WTable* leaderboardTable = pageContent->addWidget(std::make_unique<Wt::WTable>());
+    leaderboardTable = pageContent->addWidget(std::make_unique<Wt::WTable>());
 
     // Attach all entries to the leaderboard
     for (int i = 0; i < leaderboard.size(); i++) {
@@ -577,12 +639,12 @@ void GUI::initializeMainPage() {
 
     // Defining the image and name of each category supported by the application
     const std::vector<std::tuple<std::string, std::string>> CATEGORIES = {
-            std::make_tuple("https://placehold.co/150x100/AEB4BF/FAF9F9", "Category 1"),
-            std::make_tuple("https://placehold.co/150x100/AEB4BF/FAF9F9", "Category 2"),
-            std::make_tuple("https://placehold.co/150x100/AEB4BF/FAF9F9", "Category 3"),
-            std::make_tuple("https://placehold.co/150x100/AEB4BF/FAF9F9", "Category 4"),
-            std::make_tuple("https://placehold.co/150x100/AEB4BF/FAF9F9", "Category 5"),
-            std::make_tuple("https://placehold.co/150x100/AEB4BF/FAF9F9", "Category 6"),
+            std::make_tuple("content/science.png", "Science"),
+            std::make_tuple("content/sports.jpeg", "Sports"),
+            std::make_tuple("content/geography.png", "Geography"),
+            std::make_tuple("content/history.jpeg", "History"),
+            std::make_tuple("content/entertainment.jpg", "Entertainment"),
+            std::make_tuple("content/politics.jpg", "Politics"),
     };
 
     // Attach the navbar to the main page
