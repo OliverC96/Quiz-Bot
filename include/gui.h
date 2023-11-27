@@ -202,7 +202,7 @@ private:
 
     // Additional attributes critical to the game logic
     int currentQuestionID; /**< The current question being displayed. */
-    int finalScore; /**< The user's final score. */
+    static int finalScore; /**< The user's final score. */
 
     // Containers representing the various pages of the application
     std::unique_ptr<Wt::WContainerWidget> loginPage;
@@ -220,6 +220,7 @@ private:
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
     Wt::WPushButton* answerButton;
+    Wt::WText* scoreDisplay;
     Wt::WText* questionProgress;
     Wt::WTable* leaderboardTable;
     Wt::Signals::connection enterConn;
