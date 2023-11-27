@@ -1,4 +1,4 @@
-#include "../include/gui.h"
+#include "gui.h"
 #include <unistd.h>
 // #include <curl/curl.h>
 
@@ -14,7 +14,6 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     finalScore = 0;
     currentQuestionID = 1;
     answerKey = new QASet("nature", "easy");
-    //userAnswers = new QA(quizQuestions[currentQuestionID-1].getQuestionId(),quizQuestions[currentQuestionID-1].getQuestionText(),quizQuestions[currentQuestionID-1].getAnswerText(),quizQuestions[currentQuestionID-1].getDifficultyLevel(),quizQuestions[currentQuestionID-1].getCategory());
     userAnswers = new QASet("nature", "easy");
     scoreAnswer = new AnswerScorer();
 
@@ -455,6 +454,7 @@ void GUI::updateQuestionPage() {
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = newQuestion.getQuestionText();
     std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size());
+    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(quizQuestions.size());
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
@@ -462,6 +462,7 @@ void GUI::updateQuestionPage() {
     answerButton->setText("Check Answer");
     submitButton->setText(buttonText);
     questionProgress->setText(currentProgress);
+    scoreDisplay->setText(currentScore);
 
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
