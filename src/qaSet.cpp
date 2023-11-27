@@ -5,7 +5,7 @@
  * @param category The category of questions in the set
  * @param difficulty The difficulty level
  */
-QASet::QASet(std::string category, std::string difficulty) {
+QASet::QASet(const std::string category, const std::string difficulty) {
     this->category = category;
     this->difficultyLevel = difficulty;
 }
@@ -38,9 +38,9 @@ std::string QASet::getCategory() {
  * @brief Retrieves the difficulty level associated with this QA set
  * @return The difficulty level
  */
- std::string QASet::getDifficultyLevel() {
-     return this->difficultyLevel;
- }
+std::string QASet::getDifficultyLevel() {
+    return this->difficultyLevel;
+}
 
 /**
  * @brief Get a specific question by its ID.

@@ -9,6 +9,13 @@
  */
 GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
+    // NOTE: the following attributes are currently hardcoded for testing purposes
+    // Will change later once other features have been implemented and integrated with the GUI class
+    finalScore = 0;
+    answerKey = new QASet("nature", "easy");
+    userAnswers = new QASet("nature", "easy");
+    scoreAnswer = new AnswerScorer();
+
     // Configure metadata
     setTitle("QuizBot");
     useStyleSheet("src/styles.css");
@@ -39,6 +46,10 @@ void GUI::displayAnswer() {
     QA currQuestion = answerKey->getQuestion(currentQuestionID);
     answerButton->setText(currQuestion.getAnswerText());
     submitButton->show();
+
+    std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+    processCurrAnswer();
+
 }
 
 /**
@@ -56,6 +67,7 @@ void GUI::displayQuestionPage(std::string difficulty) {
     // Load the appropriate question set
     this->loadQuestionSet(selectedCategory, difficulty);
     currentQuestionID = 1;
+    finalScore = 0;
 
     // Initialize the question page with the first question in the set
     this->initializeQuestionPage();
@@ -115,7 +127,8 @@ void GUI::updateScore() {
  * @author Taegyun Kim
  */
 void GUI::storeUserScore() {
-    finalScore = currentUser->getUserScore();
+    currentUser->setUserScore(finalScore);
+
     // Implementation for storing the user's score
 }
 
@@ -125,17 +138,6 @@ void GUI::storeUserScore() {
  * @author Taegyun Kim
  */
 void GUI::showAnswerButton() {
-    int second = 0;
-    clock_t start = clock();
-    clock_t end = clock();
-
-    while (true) {
-        end = clock();
-        if (double(end - start) / CLOCKS_PER_SEC == second) {
-            break;
-        }
-    }
-    std::cout << "Timer done" << std::endl;
     answerButton->show();
 }
 
@@ -152,9 +154,14 @@ void GUI::hideAnswerButton() {
 void GUI::processCurrAnswer() {
 
     // TODO - analyze the answer, and assign an appropriate score
-    answerButton->show();
-    answerButton->setText("Check Answer");
-    answerButton->clicked().connect(this, &GUI::displayAnswer);
+    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), quizQuestions[currentQuestionID - 1]);
+
+    if (score > 80){
+        finalScore ++;
+        storeUserScore();
+    }
+
+    std::cout << "Current Score: " << finalScore << std::endl;
     currentQuestionID++;
     // Update the question page GUI to reflect the next question in the quiz
     this->updateQuestionPage();
@@ -529,13 +536,15 @@ void GUI::updateQuestionPage() {
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = nextQuestion.getQuestionText();
     std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize());
+    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(answerKey->getSize());
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
     answerArea->setText("");
+    answerButton->setText("Check Answer");
     submitButton->setText(buttonText);
-    submitButton->hide();
     questionProgress->setText(currentProgress);
+    scoreDisplay->setText(currentScore);
 
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
@@ -543,7 +552,6 @@ void GUI::updateQuestionPage() {
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
         answerButton->clicked().connect(this, &GUI::displayAnswer);
-        answerButton->show();
     }
 
 }
@@ -595,21 +603,23 @@ void GUI::initializeQuestionPage() {
     answerWrapper->setStyleClass("answer-wrapper");
     Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
     answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
-    enterConn = answerArea->enterPressed().connect(this, &GUI::processCurrAnswer);
+    enterConn = answerArea->enterPressed().connect(this, &GUI::displayAnswer);
 
     // Configuring the submit button
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
-    submitButton->clicked().connect(this, &GUI::processCurrAnswer);
-    submitButton->hide();
+    submitButton->clicked().connect(this, &GUI::updateQuestionPage);
+    submitButton->show();
 
     // Configuring the answer button
     Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     answerButtonWrapper->setStyleClass("button-wrapper");
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
-    answerButton->show();
+
+    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore) + "/5"));
+    scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz
     questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize())));

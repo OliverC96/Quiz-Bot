@@ -5,6 +5,7 @@
 #include "qaSet.h"
 #include "user.h"
 #include "voice.h"
+#include "answerScorer.h"
 #include <vector>
 #include <tuple>
 #include <string>
@@ -208,6 +209,7 @@ private:
     QASet *answerKey; /**< The answer key for questions. */
     QASet *userAnswers; /**< The user's answers. */
     User *currentUser; /**< The currently logged-in user. */
+    AnswerScorer *scoreAnswer; /**< evaluating user's answer. */
     Wt::WStackedWidget* pages; /**< Stores references to the various application pages. */
     std::vector<std::tuple<std::string, int, std::string, std::string>> leaderboard; /**< The leaderboard data. */
 
@@ -232,6 +234,7 @@ private:
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
     Wt::WPushButton* answerButton;
+    Wt::WText* scoreDisplay;
     Wt::WText* questionProgress;
     Wt::WTable* leaderboardTable;
     Wt::Signals::connection enterConn;

@@ -26,7 +26,7 @@ public:
      * @param correctAnswer The correct answer represented as a QA object.
      * @return The calculated score as a percentage.
      */
-    double calculateAnswerScore(const QA& userAnswer, const QA& correctAnswer);
+    double calculateAnswerScore(const std::string userAnswer, const QA& correctAnswer);
 private:
 
     /**
