@@ -11,9 +11,10 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
     // NOTE: the following attributes are currently hardcoded for testing purposes
     // Will change later once other features have been implemented and integrated with the GUI class
-    answerKey = new QASet("nature", "easy");
-    userAnswers = new QASet("geography", "hard");
     currentQuestionID = 1;
+    answerKey = new QASet("nature", "easy");
+    //userAnswers = new QA(quizQuestions[currentQuestionID-1].getQuestionId(),quizQuestions[currentQuestionID-1].getQuestionText(),quizQuestions[currentQuestionID-1].getAnswerText(),quizQuestions[currentQuestionID-1].getDifficultyLevel(),quizQuestions[currentQuestionID-1].getCategory());
+    userAnswers = new QASet("nature", "easy");
     scoreAnswer = new AnswerScorer();
 
     quizQuestions = {
@@ -59,12 +60,14 @@ void GUI::displayAnswer() {
         }
     }
 
-
-
+    std::cout << answerArea->valueText().toUTF8() << std::endl;
+    //QA* userA = new QA(quizQuestions[currentQuestionID-1].getQuestionId(),quizQuestions[currentQuestionID-1].getQuestionText(),quizQuestions[currentQuestionID-1].getAnswerText(),quizQuestions[currentQuestionID-1].getDifficultyLevel(),quizQuestions[currentQuestionID-1].getCategory());
+    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), quizQuestions[currentQuestionID - 1]);
+    std::cout << score << std::endl;
 }
 
 /**
- * @brief Display the user profile page.
+ * @brief Display the user profile page.6
  */
 void GUI::displayUserProfile() {
     pages->setCurrentIndex(6);
@@ -410,7 +413,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     }
 
-    // Provide links to all pages accessible to logged-in users (i.e., private pages)
+        // Provide links to all pages accessible to logged-in users (i.e., private pages)
     else {
 
         // Define the appropriate page links
@@ -524,7 +527,6 @@ void GUI::initializeQuestionPage() {
     answerButtonWrapper->setStyleClass("button-wrapper");
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
-    showAnswerButton();
 
     // Attaching the current question number to illustrate the users progress through the quiz
     questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(quizQuestions.size())));
