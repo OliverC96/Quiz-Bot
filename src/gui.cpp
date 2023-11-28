@@ -1,6 +1,5 @@
 #include "gui.h"
 #include <unistd.h>
-// #include <curl/curl.h>
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
@@ -40,16 +39,18 @@ GUI::~GUI() {}
 /**
  * @brief Display the current question's answer.
  * Once the answer is check, the user can proceed to next Q
+ * @todo Make sure the answer doesn't appear when pressed multiple times at once
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
     QA currQuestion = answerKey->getQuestion(currentQuestionID);
+
     answerButton->setText(currQuestion.getAnswerText());
     submitButton->show();
 
+    std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
     std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
     processCurrAnswer();
-
 }
 
 /**
@@ -128,8 +129,6 @@ void GUI::updateScore() {
  */
 void GUI::storeUserScore() {
     currentUser->setUserScore(finalScore);
-
-    // Implementation for storing the user's score
 }
 
 /**
@@ -150,22 +149,25 @@ void GUI::hideAnswerButton() {
 
 /**
  * @brief Process the current answer submitted by the user.
+ * @brief Partial marks given depending on capitalization, wording etc.
+ * @authors Taegyun Kim
  */
 void GUI::processCurrAnswer() {
-
-    // TODO - analyze the answer, and assign an appropriate score
     int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
 
-    if (score > 80){
-        finalScore ++;
+    finalScore += score;
+    storeUserScore();
+
+    std::cout << "Per Q Score: " << score << std::endl;
+    std::cout << "Current Total Score: " << finalScore << std::endl;
+
+    if(currentQuestionID != answerKey->getSize()){
+        currentQuestionID++;
+    }else{
         storeUserScore();
     }
-
-    std::cout << "Current Score: " << finalScore << std::endl;
-    currentQuestionID++;
     // Update the question page GUI to reflect the next question in the quiz
-    this->updateQuestionPage();
-
+    // This is done directly by the submitButton in initializeQuestionPage()
 }
 
 /**
@@ -536,7 +538,7 @@ void GUI::updateQuestionPage() {
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = nextQuestion.getQuestionText();
     std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize());
-    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(answerKey->getSize());
+    std::string currentScore = "Current Score " + std::to_string(finalScore);
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
@@ -550,8 +552,8 @@ void GUI::updateQuestionPage() {
     if (isLastQuestion) {
         this->updateLeaderboard();
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
-        answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
-        answerButton->clicked().connect(this, &GUI::displayAnswer);
+        answerArea->enterPressed().connect(this, &GUI::displayAnswer);
+        //answerButton->clicked().connect(this, &GUI::displayAnswer);
     }
 
 }
@@ -618,7 +620,8 @@ void GUI::initializeQuestionPage() {
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
 
-    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore) + "/5"));
+    // Configuring score to be displayed per question
+    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore)));
     scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz
