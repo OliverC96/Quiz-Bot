@@ -149,6 +149,7 @@ void GUI::hideAnswerButton() {
 
 /**
  * @brief Process the current answer submitted by the user.
+ * @brief Partial marks given depending on capitalization, wording etc.
  * @authors Taegyun Kim
  */
 void GUI::processCurrAnswer() {
