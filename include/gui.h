@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <random>
 #include <functional>
+#include <unistd.h>
+#include <filesystem>
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WApplication.h>
@@ -203,6 +205,11 @@ public:
      */
     void registerUser();
 
+    /**
+    * @brief Change password of a current user.
+    */
+    void changePW();
+
 private:
 
     // High-level application objects/components
@@ -226,6 +233,7 @@ private:
     std::unique_ptr<Wt::WContainerWidget> profilePage;
     std::unique_ptr<Wt::WContainerWidget> leaderboardPage;
     std::unique_ptr<Wt::WContainerWidget> questionPage;
+    std::unique_ptr<Wt::WContainerWidget> changePWPage;
 
     /*
      * Maintaining references to specific elements of the GUI to allow for them to be dynamically updated as necessary
@@ -248,6 +256,10 @@ private:
     Wt::WText* loginErrorMessage;
     Wt::WText* registerErrorMessage;
 
+    // for changing passwords
+    Wt::WLineEdit* changePassword;
+    Wt::WLineEdit* confirmPassword;
+    Wt::WText* changePWErrorMessage;
 };
 
 #endif
