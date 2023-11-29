@@ -1,5 +1,6 @@
 #include "gui.h"
 #include <unistd.h>
+// #include <curl/curl.h>
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
@@ -39,7 +40,6 @@ GUI::~GUI() {}
 /**
  * @brief Display the current question's answer.
  * Once the answer is check, the user can proceed to next Q
- * @todo Make sure the answer doesn't appear when pressed multiple times at once
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
@@ -538,7 +538,7 @@ void GUI::updateQuestionPage() {
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = nextQuestion.getQuestionText();
     std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize());
-    std::string currentScore = "Current Score " + std::to_string(finalScore);
+    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(answerKey->getSize());
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
@@ -552,8 +552,8 @@ void GUI::updateQuestionPage() {
     if (isLastQuestion) {
         this->updateLeaderboard();
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
-        answerArea->enterPressed().connect(this, &GUI::displayAnswer);
-        //answerButton->clicked().connect(this, &GUI::displayAnswer);
+        answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
+        answerButton->clicked().connect(this, &GUI::displayAnswer);
     }
 
 }
@@ -620,8 +620,7 @@ void GUI::initializeQuestionPage() {
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
     answerButton->clicked().connect(this, &GUI::displayAnswer);
 
-    // Configuring score to be displayed per question
-    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore)));
+    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore) + "/5"));
     scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz

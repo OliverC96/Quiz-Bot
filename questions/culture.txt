@@ -13,7 +13,7 @@
 1, What is Picasso's first name?, Pablo, 20
 1, Which artist is know for painting a famous soup cans?, Andy Warhol, 20
 1, Which musician was know as "king of pop"?, Michael Jackson, 20
-1, What is the first computer generated 3D animation? Toy Story, 20
+1, What is the first computer generated 3D animation?, Toy Story, 20
 1, What is the name of the beyonce's 2023 tour?, Renaissance world tour, 20
 1, Which museum stores the famous statue "Milo of Venus", Louvre, 20
 1, What is Oliva Rodrigo's first number one hit single?, Drivers License, 20
