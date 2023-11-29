@@ -1,5 +1,4 @@
-#include "gui.h"
-#include <unistd.h>
+#include "../include/gui.h"
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
@@ -44,13 +43,12 @@ GUI::~GUI() {}
  */
 void GUI::displayAnswer() {
 
-    if (pressed){
-        QA currQuestion = answerKey->getQuestion(currentQuestionID);
-        answerButton->setText(currQuestion.getAnswerText());
-        std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
-        std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
-        pressed = false;
-    }
+
+    QA currQuestion = answerKey->getQuestion(currentQuestionID);
+    answerButton->setText(currQuestion.getAnswerText());
+    std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
+    std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+
 
     //submitButton->show();
 
@@ -542,7 +540,6 @@ void GUI::updateQuestionPage() {
     // Access the next question in the quiz
     QA nextQuestion = answerKey->getQuestion(currentQuestionID);
     bool isLastQuestion = currentQuestionID == answerKey->getSize();
-    pressed = True;
 
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = nextQuestion.getQuestionText();
@@ -560,7 +557,6 @@ void GUI::updateQuestionPage() {
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
         this->updateLeaderboard();
-        pressed = True;
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayAnswer);
         //answerButton->clicked().connect(this, &GUI::displayAnswer);
@@ -573,7 +569,7 @@ void GUI::updateQuestionPage() {
  */
 void GUI::initializeProfilePage() {
 
-    rofilePage = std::make_unique<Wt::WContainerWidget>();
+    profilePage = std::make_unique<Wt::WContainerWidget>();
     profilePage->addWidget(this->generateNavBar(true));
 
     Wt::WContainerWidget* pageContent = profilePage->addWidget(std::make_unique<Wt::WContainerWidget>());
@@ -658,8 +654,6 @@ void GUI::changePW() {
         changePWErrorMessage->setText("Error: cannot change the password");
         changePWSucceed = false;
     }
-}
-
 }
 
 /**

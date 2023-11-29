@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <random>
 #include <functional>
+#include <unistd.h>
+#include <filesystem>
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WApplication.h>
@@ -222,7 +224,6 @@ private:
     int currentQuestionID; /**< The current question being displayed. */
     int finalScore; /**< The user's final score. */
     std::string selectedCategory;
-    static bool pressed;
 
     // Containers representing the various pages of the application
     std::unique_ptr<Wt::WContainerWidget> loginPage;
