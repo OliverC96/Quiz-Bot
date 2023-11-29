@@ -1,6 +1,5 @@
 #include "../include/gui.h"
 
-
 /**
  *Just a dummy variable to check if a button is pressed
  */
@@ -13,9 +12,6 @@ bool GUI::pressed = true;
  */
 GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
-    finalScore = 0;
-    answerKey = new QASet("nature", "easy");
-    userAnswers = new QASet("nature", "easy");
     scoreAnswer = new AnswerScorer();
 
     // Configure metadata
@@ -150,12 +146,13 @@ void GUI::processCurrAnswer() {
     missingKeywords = std::get<1>(results);
 
     userAnswers->getQuestion(currentQuestionID).setAnswerText(answerArea->valueText().toUTF8());
-    finalScore += score;
     updateScore(score);
     storeUserScore();
 
     std::cout << "Per Q Score: " << score << std::endl;
     std::cout << "Current Total Score: " << finalScore << std::endl;
+
+    currentQuestionID++;
 
     this->displayAnswer();
     // Update the question page GUI to reflect the next question in the quiz
