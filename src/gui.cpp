@@ -43,7 +43,6 @@ GUI::~GUI() {}
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
-    static bool pressed = true;
 
     if (pressed){
         QA currQuestion = answerKey->getQuestion(currentQuestionID);
@@ -543,6 +542,7 @@ void GUI::updateQuestionPage() {
     // Access the next question in the quiz
     QA nextQuestion = answerKey->getQuestion(currentQuestionID);
     bool isLastQuestion = currentQuestionID == answerKey->getSize();
+    pressed = True;
 
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = nextQuestion.getQuestionText();
@@ -560,6 +560,7 @@ void GUI::updateQuestionPage() {
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
         this->updateLeaderboard();
+        pressed = True;
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayAnswer);
         //answerButton->clicked().connect(this, &GUI::displayAnswer);
@@ -572,16 +573,92 @@ void GUI::updateQuestionPage() {
  */
 void GUI::initializeProfilePage() {
 
-    profilePage = std::make_unique<Wt::WContainerWidget>();
+    rofilePage = std::make_unique<Wt::WContainerWidget>();
     profilePage->addWidget(this->generateNavBar(true));
 
     Wt::WContainerWidget* pageContent = profilePage->addWidget(std::make_unique<Wt::WContainerWidget>());
-    pageContent->setStyleClass("profile");
+    pageContent->setStyleClass("profile-display");
 
     // Add elements to the pageContent container
+    // Current user information.
+    Wt::WText* userInfo = pageContent->addWidget(std::make_unique<Wt::WText>("User Information"));
+    userInfo->setStyleClass("profile-title");
+
+    // user ID
+    Wt::WText* userID = pageContent->addWidget(std::make_unique<Wt::WText>("User ID: " + currentUser->getID()));
+
+    // change password section
+    Wt::WText* changePWTitle = pageContent->addWidget(std::make_unique<Wt::WText>("Change Password"));
+    changePWTitle->setStyleClass("profile-sub");
+
+    Wt::WText* changePasswordTitle = pageContent->addWidget(std::make_unique<Wt::WText>("New Password: "));
+    Wt::WLineEdit* changePassword = pageContent->addWidget(std::make_unique<Wt::WLineEdit>());
+    changePassword->setStyleClass("form");
+    changePassword->setPlaceholderText("Password");
+
+    Wt::WText* confirmPasswordTitle = pageContent->addWidget(std::make_unique<Wt::WText>("Confirm New Password: "));
+    Wt::WLineEdit* confirmPassword = pageContent->addWidget(std::make_unique<Wt::WLineEdit>());
+    confirmPassword->setStyleClass("form");
+    confirmPassword->setPlaceholderText("Password");
+
+    // Change Password button; once clicked, leads to the changePW method, where
+    Wt::WPushButton* changePWButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Change Password"));
+    changePWButton->setStyleClass("profile-button");
+    changePWButton->clicked().connect(this, &GUI::changePW);
 
 
+    // Quiz history of the current user.
+    Wt::WText* userHistory = pageContent->addWidget(std::make_unique<Wt::WText>("Best User Score History"));
+    userHistory->setStyleClass("profile-title");
+
+    // number of tries the current user have tried.
+    int count = 1;
+
+    // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
+    for (int i = 0; i < leaderboard.size(); i++) {
+        if ((std::get<0>(leaderboard[i]) == currentUser->getID())) {
+            Wt::WText* printScore = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(count) + ". " + std::to_string(std::get<1>(leaderboard[i]))));
+            count++;
+        }
+    }
     pages->addWidget(std::move(profilePage));
+}
+
+/**
+ * @brief Initialize the change password page where the user can change the password.
+ *
+ * @author Jiho Choi
+*/
+void GUI::changePW() {
+    bool changePWSucceed = false;
+    std::string changePW = changePassword->text().toUTF8();
+    std::string confirmPW = confirmPassword->text().toUTF8();
+
+    std::string filename = "user/" + currentUser->getID() + ".txt";
+    std::fstream file;
+    file.open(filename.c_str(), std::ios::in | std::ios::out);
+
+    if (file) {
+        if (confirmPW == changePW) {
+            changePWSucceed = true;
+            changePWErrorMessage->setText("");
+            std::filesystem::remove(filename);
+            std::ofstream outfile(filename);
+            currentUser = new User(currentUser->getID(), changePW, 0, 0);
+
+            // Write user details to the file
+            outfile << currentUser->getID() << ", " << currentUser->getPW() << ", " << currentUser->getUserScore() << ", " << currentUser->getUserRank();
+            outfile.close();
+        } else {
+            std::cout << "Error: Password does not match" << std::endl;
+            changePWErrorMessage->setText("Error: Password does not match");
+        }
+        file.close(); // Close the file before attempting to remove or recreate
+    } else {
+        changePWErrorMessage->setText("Error: cannot change the password");
+        changePWSucceed = false;
+    }
+}
 
 }
 

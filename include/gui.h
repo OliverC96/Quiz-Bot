@@ -203,6 +203,11 @@ public:
      */
     void registerUser();
 
+    /**
+    * @brief Change password of a current user.
+    */
+    void changePW();
+
 private:
 
     // High-level application objects/components
@@ -217,6 +222,7 @@ private:
     int currentQuestionID; /**< The current question being displayed. */
     int finalScore; /**< The user's final score. */
     std::string selectedCategory;
+    static bool pressed;
 
     // Containers representing the various pages of the application
     std::unique_ptr<Wt::WContainerWidget> loginPage;
@@ -226,6 +232,7 @@ private:
     std::unique_ptr<Wt::WContainerWidget> profilePage;
     std::unique_ptr<Wt::WContainerWidget> leaderboardPage;
     std::unique_ptr<Wt::WContainerWidget> questionPage;
+    std::unique_ptr<Wt::WContainerWidget> changePWPage;
 
     /*
      * Maintaining references to specific elements of the GUI to allow for them to be dynamically updated as necessary
@@ -248,6 +255,10 @@ private:
     Wt::WText* loginErrorMessage;
     Wt::WText* registerErrorMessage;
 
+    // for changing passwords
+    Wt::WLineEdit* changePassword;
+    Wt::WLineEdit* confirmPassword;
+    Wt::WText* changePWErrorMessage;
 };
 
 #endif
