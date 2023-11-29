@@ -4,7 +4,7 @@ std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string&
     std::vector<std::string> tokens = tokenize(text);
     std::unordered_set<std::string> keywords;
 
-    std::unordered_set<std::string> stopWords = {"a", "an", "the", "and", "or", "this", "that", "is", "of"};// add more?
+    std::unordered_set<std::string> stopWords = {"a", "an", "the", "and", "or", "this", "that", "is", "of", "not"};// add more?
 
     for (const std::string& token : tokens) {
         if (stopWords.count(token) == 0) {
@@ -27,13 +27,13 @@ std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string&
 double AnswerScorer::calculateAnswerScore(std::string userAnswer, const QA& correctAnswer) {
 
     // Extract keywords from the user's and correct answers.
-    std::unordered_set<std::string> userKeywords = extractKeywords(userAnswer);
+    std::vector<std::string> userTokens = tokenize(userAnswer);
     std::unordered_set<std::string> correctKeywords = extractKeywords(correctAnswer.getAnswerText());
 
     // Calculate the score based on the intersection of user and correct answer keywords.
     std::unordered_set<std::string> commonKeywords;
-    for (const std::string& keyword : userKeywords) {
-        if (correctKeywords.count(keyword) > 0) {
+    for (const std::string& keyword : correctKeywords) {
+        if (std::find(userTokens.begin(), userTokens.end(), keyword) != userTokens.end()) {
             commonKeywords.insert(keyword);
         }
     }
@@ -57,7 +57,9 @@ std::vector<std::string> AnswerScorer::tokenize(const std::string& input) {
     std::istringstream tokenStream(input);
     std::string token;
     while (std::getline(tokenStream, token, ' ')) {
-        tokens.push_back(removePunctuation(token));
+        if (token != "") {
+            tokens.push_back(removePunctuation(token));
+        }
     }
     return tokens;
 }
