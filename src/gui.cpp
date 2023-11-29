@@ -1,5 +1,11 @@
 #include "gui.h"
 
+
+/**
+ *Just a dummy variable to check if a button is pressed
+ */
+bool GUI::pressed = true;
+
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
  * @param env the Wt environment
@@ -42,18 +48,15 @@ GUI::~GUI() {}
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
+    if (pressed){
+        QA currQuestion = answerKey->getQuestion(currentQuestionID);
+        answerButton->setText(currQuestion.getAnswerText());
+        std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
+        std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
 
-
-    QA currQuestion = answerKey->getQuestion(currentQuestionID);
-    answerButton->setText(currQuestion.getAnswerText());
-    std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
-    std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
-
-
-    //submitButton->show();
-
-
-    processCurrAnswer();
+        processCurrAnswer();
+        pressed = false;
+    }
 }
 
 /**
@@ -76,7 +79,6 @@ void GUI::displayQuestionPage(std::string difficulty) {
     // Initialize the question page with the first question in the set
     this->initializeQuestionPage();
     pages->setCurrentIndex(6);
-
 }
 
 /**
@@ -230,7 +232,6 @@ void GUI::loginUser() {
 void GUI::logoutUser() {
 
     // Implementation for user logout
-
     std::cout << "User successfully logged out of the application." << std::endl;
     currentUser = nullptr;
     loginUsernameField->setText("");
@@ -509,7 +510,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     }
 
-    // Provide links to all pages accessible to logged-in users (i.e., private pages)
+        // Provide links to all pages accessible to logged-in users (i.e., private pages)
     else {
 
         // Define the appropriate page links
@@ -557,9 +558,9 @@ void GUI::updateQuestionPage() {
     // Redirect to the leaderboard after the last question has been answered
     if (isLastQuestion) {
         this->updateLeaderboard();
+        pressed = true;
         submitButton->clicked().connect(this, &GUI::displayLeaderboard);
         answerArea->enterPressed().connect(this, &GUI::displayAnswer);
-        //answerButton->clicked().connect(this, &GUI::displayAnswer);
     }
 
 }
@@ -611,24 +612,6 @@ void GUI::initializeProfilePage() {
     // number of tries the current user have tried.
     int count = 1;
 
-    Wt::WContainerWidget* rankContent = profilePage->addWidget(std::make_unique<Wt::WContainerWidget>());
-    rankContent->setStyleClass("profile-display");
-
-    Wt::WPushButton* refreshButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Refresh"));
-    refreshButton->setStyleClass("profile-button");
-    // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
-    refreshButton->clicked().connect([=] {
-        int count = 1;  // Initialize count
-        rankContent->clear();  // Clear previous content
-
-        for (int i = 0; i < leaderboard.size(); i++) {
-            if (std::get<0>(leaderboard[i]) == currentUser->getID()) {
-                Wt::WText* printScore = rankContent->addWidget(std::make_unique<Wt::WText>(std::to_string(count) + ". " + std::to_string(std::get<1>(leaderboard[i]))));
-                count++;
-            }
-        }
-    });
-  
     // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
     for (int i = 0; i < leaderboard.size(); i++) {
         if ((std::get<0>(leaderboard[i]) == currentUser->getID())) {
