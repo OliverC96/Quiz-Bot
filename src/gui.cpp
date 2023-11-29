@@ -611,6 +611,24 @@ void GUI::initializeProfilePage() {
     // number of tries the current user have tried.
     int count = 1;
 
+    Wt::WContainerWidget* rankContent = profilePage->addWidget(std::make_unique<Wt::WContainerWidget>());
+    rankContent->setStyleClass("profile-display");
+
+    Wt::WPushButton* refreshButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Refresh"));
+    refreshButton->setStyleClass("profile-button");
+    // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
+    refreshButton->clicked().connect([=] {
+        int count = 1;  // Initialize count
+        rankContent->clear();  // Clear previous content
+
+        for (int i = 0; i < leaderboard.size(); i++) {
+            if (std::get<0>(leaderboard[i]) == currentUser->getID()) {
+                Wt::WText* printScore = rankContent->addWidget(std::make_unique<Wt::WText>(std::to_string(count) + ". " + std::to_string(std::get<1>(leaderboard[i]))));
+                count++;
+            }
+        }
+    });
+  
     // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
     for (int i = 0; i < leaderboard.size(); i++) {
         if ((std::get<0>(leaderboard[i]) == currentUser->getID())) {
