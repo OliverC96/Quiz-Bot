@@ -1,5 +1,10 @@
-#include "gui.h"
-#include <unistd.h>
+#include "../include/gui.h"
+
+
+/**
+ *Just a dummy variable to check if a button is pressed
+ */
+bool GUI::pressed = true;
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
@@ -38,26 +43,23 @@ GUI::~GUI() {}
 /**
  * @brief Display the current question's answer.
  * Once the answer is check, the user can proceed to next Q
+ * @todo Make sure the answer doesn't appear when pressed multiple times at once
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
+    if (pressed){
+        QA currQuestion = answerKey->getQuestion(currentQuestionID);
+        answerButton->setText(currQuestion.getAnswerText());
 
-    // Display the correct answer
-    QA currQuestion = answerKey->getQuestion(currentQuestionID);
-    answerButton->setText(currQuestion.getAnswerText());
-    submitButton->show();
+        // Show the missing keywords in the user's answer
+        std::string userAnswer = answerArea->valueText().toUTF8();
+        std::string res = missingKeywords == "" ? "None" : missingKeywords;
+        answerArea->setText(userAnswer + "\n\n\n" + "Missing keywords: " + res);
 
-    // Show the missing keywords in the user's answer
-    std::string userAnswer = answerArea->valueText().toUTF8();
-    std::string res = missingKeywords == "" ? "None" : missingKeywords;
-    answerArea->setText(userAnswer + "\n\n\n" + "Missing keywords: " + res);
-
-    std::cout << "INCREMENTING Q ID" << std::endl;
-    currentQuestionID++;
-
-    // Display the correct and incorrect
-    std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
-    std::cout << "User Answer: " << userAnswer << std::endl;
+        std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
+        std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+        pressed = false;
+    }
 }
 
 /**
@@ -113,7 +115,6 @@ void GUI::displayRegisterPage() {
     pages->setCurrentIndex(1);
 }
 
-
 /**
  * @brief Display the login page.
  */
@@ -125,9 +126,8 @@ void GUI::displayLoginPage() {
  * @brief Update the user's score.
  * @author Taegyun Kim
  */
-void GUI::updateScore() {
-
-    // Implementation for updating the user's score
+void GUI::updateScore(int amount) {
+    finalScore += amount;
 }
 
 /**
@@ -136,22 +136,6 @@ void GUI::updateScore() {
  */
 void GUI::storeUserScore() {
     currentUser->setUserScore(finalScore);
-}
-
-/**
- * @brief Show the answer button on the question page
- *         after n seconds.
- * @author Taegyun Kim
- */
-void GUI::showAnswerButton() {
-    answerButton->show();
-}
-
-/**
- * @brief Hide the answer button on the question page.
- */
-void GUI::hideAnswerButton() {
-    // Implementation for hiding the answer button
 }
 
 /**
@@ -167,6 +151,7 @@ void GUI::processCurrAnswer() {
 
     userAnswers->getQuestion(currentQuestionID).setAnswerText(answerArea->valueText().toUTF8());
     finalScore += score;
+    updateScore(score);
     storeUserScore();
 
     std::cout << "Per Q Score: " << score << std::endl;
@@ -236,6 +221,8 @@ void GUI::logoutUser() {
     // Implementation for user logout
     std::cout << "User successfully logged out of the application." << std::endl;
     currentUser = nullptr;
+    loginUsernameField->setText("");
+    loginPasswordField->setText("");
 
     saveLeaderboard("content/leaderboardData.txt");
 
@@ -514,7 +501,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     }
 
-    // Provide links to all pages accessible to logged-in users (i.e., private pages)
+        // Provide links to all pages accessible to logged-in users (i.e., private pages)
     else {
 
         // Define the appropriate page links
@@ -565,6 +552,7 @@ void GUI::updateQuestionPage() {
     questionInput->setPlaceholderText(questionText);
     answerArea->setText("");
     answerButton->setText("Check Answer");
+    pressed = true;
     submitButton->setText(buttonText);
     questionProgress->setText(currentProgress);
     scoreDisplay->setText(currentScore);
@@ -581,12 +569,14 @@ void GUI::updateQuestionPage() {
         answerArea->enterPressed().disconnect(enterGameOver);
         enterGameOver = answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
 
+        pressed = true;
     }
 
 }
 
 /**
- * @todo Jiho - Design GUI for the user's profile page
+ * @brief Initialize the profile page which shows all information of the current user logged in.
+ * @author Jiho Choi
  */
 void GUI::initializeProfilePage() {
 
@@ -594,13 +584,87 @@ void GUI::initializeProfilePage() {
     profilePage->addWidget(this->generateNavBar(true));
 
     Wt::WContainerWidget* pageContent = profilePage->addWidget(std::make_unique<Wt::WContainerWidget>());
-    pageContent->setStyleClass("profile");
+    pageContent->setStyleClass("profile-display");
 
     // Add elements to the pageContent container
+    // Current user information.
+    Wt::WText* userInfo = pageContent->addWidget(std::make_unique<Wt::WText>("User Information"));
+    userInfo->setStyleClass("profile-title");
+
+    // user ID
+    Wt::WText* userID = pageContent->addWidget(std::make_unique<Wt::WText>("User ID: " + currentUser->getID()));
+
+    // change password section
+    Wt::WText* changePWTitle = pageContent->addWidget(std::make_unique<Wt::WText>("Change Password"));
+    changePWTitle->setStyleClass("profile-sub");
+
+    Wt::WText* changePasswordTitle = pageContent->addWidget(std::make_unique<Wt::WText>("New Password: "));
+    Wt::WLineEdit* changePassword = pageContent->addWidget(std::make_unique<Wt::WLineEdit>());
+    changePassword->setStyleClass("form");
+    changePassword->setPlaceholderText("Password");
+
+    Wt::WText* confirmPasswordTitle = pageContent->addWidget(std::make_unique<Wt::WText>("Confirm New Password: "));
+    Wt::WLineEdit* confirmPassword = pageContent->addWidget(std::make_unique<Wt::WLineEdit>());
+    confirmPassword->setStyleClass("form");
+    confirmPassword->setPlaceholderText("Password");
+
+    // Change Password button; once clicked, leads to the changePW method, where
+    Wt::WPushButton* changePWButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Change Password"));
+    changePWButton->setStyleClass("profile-button");
+    changePWButton->clicked().connect(this, &GUI::changePW);
 
 
+    // Quiz history of the current user.
+    Wt::WText* userHistory = pageContent->addWidget(std::make_unique<Wt::WText>("Best User Score History"));
+    userHistory->setStyleClass("profile-title");
+
+    // number of tries the current user have tried.
+    int count = 1;
+
+    // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
+    for (int i = 0; i < leaderboard.size(); i++) {
+        if ((std::get<0>(leaderboard[i]) == currentUser->getID())) {
+            Wt::WText* printScore = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(count) + ". " + std::to_string(std::get<1>(leaderboard[i]))));
+            count++;
+        }
+    }
     pages->addWidget(std::move(profilePage));
+}
 
+/**
+ * @brief Initialize the change password page where the user can change the password.
+ *
+ * @author Jiho Choi
+*/
+void GUI::changePW() {
+    bool changePWSucceed = false;
+    std::string changePW = changePassword->text().toUTF8();
+    std::string confirmPW = confirmPassword->text().toUTF8();
+
+    std::string filename = "user/" + currentUser->getID() + ".txt";
+    std::fstream file;
+    file.open(filename.c_str(), std::ios::in | std::ios::out);
+
+    if (file) {
+        if (confirmPW == changePW) {
+            changePWSucceed = true;
+            changePWErrorMessage->setText("");
+            std::filesystem::remove(filename);
+            std::ofstream outfile(filename);
+            currentUser = new User(currentUser->getID(), changePW, 0, 0);
+
+            // Write user details to the file
+            outfile << currentUser->getID() << ", " << currentUser->getPW() << ", " << currentUser->getUserScore() << ", " << currentUser->getUserRank();
+            outfile.close();
+        } else {
+            std::cout << "Error: Password does not match" << std::endl;
+            changePWErrorMessage->setText("Error: Password does not match");
+        }
+        file.close(); // Close the file before attempting to remove or recreate
+    } else {
+        changePWErrorMessage->setText("Error: cannot change the password");
+        changePWSucceed = false;
+    }
 }
 
 /**
@@ -630,18 +694,19 @@ void GUI::initializeQuestionPage() {
     Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
     answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
 
+    // Configuring the answer button
+    Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    answerButtonWrapper->setStyleClass("button-wrapper");
+    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
+
     // Configuring the submit button
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
     submitButton->show();
 
-    // Configuring the answer button
-    Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
-    answerButtonWrapper->setStyleClass("button-wrapper");
-    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
-
-    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore) + "/5"));
+    // Configuring score to be displayed per question
+    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore)));
     scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz

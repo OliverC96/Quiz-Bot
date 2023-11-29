@@ -4,7 +4,6 @@
 #include "qa.h"
 #include "qaSet.h"
 #include "user.h"
-#include "voice.h"
 #include "answerScorer.h"
 #include <vector>
 #include <tuple>
@@ -15,6 +14,8 @@
 #include <algorithm>
 #include <random>
 #include <functional>
+#include <unistd.h>
+#include <filesystem>
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WApplication.h>
@@ -166,22 +167,12 @@ public:
     /**
      * @brief Update the user's score.
      */
-    void updateScore();
+    void updateScore(int amount);
 
     /**
      * @brief Store the user's score.
      */
     void storeUserScore();
-
-    /**
-     * @brief Show the answer button on the question page.
-     */
-    void showAnswerButton();
-
-    /**
-     * @brief Hide the answer button on the question page.
-     */
-    void hideAnswerButton();
 
     /**
      * @brief Process the current answer submitted by the user.
@@ -203,6 +194,11 @@ public:
      */
     void registerUser();
 
+    /**
+    * @brief Change password of a current user.
+    */
+    void changePW();
+
 private:
 
     // High-level application objects/components
@@ -216,6 +212,7 @@ private:
     // Additional attributes critical to the game logic
     int currentQuestionID; /**< The current question being displayed. */
     int finalScore; /**< The user's final score. */
+    static bool pressed;
     std::string missingKeywords;
     std::string selectedCategory;
 
@@ -227,6 +224,7 @@ private:
     std::unique_ptr<Wt::WContainerWidget> profilePage;
     std::unique_ptr<Wt::WContainerWidget> leaderboardPage;
     std::unique_ptr<Wt::WContainerWidget> questionPage;
+    std::unique_ptr<Wt::WContainerWidget> changePWPage;
 
     /*
      * Maintaining references to specific elements of the GUI to allow for them to be dynamically updated as necessary
@@ -245,7 +243,7 @@ private:
     Wt::Signals::connection enterGameOn;
     Wt::Signals::connection enterGameOver;
 
-    //being used for testing reigstration SUNG
+    //private variables for login and registration
     Wt::WLineEdit* usernameField;
     Wt::WLineEdit* passwordField;
     Wt::WLineEdit* loginUsernameField;
@@ -254,6 +252,10 @@ private:
     Wt::WText* loginErrorMessage;
     Wt::WText* registerErrorMessage;
 
+    // for changing passwords
+    Wt::WLineEdit* changePassword;
+    Wt::WLineEdit* confirmPassword;
+    Wt::WText* changePWErrorMessage;
 };
 
 #endif
