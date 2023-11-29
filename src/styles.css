@@ -397,6 +397,54 @@ body {
     font-size: 18px;
 }
 /********************** Profile Page Styles ***********************/
-.profile {
+body .profile-button{
+    color: var(--white);
+    background-color: var(--darkgreen);
+    font-weight: bold;
+    font-size: inherit;
+    text-decoration: none;
+    border: var(--darkgreen) 4px solid;
+    border-radius: 5px;
+    padding: 10px 0;
+    width: 30%;
+    margin: 20px;
+}
 
+body .profile-button:hover {
+    cursor: pointer;
+}
+
+body .profile-display{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--grey);
+    font-weight: bold;
+    width: 55%;
+    text-align: left;
+    margin: 30px;
+}
+
+body .profile-title{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--grey);
+    font-weight: bold;
+    width: 55%;
+    text-align: left;
+    margin: 20px;
+    font-size: 30px;
+}
+
+body .profile-sub{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--grey);
+    font-weight: bold;
+    width: 55%;
+    text-align: left;
+    margin: 20px;
+    font-size: 25px;
 }
