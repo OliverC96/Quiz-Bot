@@ -175,16 +175,6 @@ public:
     void storeUserScore();
 
     /**
-     * @brief Show the answer button on the question page.
-     */
-    void showAnswerButton();
-
-    /**
-     * @brief Hide the answer button on the question page.
-     */
-    void hideAnswerButton();
-
-    /**
      * @brief Process the current answer submitted by the user.
      */
     void processCurrAnswer();
@@ -247,7 +237,7 @@ private:
     Wt::WTable* leaderboardTable;
     Wt::Signals::connection enterConn;
 
-    //being used for testing reigstration SUNG
+    //private variables for login and registration
     Wt::WLineEdit* usernameField;
     Wt::WLineEdit* passwordField;
     Wt::WLineEdit* loginUsernameField;
