@@ -1,4 +1,4 @@
-#include "gui.h"
+#include "../include/gui.h"
 
 
 /**
@@ -122,9 +122,8 @@ void GUI::displayLoginPage() {
  * @brief Update the user's score.
  * @author Taegyun Kim
  */
-void GUI::updateScore() {
-
-    // Implementation for updating the user's score
+void GUI::updateScore(int amount) {
+    finalScore += amount;
 }
 
 /**
@@ -143,7 +142,7 @@ void GUI::storeUserScore() {
 void GUI::processCurrAnswer() {
     int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
 
-    finalScore += score;
+    updateScore(score);
     storeUserScore();
 
     std::cout << "Per Q Score: " << score << std::endl;

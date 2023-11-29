@@ -167,7 +167,7 @@ public:
     /**
      * @brief Update the user's score.
      */
-    void updateScore();
+    void updateScore(int amount);
 
     /**
      * @brief Store the user's score.
