@@ -43,12 +43,19 @@ GUI::~GUI() {}
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
-    QA currQuestion = answerKey->getQuestion(currentQuestionID);
-    answerButton->setText(currQuestion.getAnswerText());
+    static bool pressed = true;
+
+    if (pressed){
+        QA currQuestion = answerKey->getQuestion(currentQuestionID);
+        answerButton->setText(currQuestion.getAnswerText());
+        std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
+        std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+        pressed = false;
+    }
+
     //submitButton->show();
 
-    std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
-    std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+
     processCurrAnswer();
 }
 
@@ -609,18 +616,18 @@ void GUI::initializeQuestionPage() {
     answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
     enterConn = answerArea->enterPressed().connect(this, &GUI::displayAnswer);
 
+    // Configuring the answer button
+    Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
+    answerButtonWrapper->setStyleClass("button-wrapper");
+    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
+    answerButton->clicked().connect(this, &GUI::displayAnswer);
+
     // Configuring the submit button
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
     submitButton->clicked().connect(this, &GUI::updateQuestionPage);
     submitButton->show();
-
-    // Configuring the answer button
-    Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
-    answerButtonWrapper->setStyleClass("button-wrapper");
-    answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
-    answerButton->clicked().connect(this, &GUI::displayAnswer);
 
     // Configuring score to be displayed per question
     scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore)));
