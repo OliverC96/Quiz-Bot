@@ -53,9 +53,9 @@ void GUI::displayAnswer() {
         answerButton->setText(currQuestion.getAnswerText());
         std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
         std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
+        pressed = false;
 
         processCurrAnswer();
-        pressed = false;
     }
 }
 
@@ -111,7 +111,6 @@ void GUI::displayRegisterPage() {
     pages->setCurrentIndex(1);
 }
 
-
 /**
  * @brief Display the login page.
  */
@@ -134,22 +133,6 @@ void GUI::updateScore() {
  */
 void GUI::storeUserScore() {
     currentUser->setUserScore(finalScore);
-}
-
-/**
- * @brief Show the answer button on the question page
- *         after n seconds.
- * @author Taegyun Kim
- */
-void GUI::showAnswerButton() {
-    answerButton->show();
-}
-
-/**
- * @brief Hide the answer button on the question page.
- */
-void GUI::hideAnswerButton() {
-    // Implementation for hiding the answer button
 }
 
 /**
@@ -551,6 +534,7 @@ void GUI::updateQuestionPage() {
     questionInput->setPlaceholderText(questionText);
     answerArea->setText("");
     answerButton->setText("Check Answer");
+    pressed = true;
     submitButton->setText(buttonText);
     questionProgress->setText(currentProgress);
     scoreDisplay->setText(currentScore);
