@@ -17,7 +17,7 @@ public:
      * @param difficultyLevel The difficulty level of the question.
      * @param category The category to which the question belongs.
      */
-    QA(int questionId, const std::string& questionText, const std::string& answerText, const std::string& difficultyLevel, const std::string& category);
+    QA(int questionId, const std::string& questionText, std::string answerText, const std::string& difficultyLevel, const std::string& category);
 
     /**
      * @brief Get the question ID.
@@ -36,6 +36,12 @@ public:
      * @return The text of the answer.
      */
     std::string getAnswerText() const;
+
+    /**
+     * @brief Update the answer text (only applicable to the user's QA set)
+     * @param userAnswer the user's answer for this question
+     */
+    void setAnswerText(std::string userAnswer);
 
     /**
      * @brief Get the difficulty level of the question.

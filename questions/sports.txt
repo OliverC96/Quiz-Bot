@@ -1,5 +1,5 @@
 0, The olympics are held every how many years?, four, 10
-0, how many players are on a basketball team? five, 10
+0, how many players are on a basketball team?, five, 10
 0, What sports involves sliding stones on ice towards a target?, curling, 10
 0, Who is recorded as the fastest runner in history as of 2023?, Usain Bolt, 10
 0, Which city hosted the 2008 summer olympics?, Beijing, 10

@@ -1,6 +1,15 @@
 #include "answerScorer.h"
 
+/**
+ * @brief Extract keywords from a given text.
+ *
+ * This function extracts keywords from the input text by tokenizing it and removing common stop words.
+ *
+ * @param text The input text from which keywords will be extracted.
+ * @return A set of keywords.
+ */
 std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string& text) {
+
     std::vector<std::string> tokens = tokenize(text);
     std::unordered_set<std::string> keywords;
 
@@ -22,26 +31,46 @@ std::unordered_set<std::string> AnswerScorer::extractKeywords(const std::string&
  *
  * @param userAnswer The user's answer represented as a QA object.
  * @param correctAnswer The correct answer and the question.
- * @return The calculated score as a percentage.
+ * @return A tuple containing the user's score, and the keywords missing in their provided answer (if any)
  */
-double AnswerScorer::calculateAnswerScore(std::string userAnswer, const QA& correctAnswer) {
+std::tuple<double, std::string> AnswerScorer::calculateAnswerScore(std::string userAnswer, const QA& correctAnswer) {
 
     // Extract keywords from the user's and correct answers.
     std::vector<std::string> userTokens = tokenize(userAnswer);
     std::unordered_set<std::string> correctKeywords = extractKeywords(correctAnswer.getAnswerText());
 
-    // Calculate the score based on the intersection of user and correct answer keywords.
+    // Keep track of the keywords present (and not present) in the user's answer
     std::unordered_set<std::string> commonKeywords;
+    std::string missingKeywords = "";
+
+    // Process all keywords in the user's answer
     for (const std::string& keyword : correctKeywords) {
         if (std::find(userTokens.begin(), userTokens.end(), keyword) != userTokens.end()) {
             commonKeywords.insert(keyword);
         }
+        else {
+            missingKeywords += keyword + ", ";
+        }
     }
+    missingKeywords.erase(missingKeywords.find_last_not_of(", ") + 1);
 
     // Calculate the score as a percentage based on the number of common keywords.
     double score = (static_cast<double>(commonKeywords.size()) / correctKeywords.size()) * 100.0;
 
-    return score;
+    return std::make_tuple(score, missingKeywords);
+}
+
+/**
+ * @brief Standardizes tokens (to allow for case-insensitive keyword matching)
+ * @param token The token
+ * @return An equivalent token, but entirely in lowercase
+ */
+std::string AnswerScorer::toLowerCase(std::string& token) {
+    std::string res = "";
+    for (char& c : token) {
+        res += tolower(c);
+    }
+    return res;
 }
 
 /**
@@ -58,6 +87,7 @@ std::vector<std::string> AnswerScorer::tokenize(const std::string& input) {
     std::string token;
     while (std::getline(tokenStream, token, ' ')) {
         if (token != "") {
+            token = toLowerCase(token);
             tokens.push_back(removePunctuation(token));
         }
     }

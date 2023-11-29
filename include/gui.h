@@ -216,6 +216,7 @@ private:
     // Additional attributes critical to the game logic
     int currentQuestionID; /**< The current question being displayed. */
     int finalScore; /**< The user's final score. */
+    std::string missingKeywords;
     std::string selectedCategory;
 
     // Containers representing the various pages of the application
@@ -237,7 +238,12 @@ private:
     Wt::WText* scoreDisplay;
     Wt::WText* questionProgress;
     Wt::WTable* leaderboardTable;
-    Wt::Signals::connection enterConn;
+
+    Wt::Signals::connection verifyAnswerOn;
+    Wt::Signals::connection clickedGameOn;
+    Wt::Signals::connection clickedGameOver;
+    Wt::Signals::connection enterGameOn;
+    Wt::Signals::connection enterGameOver;
 
     //being used for testing reigstration SUNG
     Wt::WLineEdit* usernameField;

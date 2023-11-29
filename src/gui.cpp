@@ -1,6 +1,5 @@
 #include "gui.h"
 #include <unistd.h>
-// #include <curl/curl.h>
 
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
@@ -9,8 +8,6 @@
  */
 GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
-    // NOTE: the following attributes are currently hardcoded for testing purposes
-    // Will change later once other features have been implemented and integrated with the GUI class
     finalScore = 0;
     answerKey = new QASet("nature", "easy");
     userAnswers = new QASet("nature", "easy");
@@ -29,6 +26,7 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     this->initializeMainPage();
     this->initializeLeaderboardPage();
     this->initializeDifficultyPage();
+    this->initializeQuestionPage();
 
     // Display the login/register page
     pages->setCurrentIndex(0);
@@ -43,21 +41,30 @@ GUI::~GUI() {}
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {
-    QA currQuestion = answerKey->getQuestion(currentQuestionID);
 
+    // Display the correct answer
+    QA currQuestion = answerKey->getQuestion(currentQuestionID);
     answerButton->setText(currQuestion.getAnswerText());
     submitButton->show();
 
+    // Show the missing keywords in the user's answer
+    std::string userAnswer = answerArea->valueText().toUTF8();
+    std::string res = missingKeywords == "" ? "None" : missingKeywords;
+    answerArea->setText(userAnswer + "\n\n\n" + "Missing keywords: " + res);
+
+    std::cout << "INCREMENTING Q ID" << std::endl;
+    currentQuestionID++;
+
+    // Display the correct and incorrect
     std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
-    std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
-    processCurrAnswer();
+    std::cout << "User Answer: " << userAnswer << std::endl;
 }
 
 /**
  * @brief Display the user profile page.
  */
 void GUI::displayUserProfile() {
-    pages->setCurrentIndex(5);
+    pages->setCurrentIndex(6);
 }
 
 /**
@@ -69,10 +76,10 @@ void GUI::displayQuestionPage(std::string difficulty) {
     this->loadQuestionSet(selectedCategory, difficulty);
     currentQuestionID = 1;
     finalScore = 0;
+    answerButton->clicked().disconnect(verifyAnswerOn);
 
-    // Initialize the question page with the first question in the set
-    this->initializeQuestionPage();
-    pages->setCurrentIndex(6);
+    this->updateQuestionPage();
+    pages->setCurrentIndex(5);
 
 }
 
@@ -153,19 +160,19 @@ void GUI::hideAnswerButton() {
  * @authors Taegyun Kim
  */
 void GUI::processCurrAnswer() {
-    int score = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
 
+    std::tuple<double, std::string> results = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
+    double score = std::get<0>(results);
+    missingKeywords = std::get<1>(results);
+
+    userAnswers->getQuestion(currentQuestionID).setAnswerText(answerArea->valueText().toUTF8());
     finalScore += score;
     storeUserScore();
 
     std::cout << "Per Q Score: " << score << std::endl;
     std::cout << "Current Total Score: " << finalScore << std::endl;
 
-    if(currentQuestionID != answerKey->getSize()){
-        currentQuestionID++;
-    }else{
-        storeUserScore();
-    }
+    this->displayAnswer();
     // Update the question page GUI to reflect the next question in the quiz
     // This is done directly by the submitButton in initializeQuestionPage()
 }
@@ -432,10 +439,14 @@ void GUI::updateLeaderboard() {
             if (std::get<1>(leaderboard[i]) > currentUser->getUserScore()) {
                 highScore = false;
             }
+            // If this is the user's high score in the category and difficulty level, remove the previous entry from the leaderboard
+            else {
+                leaderboard.erase(leaderboard.begin() + i);
+            }
         }
     }
 
-    // Update the leaderboard with the user's final score from the quiz only if it is a high score for that category and difficulty level
+    // If it is a high score for the user, update the leaderboard accordingly
     if (highScore) {
         leaderboard.push_back(newEntry);
     }
@@ -534,11 +545,21 @@ void GUI::updateQuestionPage() {
     // Access the next question in the quiz
     QA nextQuestion = answerKey->getQuestion(currentQuestionID);
     bool isLastQuestion = currentQuestionID == answerKey->getSize();
+    bool isFirstQuestion = currentQuestionID == 1;
+
+    // If this is the first question in the quiz, initiate button and enter key connections
+    if (isFirstQuestion) {
+        verifyAnswerOn = answerButton->clicked().connect(this, &GUI::processCurrAnswer);
+        submitButton->clicked().disconnect(clickedGameOver);
+        clickedGameOn = submitButton->clicked().connect(this, &GUI::updateQuestionPage);
+        answerArea->enterPressed().disconnect(enterGameOver);
+        enterGameOn = answerArea->enterPressed().connect(this, &GUI::updateQuestionPage);
+    }
 
     std::string buttonText = isLastQuestion ? "Submit" : "Next";
     std::string questionText = nextQuestion.getQuestionText();
     std::string currentProgress = std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize());
-    std::string currentScore = "Current Score " + std::to_string(finalScore) + "/" + std::to_string(answerKey->getSize());
+    std::string currentScore = "Current Score: " + std::to_string(finalScore) + "/500";
 
     // Update the relevant elements in the GUI to reflect the new question
     questionInput->setPlaceholderText(questionText);
@@ -548,12 +569,18 @@ void GUI::updateQuestionPage() {
     questionProgress->setText(currentProgress);
     scoreDisplay->setText(currentScore);
 
-    // Redirect to the leaderboard after the last question has been answered
+    // If this is the last question in the quiz, reset attributes, and update button/enter connections
     if (isLastQuestion) {
+
         this->updateLeaderboard();
-        submitButton->clicked().connect(this, &GUI::displayLeaderboard);
-        answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
-        answerButton->clicked().connect(this, &GUI::displayAnswer);
+        answerArea->setText("");
+        questionInput->setText("");
+
+        submitButton->clicked().disconnect(clickedGameOn);
+        clickedGameOver = submitButton->clicked().connect(this, &GUI::displayLeaderboard);
+        answerArea->enterPressed().disconnect(enterGameOver);
+        enterGameOver = answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
+
     }
 
 }
@@ -582,9 +609,6 @@ void GUI::initializeProfilePage() {
  */
 void GUI::initializeQuestionPage() {
 
-    // Access the first question in the quiz
-    QA firstQuestion = answerKey->getQuestion(currentQuestionID);
-
     // Creating the question page, and generating/attaching the navbar
     questionPage = std::make_unique<Wt::WContainerWidget>();
     questionPage->addWidget(this->generateNavBar(true));
@@ -597,7 +621,7 @@ void GUI::initializeQuestionPage() {
     questionWrapper->setStyleClass("question-wrapper");
     Wt::WText* questionLabel = questionWrapper->addWidget(std::make_unique<Wt::WText>("Question"));
     questionInput = questionWrapper->addWidget(std::make_unique<Wt::WLineEdit>());
-    questionInput->setPlaceholderText(firstQuestion.getQuestionText());
+    questionInput->setPlaceholderText("");
     questionInput->setDisabled(true);
 
     // Configuring the answer label and textarea
@@ -605,20 +629,17 @@ void GUI::initializeQuestionPage() {
     answerWrapper->setStyleClass("answer-wrapper");
     Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
     answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
-    enterConn = answerArea->enterPressed().connect(this, &GUI::displayAnswer);
 
     // Configuring the submit button
     Wt::WContainerWidget* buttonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     buttonWrapper->setStyleClass("button-wrapper");
     submitButton = buttonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Next"));
-    submitButton->clicked().connect(this, &GUI::updateQuestionPage);
     submitButton->show();
 
     // Configuring the answer button
     Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     answerButtonWrapper->setStyleClass("button-wrapper");
     answerButton = answerButtonWrapper->addWidget(std::make_unique<Wt::WPushButton>("Check Answer"));
-    answerButton->clicked().connect(this, &GUI::displayAnswer);
 
     scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore) + "/5"));
     scoreDisplay->setStyleClass("question-progress");

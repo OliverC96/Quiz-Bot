@@ -3,7 +3,7 @@
 /**
  * @brief Constructor for the QA class.
  */
-QA::QA(int questionId, const std::string& questionText, const std::string& answerText, const std::string& difficultyLevel, const std::string& category) {
+QA::QA(int questionId, const std::string& questionText, std::string answerText, const std::string& difficultyLevel, const std::string& category) {
     _questionId = questionId;
     _questionText = questionText;
     _answerText = answerText;
@@ -30,6 +30,13 @@ std::string QA::getQuestionText() const {
  */
 std::string QA::getAnswerText() const {
     return _answerText;
+}
+
+/**
+ * @brief Update the answer text (only applicable to the user's QA set)
+ */
+void QA::setAnswerText(std::string userAnswer) {
+    _answerText = userAnswer;
 }
 
 /**

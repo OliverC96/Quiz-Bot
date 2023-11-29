@@ -24,9 +24,9 @@ public:
      *
      * @param userAnswer The user's answer represented as a QA object.
      * @param correctAnswer The correct answer represented as a QA object.
-     * @return The calculated score as a percentage.
+     * @return A tuple containing the user's score, and the keywords missing in their provided answer (if any)
      */
-    double calculateAnswerScore(const std::string userAnswer, const QA& correctAnswer);
+    std::tuple<double, std::string> calculateAnswerScore(const std::string userAnswer, const QA& correctAnswer);
 private:
 
     /**
@@ -48,6 +48,14 @@ private:
      * @return A vector of tokens with punctuation removed.
      */
     std::vector<std::string> tokenize(const std::string& input);
+
+    /**
+     * @brief Standardizes tokens (to allow for case-insensitive keyword matching)
+     *
+     * @param token The token
+     * @return An equivalent token, but entirely in lowercase
+     */
+    std::string toLowerCase(std::string& token);
 
     /**
      * @brief Remove punctuation from a string.
