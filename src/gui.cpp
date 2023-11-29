@@ -1,4 +1,4 @@
-#include "gui.h"
+#include "../include/gui.h"
 #include <unistd.h>
 
 /**
@@ -44,9 +44,8 @@ GUI::~GUI() {}
  */
 void GUI::displayAnswer() {
     QA currQuestion = answerKey->getQuestion(currentQuestionID);
-
     answerButton->setText(currQuestion.getAnswerText());
-    submitButton->show();
+    //submitButton->show();
 
     std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
     std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
@@ -227,8 +226,11 @@ void GUI::loginUser() {
 void GUI::logoutUser() {
 
     // Implementation for user logout
+
     std::cout << "User successfully logged out of the application." << std::endl;
     currentUser = nullptr;
+    loginUsernameField->setText("");
+    loginPasswordField->setText("");
 
     saveLeaderboard("content/leaderboardData.txt");
 
