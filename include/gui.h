@@ -4,7 +4,6 @@
 #include "qa.h"
 #include "qaSet.h"
 #include "user.h"
-#include "voice.h"
 #include "answerScorer.h"
 #include <vector>
 #include <tuple>
@@ -223,6 +222,7 @@ private:
     // Additional attributes critical to the game logic
     int currentQuestionID; /**< The current question being displayed. */
     int finalScore; /**< The user's final score. */
+    static bool pressed;
     std::string selectedCategory;
 
     // Containers representing the various pages of the application
