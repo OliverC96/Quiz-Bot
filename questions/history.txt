@@ -1,0 +1,30 @@
+0, How many U.S. presidents have been assassinated?, four, 10
+0, What is the name of the first human civilization?, Mesopotamia, 10
+0, Which Japanese city was the first to be bombed by the nuclear warhead?, Hiroshima, 10
+0, What nation separated from the United Kingdom in 1921?, Ireland, 10
+0, Which country was Adolf Hitler born in?, Austria, 10
+0, The ancient Mayan civilization existed in which modern-day country?, Guatemala, 10
+0, William Shakespeare joined which theatre company in 1594?, the Globe, 10
+0, Who was the first Western explorer to reach China?, Marco Polo, 10
+0, The Cuban Revolution led to the rise of what dictator?, Fidel Castro, 10
+0, Who was the first female prime minister of Britain?, Margaret Thatcher, 10
+1, What was Bangladesh called before independence?, East Pakistan, 20
+1, Which bridge was the first to be built across the River Thames in London?, London bridge, 20
+1, Which country was Cleopatra's birthplace?, Greece, 20
+1, The Cold War was between the United States and what other world power?, Soviet Union, 20
+1, What famous and disastrous music festival took place in 1969?, Woodstock, 20
+1, What was the english name of the alliance between fascist country during WW2?, the Axis, 20
+1, Which African nation successfully resisted colonialism in the late 19th century?, Ethiopia, 20
+1, Which civilization was centered around the city of Tenochtitlan?, Aztec, 20
+1, Which Argentinian became a notable figure in the Cuban Revolution?, Che Guevara, 20
+1, Which country did England send convicts to between 1788 and 1868?, Australia, 20
+2, How many days in a week were there in ancient Roman times?, eight, 30
+2, What was the previous name for New York?, New Amsterdam, 30
+2, Which empire did Charlemagne rule?, Holy Roman Empire, 30
+2, What is the name of the island Napoleon was exiled to?, Elba, 30
+2, Which city served as the capital of the Ottoman Empire?, Constantinople, 30
+2, Which former Primer Minister of India was assassinated in 1991?, Gandhi, 30
+2, Who was the second President of the United States?, John Adams, 30
+2, Which country was the first to allow women to vote?, New Zealand, 30
+2, What was the term for the official policy of racial segregation in South Africa until 1994?, apartheid, 30
+2, The “Whitechapel Murderer” is the nickname given to which serial killer?, Jack the Ripper, 30

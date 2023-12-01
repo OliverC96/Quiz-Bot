@@ -22,7 +22,7 @@ public:
     /**
      * @brief Destructor
      */
-    ~QASet(void);
+    ~QASet();
 
     /**
      * @brief Adds the specified question to the question bank

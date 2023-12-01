@@ -105,10 +105,23 @@ public:
     void saveLeaderboard(std::string filePath);
 
     /**
+     * @brief Saves all current user data to their local file (in particular, their high score and ranking on the leaderboard)
+     */
+    void saveUserData(void);
+
+    /**
      * @brief Display the question page.
      * @param difficulty The difficulty level chosen by the user
      */
     void displayQuestionPage(std::string difficulty);
+
+    /**
+     * @brief Helper method which retrieves all questions from the specified question file that match the given difficulty
+     * @param questions A reference to the 'master' collection of questions to be chosen from for the quiz
+     * @param filePath The path to a question file in the 'questions' directory (relative to the root of the project directory)
+     * @param difficulty The difficulty level selected by the user
+     */
+    void retrieveQuestions(std::vector<std::string>& questions, std::string filePath, char difficultyCode);
 
     /**
      * @brief Randomly selects a set of questions of the correct category and difficulty level for a quiz

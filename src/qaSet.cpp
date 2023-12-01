@@ -10,6 +10,8 @@ QASet::QASet(const std::string category, const std::string difficulty) {
     this->difficultyLevel = difficulty;
 }
 
+QASet::~QASet() {};
+
 /**
  * @brief Inserts the given question into the collection
  * @param question The question to be inserted

@@ -8,7 +8,6 @@ bool GUI::pressed = true;
 /**
  * @brief Initializes the Wt GUI for the QuizBot application
  * @param env the Wt environment
- * @author Oliver Clennan
  */
 GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
 
@@ -33,7 +32,16 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     pages->setCurrentIndex(0);
 }
 
-GUI::~GUI() {}
+/**
+ * @brief Destructor for the GUI
+ */
+GUI::~GUI() {
+    // De-allocate all dynamically allocated objects
+    delete currentUser;
+    delete scoreAnswer;
+    delete answerKey;
+    delete userAnswers;
+}
 
 
 /**
@@ -55,6 +63,7 @@ void GUI::displayAnswer() {
         std::cout << "Q Answer: " << currQuestion.getAnswerText() << std::endl;
         std::cout << "User Answer: " << answerArea->valueText().toUTF8() << std::endl;
         pressed = false;
+        currentQuestionID++;
     }
 }
 
@@ -152,8 +161,6 @@ void GUI::processCurrAnswer() {
     std::cout << "Per Q Score: " << score << std::endl;
     std::cout << "Current Total Score: " << finalScore << std::endl;
 
-    currentQuestionID++;
-
     this->displayAnswer();
     // Update the question page GUI to reflect the next question in the quiz
     // This is done directly by the submitButton in initializeQuestionPage()
@@ -215,14 +222,28 @@ void GUI::loginUser() {
  */
 void GUI::logoutUser() {
 
-    // Implementation for user logout
     std::cout << "User successfully logged out of the application." << std::endl;
-    currentUser = nullptr;
+
+    // Resetting the login and register forms
     loginUsernameField->setText("");
     loginPasswordField->setText("");
+    usernameField->setText("");
+    passwordField->setText("");
+    confirmPasswordField->setText("");
+    registerErrorMessage->setText("");
+    loginErrorMessage->setText("");
 
+    // Save the current state of the leaderboard
     saveLeaderboard("content/leaderboardData.txt");
+    saveUserData();
 
+    // Null out all objects
+    currentUser = nullptr;
+    scoreAnswer = nullptr;
+    answerKey = nullptr;
+    userAnswers = nullptr;
+
+    // Redirect the user to the login page
     this->displayLoginPage();
 
 }
@@ -277,6 +298,36 @@ void GUI::registerUser() {
 }
 
 /**
+ * @brief Helper method which retrieves all questions from the specified question file that match the given difficulty
+ * @param questions A reference to the 'master' collection of questions to be chosen from for the quiz
+ * @param filePath The path to a question file in the 'questions' directory (relative to the root of the project directory)
+ * @param difficulty The difficulty level selected by the user
+ * @author Oliver Clennan
+ */
+void GUI::retrieveQuestions(std::vector<std::string>& questions, std::string filePath, char difficultyCode) {
+
+    std::string currQuestion;
+
+    // Open the appropriate question bank file for reading (i.e., the one corresponding to the specified category)
+    std::ifstream inFile(filePath);
+    if (!inFile.is_open()) {
+        std::cerr << "Error - failed to locate question bank at: " << filePath << std::endl;
+        return;
+    }
+
+    // Retrieve all questions in the category which match the desired difficulty level
+    while (std::getline(inFile, currQuestion)) {
+        if (currQuestion[0] == difficultyCode) {
+            questions.push_back(currQuestion);
+        }
+    }
+
+    // Close the input file
+    inFile.close();
+
+}
+
+/**
  * @brief Randomly selects a set of questions of the correct category and difficulty level for a quiz
  * @param category The selected category
  * @param difficulty The selected difficulty level ("easy", "medium", or "hard")
@@ -294,22 +345,25 @@ void GUI::loadQuestionSet(std::string category, std::string difficulty, int amou
             {"hard", '2'}
     };
 
-    // Open the appropriate question bank file for reading (i.e., the one corresponding to the specified category)
-    std::string filePath = "questions/" + category + ".txt";
-    std::ifstream inFile(filePath);
-    if (!inFile.is_open()) {
-        std::cerr << "Error - failed to locate question bank at: " << filePath << std::endl;
-        return;
+    std::vector<std::string> allQuestions;
+    std::string filePath;
+
+    // If the user selected a specific category, only include questions from that category in the quiz
+    if (category != "random") {
+        filePath = "questions/" + category + ".txt";
+        this->retrieveQuestions(allQuestions, filePath, difficultyCodes[difficulty]);
     }
 
-    std::vector<std::string> allQuestions;
-    std::string currQuestion;
+    // If the user selected the random option, randomly select questions of the specified difficulty from any supported category
+    else {
+        std::string basePath = "questions";
 
-    // Retrieve all questions in the category which match the desired difficulty level
-    while (std::getline(inFile, currQuestion)) {
-        if (currQuestion[0] == difficultyCodes[difficulty]) {
-            allQuestions.push_back(currQuestion);
+        // Aggregate all questions of the desired difficulty level
+        for (const auto & file : std::filesystem::directory_iterator(basePath)) {
+            filePath = file.path();
+            this->retrieveQuestions(allQuestions, filePath, difficultyCodes[difficulty]);
         }
+
     }
 
     // Randomly shuffle the question collection
@@ -344,8 +398,31 @@ void GUI::loadQuestionSet(std::string category, std::string difficulty, int amou
 
     }
 
-    // Close the input file
-    inFile.close();
+}
+
+/**
+ * @brief Saves the current user's data to their local file (in particular, their high score and ranking on the leaderboard)
+ * @author Oliver Clennan
+ */
+void GUI::saveUserData() {
+
+    std::string userName = currentUser->getID();
+    std::string filePath = "user/" + userName + ".txt";
+    std::ofstream userFile(filePath);
+
+    if (!userFile.is_open()) {
+        std::cerr << "Error - failed to locate user file for: " << userName << std::endl;
+        return;
+    }
+
+    // Write all user data to their file
+    userFile << userName << ", ";
+    userFile << currentUser->getPW() << ", ";
+    userFile << currentUser->getUserScore() << ", ";
+    userFile << currentUser->getUserRank();
+
+    // Close the user file
+    userFile.close();
 
 }
 
@@ -498,7 +575,7 @@ std::unique_ptr<Wt::WContainerWidget> GUI::generateNavBar(bool showPrivatePages)
 
     }
 
-        // Provide links to all pages accessible to logged-in users (i.e., private pages)
+    // Provide links to all pages accessible to logged-in users (i.e., private pages)
     else {
 
         // Define the appropriate page links
@@ -703,11 +780,11 @@ void GUI::initializeQuestionPage() {
     submitButton->show();
 
     // Configuring score to be displayed per question
-    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score " + std::to_string(finalScore)));
+    scoreDisplay = pageContent->addWidget(std::make_unique<Wt::WText>("Current Score: 0"));
     scoreDisplay->setStyleClass("question-progress");
 
     // Attaching the current question number to illustrate the users progress through the quiz
-    questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(currentQuestionID) + "/" + std::to_string(answerKey->getSize())));
+    questionProgress = pageContent->addWidget(std::make_unique<Wt::WText>("0/0"));
     questionProgress->setObjectName("questionProgress");
     questionProgress->setStyleClass("question-progress");
 
@@ -832,7 +909,7 @@ void GUI::initializeMainPage() {
     // Attach the start quiz button, and make it functional (redirect to the difficult page when clicked)
     Wt::WPushButton* startButton = pageContent->addWidget(std::make_unique<Wt::WPushButton>("Start Quiz"));
     startButton->setStyleClass("primary-button");
-    startButton->clicked().connect(std::bind(&GUI::displayDifficultyPage, this, "science"));
+    startButton->clicked().connect(std::bind(&GUI::displayDifficultyPage, this, "random"));
 
     // Create and style the category grid
     Wt::WContainerWidget* categoryGrid = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
