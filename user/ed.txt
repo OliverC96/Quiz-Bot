@@ -1,1 +1,4 @@
-ed, test, 0, 0
+ed,test,1
+150,science,easy
+200,random,easy
+200,history,easy

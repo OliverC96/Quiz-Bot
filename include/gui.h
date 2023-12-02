@@ -31,6 +31,7 @@
 #include <Wt/WTable.h>
 #include <Wt/WTableRow.h>
 #include <Wt/WSignal.h>
+#include <Wt/WBreak.h>
 
 /**
  * @class GUI
@@ -105,11 +106,6 @@ public:
     void saveLeaderboard(std::string filePath);
 
     /**
-     * @brief Saves all current user data to their local file (in particular, their high score and ranking on the leaderboard)
-     */
-    void saveUserData(void);
-
-    /**
      * @brief Display the question page.
      * @param difficulty The difficulty level chosen by the user
      */
@@ -135,6 +131,11 @@ public:
      * @brief Updates the question page.
      */
     void updateQuestionPage();
+
+    /**
+     * @brief Updates the profile page.
+     */
+    void updateProfilePage();
 
     /**
      * @brief Displays the current question's answer.
@@ -242,13 +243,15 @@ private:
     /*
      * Maintaining references to specific elements of the GUI to allow for them to be dynamically updated as necessary
      */
-    Wt::WLineEdit* questionInput;
+    Wt::WTextArea* questionArea;
     Wt::WTextArea* answerArea;
     Wt::WPushButton* submitButton;
     Wt::WPushButton* answerButton;
     Wt::WText* scoreDisplay;
     Wt::WText* questionProgress;
     Wt::WTable* leaderboardTable;
+    Wt::WContainerWidget* userHistory;
+    Wt::WText* userID;
 
     Wt::Signals::connection verifyAnswerOn;
     Wt::Signals::connection clickedGameOn;

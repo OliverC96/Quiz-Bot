@@ -1,1 +1,3 @@
-kim123, 123, 0, 0
+kim123,123,0
+0,geography,hard
+400,politics,medium

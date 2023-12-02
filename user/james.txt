@@ -1,1 +1,2 @@
-james, test, 0, 0
+james,test,0
+500,science,easy

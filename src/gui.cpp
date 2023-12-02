@@ -27,6 +27,7 @@ GUI::GUI(const Wt::WEnvironment &env): WApplication(env) {
     this->initializeLeaderboardPage();
     this->initializeDifficultyPage();
     this->initializeQuestionPage();
+    this->initializeProfilePage();
 
     // Display the login/register page
     pages->setCurrentIndex(0);
@@ -150,13 +151,23 @@ void GUI::storeUserScore() {
  */
 void GUI::processCurrAnswer() {
 
+    // Retrieve the results from the answer evaluation algorithm
+    bool isLastQuestion = currentQuestionID == this->answerKey->getSize();
     std::tuple<double, std::string> results = scoreAnswer->calculateAnswerScore(answerArea->valueText().toUTF8(), answerKey->getQuestion(currentQuestionID));
     double score = std::get<0>(results);
     missingKeywords = std::get<1>(results);
 
+    // Update the user's score accordingly
     userAnswers->getQuestion(currentQuestionID).setAnswerText(answerArea->valueText().toUTF8());
     updateScore(score);
     storeUserScore();
+
+    // If this was the last question in the quiz, update the user's score history, profile page, and leaderboard if necessary
+    if (isLastQuestion) {
+        this->updateLeaderboard();
+        currentUser->updateScoreHistory(answerKey->getCategory(), answerKey->getDifficultyLevel());
+        this->updateProfilePage();
+    }
 
     std::cout << "Per Q Score: " << score << std::endl;
     std::cout << "Current Total Score: " << finalScore << std::endl;
@@ -171,11 +182,12 @@ void GUI::processCurrAnswer() {
  * @author Sung Kim
  */
 void GUI::loginUser() {
+
     //Taking in the values from registration page
     bool loginOK = false;
     std::string username = loginUsernameField->text().toUTF8();
     std::string password = loginPasswordField->text().toUTF8();
-    int score;
+    std::vector<std::tuple<int, std::string, std::string>> scores;
     int rank;
 
     std::string filename = "user/" + username + ".txt";
@@ -198,9 +210,21 @@ void GUI::loginUser() {
         }
 
         if (tokens.size() >= 2 && tokens[1] == password) {
-            score = std::stoi(tokens[2]);
-            rank = std::stoi(tokens[3]);
+            rank = std::stoi(tokens[2]);
             loginOK = true;
+            std::vector<std::string> currScore;
+
+            while (std::getline(file, file_line)) {
+                currScore.clear();
+                ss.clear();
+                ss.str(file_line);
+                while (std::getline(ss, token, ',')) {
+                    currScore.push_back(token);
+                }
+                std::cout << "Score: " << currScore[0] << " | " << currScore[1] + " | " << currScore[2] << std::endl;
+                scores.push_back(std::make_tuple(std::stoi(currScore[0]), currScore[1], currScore[2]));
+            }
+
         } else {
             loginOK = false;
             std::cout << "Error: password does not match" << std::endl;
@@ -211,8 +235,9 @@ void GUI::loginUser() {
     // Implementation for user login
     // If log in successful
     if (loginOK == true) {
-        currentUser = new User(username, password, score, rank);
-        this->initializeProfilePage();
+        std::cout << "User successfully logged into the application." << std::endl;
+        currentUser = new User(username, password, rank, scores);
+        this->updateProfilePage();
         this->displayMainPage();
     }
 }
@@ -234,8 +259,10 @@ void GUI::logoutUser() {
     loginErrorMessage->setText("");
 
     // Save the current state of the leaderboard
-    saveLeaderboard("content/leaderboardData.txt");
-    saveUserData();
+    this->saveLeaderboard("content/leaderboardData.txt");
+
+    // Save all user data from this session to their file
+    currentUser->saveUserData();
 
     // Null out all objects
     currentUser = nullptr;
@@ -278,12 +305,11 @@ void GUI::registerUser() {
     }
     file.close();
 
-
     // Implementation for user registration
     // If registration successful
     if (registerOK == true) {
-        currentUser = new User(username, password, 0, 0);
-        this->initializeProfilePage();
+        currentUser = new User(username, password, 0, {});
+        this->updateProfilePage();
         this->displayMainPage();
 
         // Create a text file in the 'user' directory
@@ -291,7 +317,8 @@ void GUI::registerUser() {
         std::ofstream outfile(filename);
 
         // Write user details to the file
-        outfile << currentUser->getID() << ", " << currentUser->getPW() << ", " << currentUser->getUserScore() << ", " << currentUser->getUserRank();
+        outfile << currentUser->getID() << ", " << currentUser->getPW() << ", " << currentUser->getUserRank() << std::endl;
+
         outfile.close();
 
     }
@@ -401,32 +428,6 @@ void GUI::loadQuestionSet(std::string category, std::string difficulty, int amou
 }
 
 /**
- * @brief Saves the current user's data to their local file (in particular, their high score and ranking on the leaderboard)
- * @author Oliver Clennan
- */
-void GUI::saveUserData() {
-
-    std::string userName = currentUser->getID();
-    std::string filePath = "user/" + userName + ".txt";
-    std::ofstream userFile(filePath);
-
-    if (!userFile.is_open()) {
-        std::cerr << "Error - failed to locate user file for: " << userName << std::endl;
-        return;
-    }
-
-    // Write all user data to their file
-    userFile << userName << ", ";
-    userFile << currentUser->getPW() << ", ";
-    userFile << currentUser->getUserScore() << ", ";
-    userFile << currentUser->getUserRank();
-
-    // Close the user file
-    userFile.close();
-
-}
-
-/**
  * @brief Writes the current contents of the leaderboard to the specified output file
  * @param filePath The path to the output file (relative to the root directory of the project)
  * @author Oliver Clennan
@@ -496,8 +497,8 @@ void GUI::updateLeaderboard() {
 
     bool highScore = true;
     for (int i = 0; i < leaderboard.size(); i++) {
-        if ((std::get<0>(leaderboard[i]) == currentUser->getID()) && (std::get<2>(leaderboard[i]) == answerKey->getCategory()) && (std::get<3>(leaderboard[i]) == answerKey->getDifficultyLevel())) {
-            if (std::get<1>(leaderboard[i]) > currentUser->getUserScore()) {
+        if ((std::get<0>(leaderboard[i]) == currentUser->getID())) {
+            if (std::get<1>(leaderboard[i]) >= currentUser->getUserScore()) {
                 highScore = false;
             }
             // If this is the user's high score in the category and difficulty level, remove the previous entry from the leaderboard
@@ -623,7 +624,7 @@ void GUI::updateQuestionPage() {
     std::string currentScore = "Current Score: " + std::to_string(finalScore) + "/500";
 
     // Update the relevant elements in the GUI to reflect the new question
-    questionInput->setPlaceholderText(questionText);
+    questionArea->setPlaceholderText(questionText);
     answerArea->setText("");
     answerButton->setText("Check Answer");
     pressed = true;
@@ -634,9 +635,8 @@ void GUI::updateQuestionPage() {
     // If this is the last question in the quiz, reset attributes, and update button/enter connections
     if (isLastQuestion) {
 
-        this->updateLeaderboard();
         answerArea->setText("");
-        questionInput->setText("");
+        questionArea->setText("");
 
         submitButton->clicked().disconnect(clickedGameOn);
         clickedGameOver = submitButton->clicked().connect(this, &GUI::displayLeaderboard);
@@ -644,6 +644,36 @@ void GUI::updateQuestionPage() {
         enterGameOver = answerArea->enterPressed().connect(this, &GUI::displayLeaderboard);
 
         pressed = true;
+
+    }
+
+}
+
+/**
+ * @brief Updates the contents of the profile page
+ * @author Oliver Clennan
+ */
+void GUI::updateProfilePage() {
+
+    // Update account credentials
+    userID->setText("User ID: " + currentUser->getID());
+    userHistory->clear();
+
+    std::vector<std::tuple<int, std::string, std::string>> scoreHistory = currentUser->getScoreHistory();
+
+    if (scoreHistory.empty()) {
+        userHistory->addWidget(std::make_unique<Wt::WText>("N/A"));
+    }
+
+    // Update score history (i.e., previous quizzes)
+    for (int i = 0; i < scoreHistory.size(); i++) {
+        std::tuple<int, std::string, std::string> currScore = scoreHistory[i];
+        std::string score = std::to_string(std::get<0>(currScore));
+        std::string category = std::get<1>(currScore);
+        std::string difficulty = std::get<2>(currScore);
+        userHistory->addWidget(std::make_unique<Wt::WText>(std::to_string(i + 1) + ". " + score + " | " + category + " | " + difficulty));
+        userHistory->addWidget(std::make_unique<Wt::WBreak>());
+        userHistory->addWidget(std::make_unique<Wt::WBreak>());
     }
 
 }
@@ -666,7 +696,7 @@ void GUI::initializeProfilePage() {
     userInfo->setStyleClass("profile-title");
 
     // user ID
-    Wt::WText* userID = pageContent->addWidget(std::make_unique<Wt::WText>("User ID: " + currentUser->getID()));
+    userID = pageContent->addWidget(std::make_unique<Wt::WText>("User ID: "));
 
     // change password section
     Wt::WText* changePWTitle = pageContent->addWidget(std::make_unique<Wt::WText>("Change Password"));
@@ -687,22 +717,14 @@ void GUI::initializeProfilePage() {
     changePWButton->setStyleClass("profile-button");
     changePWButton->clicked().connect(this, &GUI::changePW);
 
-
     // Quiz history of the current user.
-    Wt::WText* userHistory = pageContent->addWidget(std::make_unique<Wt::WText>("Best User Score History"));
-    userHistory->setStyleClass("profile-title");
+    Wt::WText* historyTitle = pageContent->addWidget(std::make_unique<Wt::WText>("User Score History"));
+    historyTitle->setStyleClass("profile-title");
 
-    // number of tries the current user have tried.
-    int count = 1;
+    userHistory = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
 
-    // if same id found in the leaderboard, it prints the record the user have tried in order of the best to the worst
-    for (int i = 0; i < leaderboard.size(); i++) {
-        if ((std::get<0>(leaderboard[i]) == currentUser->getID())) {
-            Wt::WText* printScore = pageContent->addWidget(std::make_unique<Wt::WText>(std::to_string(count) + ". " + std::to_string(std::get<1>(leaderboard[i]))));
-            count++;
-        }
-    }
     pages->addWidget(std::move(profilePage));
+
 }
 
 /**
@@ -725,10 +747,10 @@ void GUI::changePW() {
             changePWErrorMessage->setText("");
             std::filesystem::remove(filename);
             std::ofstream outfile(filename);
-            currentUser = new User(currentUser->getID(), changePW, 0, 0);
+            currentUser = new User(currentUser->getID(), changePW, 0, {});
 
             // Write user details to the file
-            outfile << currentUser->getID() << ", " << currentUser->getPW() << ", " << currentUser->getUserScore() << ", " << currentUser->getUserRank();
+            outfile << currentUser->getID() << "," << currentUser->getPW() << "," << currentUser->getUserRank() << std::endl;
             outfile.close();
         } else {
             std::cout << "Error: Password does not match" << std::endl;
@@ -758,15 +780,18 @@ void GUI::initializeQuestionPage() {
     Wt::WContainerWidget* questionWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     questionWrapper->setStyleClass("question-wrapper");
     Wt::WText* questionLabel = questionWrapper->addWidget(std::make_unique<Wt::WText>("Question"));
-    questionInput = questionWrapper->addWidget(std::make_unique<Wt::WLineEdit>());
-    questionInput->setPlaceholderText("");
-    questionInput->setDisabled(true);
+    questionArea = questionWrapper->addWidget(std::make_unique<Wt::WTextArea>());
+    questionArea->setPlaceholderText("");
+    questionArea->setDisabled(true);
+    questionArea->setRows(2);
+    questionArea->setStyleClass("question-area");
 
     // Configuring the answer label and textarea
     Wt::WContainerWidget* answerWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());
     answerWrapper->setStyleClass("answer-wrapper");
     Wt::WText* answerLabel = answerWrapper->addWidget(std::make_unique<Wt::WText>("Answer"));
     answerArea = answerWrapper->addWidget(std::make_unique<Wt::WTextArea>());
+    answerArea->setStyleClass("answer-area");
 
     // Configuring the answer button
     Wt::WContainerWidget* answerButtonWrapper = pageContent->addWidget(std::make_unique<Wt::WContainerWidget>());

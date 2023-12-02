@@ -1,1 +1,2 @@
-jude, test, 0, 0
+jude,test,0
+200,sports,medium

@@ -22,7 +22,7 @@
 2, Taylor swift wrote "bad blood" as a distrack to which pop star?, Katie Perry, 30
 2, What was Musee D'orsay used as before it became a museum, Train station, 30
 2, Which artist is famous for her 2011 single "Lights"?, Ellie Goulding, 30
-2, What is the famous rapper Eminenm's real first name? Marshall, 30
+2, What is the famous rapper Eminenm's real first name?, Marshall, 30
 2, Who portrayed the character Maximus Decimus Meridius in the move "Gladiator"?, Russell Crowe, 30
 2, In which city did JK rowling first wrote about Harry Potter?, Edinburgh, 30
 2, Who composed "La Campanella"?, Franz Liszt, 30
