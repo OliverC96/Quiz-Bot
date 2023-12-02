@@ -1,2 +1,2 @@
-sung,test,0
+sung,test,5
 300,culture,hard

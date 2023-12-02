@@ -1,2 +1,2 @@
-jack,test,150
+jack,test,3
 400,random,easy

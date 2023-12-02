@@ -518,6 +518,12 @@ void GUI::updateLeaderboard() {
         return std::get<1>(left) > std::get<1>(right);
     });
 
+    // Update the user's highest ranking if applicable
+    auto it = std::find_if(leaderboard.begin(), leaderboard.end(), [this](const std::tuple<std::string, int, std::string, std::string>& entry) {
+        return std::get<0>(entry) == this->currentUser->getID();
+    });
+    this->currentUser->setUserRank(it - leaderboard.begin() + 1);
+
     // Reset the contents of the leaderboard table element
     leaderboardTable->clear();
 
@@ -660,20 +666,25 @@ void GUI::updateProfilePage() {
     userHistory->clear();
 
     std::vector<std::tuple<int, std::string, std::string>> scoreHistory = currentUser->getScoreHistory();
+    int highestRanking = currentUser->getUserRank();
 
     if (scoreHistory.empty()) {
         userHistory->addWidget(std::make_unique<Wt::WText>("N/A"));
     }
-
-    // Update score history (i.e., previous quizzes)
-    for (int i = 0; i < scoreHistory.size(); i++) {
-        std::tuple<int, std::string, std::string> currScore = scoreHistory[i];
-        std::string score = std::to_string(std::get<0>(currScore));
-        std::string category = std::get<1>(currScore);
-        std::string difficulty = std::get<2>(currScore);
-        userHistory->addWidget(std::make_unique<Wt::WText>(std::to_string(i + 1) + ". " + score + " | " + category + " | " + difficulty));
+    else {
+        // Update score history (i.e., previous quizzes) and highest leaderboard ranking
+        userHistory->addWidget(std::make_unique<Wt::WText>("Highest Achieved Ranking: " + std::to_string(highestRanking)));
         userHistory->addWidget(std::make_unique<Wt::WBreak>());
         userHistory->addWidget(std::make_unique<Wt::WBreak>());
+        for (int i = 0; i < scoreHistory.size(); i++) {
+            std::tuple<int, std::string, std::string> currScore = scoreHistory[i];
+            std::string score = std::to_string(std::get<0>(currScore));
+            std::string category = std::get<1>(currScore);
+            std::string difficulty = std::get<2>(currScore);
+            userHistory->addWidget(std::make_unique<Wt::WText>(std::to_string(i + 1) + ". " + score + " | " + category + " | " + difficulty));
+            userHistory->addWidget(std::make_unique<Wt::WBreak>());
+            userHistory->addWidget(std::make_unique<Wt::WBreak>());
+        }
     }
 
 }
