@@ -1,0 +1,169 @@
+\doxysection{gui.\+h}
+\hypertarget{gui_8h_source}{}\label{gui_8h_source}\index{include/gui.h@{include/gui.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GUI\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GUI\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}qa.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}qaSet.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}user.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}answerScorer.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <tuple>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <Wt/WStackedWidget.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <Wt/WApplication.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <Wt/WContainerWidget.h>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <Wt/WWidget.h>}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ <Wt/WGridLayout.h>}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <Wt/WLayoutItem.h>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <Wt/WLineEdit.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <Wt/WTextArea.h>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <Wt/WPushButton.h>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <Wt/WImage.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <Wt/WText.h>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <Wt/WTable.h>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <Wt/WTableRow.h>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <Wt/WSignal.h>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <Wt/WBreak.h>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_g_u_i}{GUI}}\ :\ \textcolor{keyword}{public}\ Wt::WApplication\{}
+\DoxyCodeLine{00041\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{class_g_u_i}{GUI}}(\textcolor{keyword}{const}\ Wt::WEnvironment\ \&env);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{class_g_u_i_a8f8062ad70a53695a4b30dc91e51a216}{\string~GUI}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00059\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ \mbox{\hyperlink{class_g_u_i_a1f01f1b2165bcd950bd2ec02aec6d999}{generateNavBar}}(\textcolor{keywordtype}{bool}\ showPrivatePages);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a51be995e4095b1bcb4d7fe2ab4f62cde}{initializeMainPage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a2c461cd07c1de20eb8532d6d36eacfb1}{initializeLoginPage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a562cb900643bfbd54147ad5f36ec02f3}{initializeRegisterPage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_ae8181dcb12ee1108c127ecf1ec6bafe4}{initializeLeaderboardPage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a7379371be37566bfb53870fda31f4082}{initializeDifficultyPage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_acd8d304a65126afe2efca86b85ba46f8}{initializeQuestionPage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a83dddb590f0d0d3ecfbf3083cf013779}{initializeProfilePage}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a2d350ca00302e4944c6c48f4e46caf37}{loadLeaderboard}}(std::string\ filePath);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_aed59b1827616e6bd3a5368873960ec44}{saveLeaderboard}}(std::string\ filePath);}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a9e1db53cce7a72263c90469430930e4e}{displayQuestionPage}}(std::string\ difficulty);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a2eae6be7686795bd8d100d529917ee1d}{retrieveQuestions}}(std::vector<std::string>\&\ questions,\ std::string\ filePath,\ \textcolor{keywordtype}{char}\ difficultyCode);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a88ec257c5ab5162f64a54a5b9ca4d680}{loadQuestionSet}}(std::string\ category,\ std::string\ difficulty,\ \textcolor{keywordtype}{int}\ amount\ =\ 5);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a048a74dbc31241f52285f0e436beba1f}{updateQuestionPage}}();}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a34960914a5a7fb77c7db6f9a4f51e6d9}{updateProfilePage}}();}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_ac7672b03f8a41298c4d666a81267e1f9}{displayAnswer}}();}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_ac43642e462ad8bc79766ee004641c087}{displayDifficultyPage}}(std::string\ category);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a4c0d3907d6e5e4f715b0636f5f6ae55f}{displayUserProfile}}();}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a345d90d3a143eb64000aa18656b88c26}{displayLeaderboard}}();}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a2e7d120a8cfb021eee0418e54701354a}{displayMainPage}}();}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a28b759ce6b6d08a724f0823a1e12b205}{displayLoginPage}}();}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_accdeb102e1920123aabef8320bdde31a}{displayRegisterPage}}();}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a2e3a14832036b154e63b340950fdb90b}{updateLeaderboard}}();}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_aca874936f9a7c78303fc8b8017b6e962}{updateScore}}(\textcolor{keywordtype}{int}\ amount);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a8d6b5f32a671a1264a3906df869ca26f}{storeUserScore}}();}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a38d2a085555cde27b98ac61aa9d10389}{processCurrAnswer}}();}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a3285abf9c99937fbb05e3c39db5981ed}{loginUser}}();}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_acfef83820482665414b0d113a9c9981c}{logoutUser}}();}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a457837919535cd799d8eea506739a0c8}{registerUser}}();}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_g_u_i_a8230aef2fec3d80cb4ca9a4789cd83dd}{changePW}}();}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{comment}{//\ High-\/level\ application\ objects/components}}
+\DoxyCodeLine{00219\ \ \ \ \ \mbox{\hyperlink{class_q_a_set}{QASet}}\ *\mbox{\hyperlink{class_g_u_i_a638b3aa1d51c15347d459277a2faf044}{answerKey}};\ }
+\DoxyCodeLine{00220\ \ \ \ \ \mbox{\hyperlink{class_q_a_set}{QASet}}\ *\mbox{\hyperlink{class_g_u_i_ad5fdfd636ab335354a49dd2b705a749f}{userAnswers}};\ }
+\DoxyCodeLine{00221\ \ \ \ \ \mbox{\hyperlink{class_user}{User}}\ *\mbox{\hyperlink{class_g_u_i_a54a55e1f33e6a7ec7deea6a9c90d99e5}{currentUser}};\ }
+\DoxyCodeLine{00222\ \ \ \ \ \mbox{\hyperlink{class_answer_scorer}{AnswerScorer}}\ *\mbox{\hyperlink{class_g_u_i_a2b9aeaa5bb047fbe7ee81fd2362dfd84}{scoreAnswer}};\ }
+\DoxyCodeLine{00223\ \ \ \ \ Wt::WStackedWidget*\ \mbox{\hyperlink{class_g_u_i_a546c3031d15a88dd0a1ac6f1fd68659d}{pages}};\ }
+\DoxyCodeLine{00224\ \ \ \ \ std::vector<std::tuple<std::string,\ int,\ std::string,\ std::string>>\ \mbox{\hyperlink{class_g_u_i_ae9e9d53da437684ec0892da1e6433b94}{leaderboard}};\ }
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{comment}{//\ Additional\ attributes\ critical\ to\ the\ game\ logic}}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_g_u_i_ae1e2f1f2231ba3d9629c4491dc0a30f7}{currentQuestionID}};\ }
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_g_u_i_acd78e859d28b01e56425e0b3302688c0}{finalScore}};\ }
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_g_u_i_a0e6a4271c380aa641e1e21411fb1a59e}{pressed}};}
+\DoxyCodeLine{00230\ \ \ \ \ std::string\ missingKeywords;}
+\DoxyCodeLine{00231\ \ \ \ \ std::string\ selectedCategory;}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{comment}{//\ Containers\ representing\ the\ various\ pages\ of\ the\ application}}
+\DoxyCodeLine{00234\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ loginPage;}
+\DoxyCodeLine{00235\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ registerPage;}
+\DoxyCodeLine{00236\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ mainPage;}
+\DoxyCodeLine{00237\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ difficultyPage;}
+\DoxyCodeLine{00238\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ profilePage;}
+\DoxyCodeLine{00239\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ leaderboardPage;}
+\DoxyCodeLine{00240\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ questionPage;}
+\DoxyCodeLine{00241\ \ \ \ \ std::unique\_ptr<Wt::WContainerWidget>\ changePWPage;}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00244\ \textcolor{comment}{\ \ \ \ \ *\ Maintaining\ references\ to\ specific\ elements\ of\ the\ GUI\ to\ allow\ for\ them\ to\ be\ dynamically\ updated\ as\ necessary}}
+\DoxyCodeLine{00245\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00246\ \ \ \ \ Wt::WTextArea*\ questionArea;}
+\DoxyCodeLine{00247\ \ \ \ \ Wt::WTextArea*\ answerArea;}
+\DoxyCodeLine{00248\ \ \ \ \ Wt::WPushButton*\ submitButton;}
+\DoxyCodeLine{00249\ \ \ \ \ Wt::WPushButton*\ answerButton;}
+\DoxyCodeLine{00250\ \ \ \ \ Wt::WText*\ scoreDisplay;}
+\DoxyCodeLine{00251\ \ \ \ \ Wt::WText*\ questionProgress;}
+\DoxyCodeLine{00252\ \ \ \ \ Wt::WTable*\ leaderboardTable;}
+\DoxyCodeLine{00253\ \ \ \ \ Wt::WContainerWidget*\ userHistory;}
+\DoxyCodeLine{00254\ \ \ \ \ Wt::WText*\ userID;}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \ \ Wt::Signals::connection\ verifyAnswerOn;}
+\DoxyCodeLine{00257\ \ \ \ \ Wt::Signals::connection\ clickedGameOn;}
+\DoxyCodeLine{00258\ \ \ \ \ Wt::Signals::connection\ clickedGameOver;}
+\DoxyCodeLine{00259\ \ \ \ \ Wt::Signals::connection\ enterGameOn;}
+\DoxyCodeLine{00260\ \ \ \ \ Wt::Signals::connection\ enterGameOver;}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{comment}{//private\ variables\ for\ login\ and\ registration}}
+\DoxyCodeLine{00263\ \ \ \ \ Wt::WLineEdit*\ usernameField;}
+\DoxyCodeLine{00264\ \ \ \ \ Wt::WLineEdit*\ passwordField;}
+\DoxyCodeLine{00265\ \ \ \ \ Wt::WLineEdit*\ loginUsernameField;}
+\DoxyCodeLine{00266\ \ \ \ \ Wt::WLineEdit*\ loginPasswordField;}
+\DoxyCodeLine{00267\ \ \ \ \ Wt::WLineEdit*\ confirmPasswordField;}
+\DoxyCodeLine{00268\ \ \ \ \ Wt::WText*\ loginErrorMessage;}
+\DoxyCodeLine{00269\ \ \ \ \ Wt::WText*\ registerErrorMessage;}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{comment}{//\ for\ changing\ passwords}}
+\DoxyCodeLine{00272\ \ \ \ \ Wt::WLineEdit*\ changePassword;}
+\DoxyCodeLine{00273\ \ \ \ \ Wt::WLineEdit*\ confirmPassword;}
+\DoxyCodeLine{00274\ \ \ \ \ Wt::WText*\ changePWErrorMessage;}
+\DoxyCodeLine{00275\ \};}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

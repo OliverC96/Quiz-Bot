@@ -1,0 +1,34 @@
+\doxysection{answer\+Scorer.\+h}
+\hypertarget{answer_scorer_8h_source}{}\label{answer_scorer_8h_source}\index{include/answerScorer.h@{include/answerScorer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ANSWER\_SCORER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ANSWER\_SCORER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <cctype>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <locale>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}qa.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_answer_scorer}{AnswerScorer}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ std::tuple<double,\ std::string>\ \mbox{\hyperlink{class_answer_scorer_aac550a8225994b52024f16257add2f4c}{calculateAnswerScore}}(\textcolor{keyword}{const}\ std::string\ userAnswer,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_q_a}{QA}}\&\ correctAnswer);}
+\DoxyCodeLine{00030\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00040\ \ \ \ \ std::unordered\_set<std::string>\ \mbox{\hyperlink{class_answer_scorer_a0833cbf0a41b78abe8913f11fa98427f}{extractKeywords}}(\textcolor{keyword}{const}\ std::string\&\ text);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00050\ \ \ \ \ std::vector<std::string>\ \mbox{\hyperlink{class_answer_scorer_a0bf84d4c372936c0d44dc0f465ddec6a}{tokenize}}(\textcolor{keyword}{const}\ std::string\&\ input);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00058\ \ \ \ \ std::string\ \mbox{\hyperlink{class_answer_scorer_a84cc81da25ccfc6c4477f915e9831e43}{toLowerCase}}(std::string\&\ token);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00068\ \ \ \ \ std::string\ \mbox{\hyperlink{class_answer_scorer_a7bd10049fb6e18ddb13da0f691841b9b}{removePunctuation}}(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

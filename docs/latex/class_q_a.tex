@@ -1,0 +1,192 @@
+\doxysection{QA Class Reference}
+\hypertarget{class_q_a}{}\label{class_q_a}\index{QA@{QA}}
+
+
+A class representing a question and its answer.  
+
+
+
+
+{\ttfamily \#include $<$qa.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_q_a_a51919b8553c550cb94bcd56d2e1e77c1}{QA}} (int question\+Id, const std\+::string \&question\+Text, std\+::string answer\+Text, const std\+::string \&difficulty\+Level, const std\+::string \&category)
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_q_a}{QA} class. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_q_a_afdeb8399f5ad4f61d07ea6427f41329f}{get\+Question\+Id}} () const
+\begin{DoxyCompactList}\small\item\em Get the question ID. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_q_a_a19731388706161206383b3e99db1f8ec}{get\+Question\+Text}} () const
+\begin{DoxyCompactList}\small\item\em Get the text of the question. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_q_a_abecd0abababd2263758a95cbf01c1c06}{get\+Answer\+Text}} () const
+\begin{DoxyCompactList}\small\item\em Get the text of the answer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_q_a_a684fd93124e0ce95a27102ff13ef29f5}{set\+Answer\+Text}} (std\+::string user\+Answer)
+\begin{DoxyCompactList}\small\item\em Update the answer text (only applicable to the user\textquotesingle{}s \doxylink{class_q_a}{QA} set) \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_q_a_ae734357ef2b10bdefafccf9c2b3dd626}{get\+Difficulty\+Level}} () const
+\begin{DoxyCompactList}\small\item\em Get the difficulty level of the question. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_q_a_aad31b319016f8880f3de73f132634bbc}{get\+Category}} () const
+\begin{DoxyCompactList}\small\item\em Get the category to which the question belongs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_q_a_a52984382bc76446439a5d0c28cfe896b}{\+\_\+question\+Id}}
+\item 
+std\+::string \mbox{\hyperlink{class_q_a_a6afaeb0e35d9f5dfaa05a41cde872cd9}{\+\_\+question\+Text}}
+\item 
+std\+::string \mbox{\hyperlink{class_q_a_aa808c562a8859f3b77e6a9b33d2bf4aa}{\+\_\+answer\+Text}}
+\item 
+std\+::string \mbox{\hyperlink{class_q_a_a317cef74b117c655e3719f71092336f3}{\+\_\+difficulty\+Level}}
+\item 
+std\+::string \mbox{\hyperlink{class_q_a_a12303c25b82048a888df3ff42cc25368}{\+\_\+category}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class representing a question and its answer. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_q_a_a51919b8553c550cb94bcd56d2e1e77c1}\label{class_q_a_a51919b8553c550cb94bcd56d2e1e77c1} 
+\index{QA@{QA}!QA@{QA}}
+\index{QA@{QA}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{QA()}{QA()}}
+{\footnotesize\ttfamily QA\+::\+QA (\begin{DoxyParamCaption}\item[{int}]{question\+Id,  }\item[{const std\+::string \&}]{question\+Text,  }\item[{std\+::string}]{answer\+Text,  }\item[{const std\+::string \&}]{difficulty\+Level,  }\item[{const std\+::string \&}]{category }\end{DoxyParamCaption})}
+
+
+
+Constructor for the \doxylink{class_q_a}{QA} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em question\+Id} & The unique identifier for the question. \\
+\hline
+{\em question\+Text} & The text of the question. \\
+\hline
+{\em answer\+Text} & The text of the answer. \\
+\hline
+{\em difficulty\+Level} & The difficulty level of the question. \\
+\hline
+{\em category} & The category to which the question belongs. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_q_a_abecd0abababd2263758a95cbf01c1c06}\label{class_q_a_abecd0abababd2263758a95cbf01c1c06} 
+\index{QA@{QA}!getAnswerText@{getAnswerText}}
+\index{getAnswerText@{getAnswerText}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{getAnswerText()}{getAnswerText()}}
+{\footnotesize\ttfamily std\+::string QA\+::get\+Answer\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the text of the answer. 
+
+\begin{DoxyReturn}{Returns}
+The text of the answer. 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_aad31b319016f8880f3de73f132634bbc}\label{class_q_a_aad31b319016f8880f3de73f132634bbc} 
+\index{QA@{QA}!getCategory@{getCategory}}
+\index{getCategory@{getCategory}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{getCategory()}{getCategory()}}
+{\footnotesize\ttfamily std\+::string QA\+::get\+Category (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the category to which the question belongs. 
+
+\begin{DoxyReturn}{Returns}
+The category of the question. 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_ae734357ef2b10bdefafccf9c2b3dd626}\label{class_q_a_ae734357ef2b10bdefafccf9c2b3dd626} 
+\index{QA@{QA}!getDifficultyLevel@{getDifficultyLevel}}
+\index{getDifficultyLevel@{getDifficultyLevel}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{getDifficultyLevel()}{getDifficultyLevel()}}
+{\footnotesize\ttfamily std\+::string QA\+::get\+Difficulty\+Level (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the difficulty level of the question. 
+
+\begin{DoxyReturn}{Returns}
+The difficulty level of the question. 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_afdeb8399f5ad4f61d07ea6427f41329f}\label{class_q_a_afdeb8399f5ad4f61d07ea6427f41329f} 
+\index{QA@{QA}!getQuestionId@{getQuestionId}}
+\index{getQuestionId@{getQuestionId}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{getQuestionId()}{getQuestionId()}}
+{\footnotesize\ttfamily int QA\+::get\+Question\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the question ID. 
+
+\begin{DoxyReturn}{Returns}
+The unique identifier for the question. 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_a19731388706161206383b3e99db1f8ec}\label{class_q_a_a19731388706161206383b3e99db1f8ec} 
+\index{QA@{QA}!getQuestionText@{getQuestionText}}
+\index{getQuestionText@{getQuestionText}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{getQuestionText()}{getQuestionText()}}
+{\footnotesize\ttfamily std\+::string QA\+::get\+Question\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the text of the question. 
+
+\begin{DoxyReturn}{Returns}
+The text of the question. 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_a684fd93124e0ce95a27102ff13ef29f5}\label{class_q_a_a684fd93124e0ce95a27102ff13ef29f5} 
+\index{QA@{QA}!setAnswerText@{setAnswerText}}
+\index{setAnswerText@{setAnswerText}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{setAnswerText()}{setAnswerText()}}
+{\footnotesize\ttfamily void QA\+::set\+Answer\+Text (\begin{DoxyParamCaption}\item[{std\+::string}]{user\+Answer }\end{DoxyParamCaption})}
+
+
+
+Update the answer text (only applicable to the user\textquotesingle{}s \doxylink{class_q_a}{QA} set) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Answer} & the user\textquotesingle{}s answer for this question \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_q_a_aa808c562a8859f3b77e6a9b33d2bf4aa}\label{class_q_a_aa808c562a8859f3b77e6a9b33d2bf4aa} 
+\index{QA@{QA}!\_answerText@{\_answerText}}
+\index{\_answerText@{\_answerText}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{\_answerText}{\_answerText}}
+{\footnotesize\ttfamily std\+::string QA\+::\+\_\+answer\+Text\hspace{0.3cm}{\ttfamily [private]}}
+
+The text of the answer. \Hypertarget{class_q_a_a12303c25b82048a888df3ff42cc25368}\label{class_q_a_a12303c25b82048a888df3ff42cc25368} 
+\index{QA@{QA}!\_category@{\_category}}
+\index{\_category@{\_category}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{\_category}{\_category}}
+{\footnotesize\ttfamily std\+::string QA\+::\+\_\+category\hspace{0.3cm}{\ttfamily [private]}}
+
+The category of the question. \Hypertarget{class_q_a_a317cef74b117c655e3719f71092336f3}\label{class_q_a_a317cef74b117c655e3719f71092336f3} 
+\index{QA@{QA}!\_difficultyLevel@{\_difficultyLevel}}
+\index{\_difficultyLevel@{\_difficultyLevel}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{\_difficultyLevel}{\_difficultyLevel}}
+{\footnotesize\ttfamily std\+::string QA\+::\+\_\+difficulty\+Level\hspace{0.3cm}{\ttfamily [private]}}
+
+The difficulty level of the question. \Hypertarget{class_q_a_a52984382bc76446439a5d0c28cfe896b}\label{class_q_a_a52984382bc76446439a5d0c28cfe896b} 
+\index{QA@{QA}!\_questionId@{\_questionId}}
+\index{\_questionId@{\_questionId}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{\_questionId}{\_questionId}}
+{\footnotesize\ttfamily int QA\+::\+\_\+question\+Id\hspace{0.3cm}{\ttfamily [private]}}
+
+The unique identifier for the question. \Hypertarget{class_q_a_a6afaeb0e35d9f5dfaa05a41cde872cd9}\label{class_q_a_a6afaeb0e35d9f5dfaa05a41cde872cd9} 
+\index{QA@{QA}!\_questionText@{\_questionText}}
+\index{\_questionText@{\_questionText}!QA@{QA}}
+\doxysubsubsection{\texorpdfstring{\_questionText}{\_questionText}}
+{\footnotesize\ttfamily std\+::string QA\+::\+\_\+question\+Text\hspace{0.3cm}{\ttfamily [private]}}
+
+The text of the question. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/qa.\+h\item 
+src/qa.\+cpp\end{DoxyCompactItemize}

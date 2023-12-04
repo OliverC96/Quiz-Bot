@@ -1,0 +1,163 @@
+\doxysection{Answer\+Scorer Class Reference}
+\hypertarget{class_answer_scorer}{}\label{class_answer_scorer}\index{AnswerScorer@{AnswerScorer}}
+
+
+A class for scoring user answers based on keyword comparison.  
+
+
+
+
+{\ttfamily \#include $<$answer\+Scorer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::tuple$<$ double, std\+::string $>$ \mbox{\hyperlink{class_answer_scorer_aac550a8225994b52024f16257add2f4c}{calculate\+Answer\+Score}} (const std\+::string user\+Answer, const \mbox{\hyperlink{class_q_a}{QA}} \&correct\+Answer)
+\begin{DoxyCompactList}\small\item\em Calculate the score for a user\textquotesingle{}s answer based on keyword matching. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unordered\+\_\+set$<$ std\+::string $>$ \mbox{\hyperlink{class_answer_scorer_a0833cbf0a41b78abe8913f11fa98427f}{extract\+Keywords}} (const std\+::string \&text)
+\begin{DoxyCompactList}\small\item\em Extract keywords from a given text. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_answer_scorer_a0bf84d4c372936c0d44dc0f465ddec6a}{tokenize}} (const std\+::string \&input)
+\begin{DoxyCompactList}\small\item\em Tokenize a string into words and remove punctuation. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_answer_scorer_a84cc81da25ccfc6c4477f915e9831e43}{to\+Lower\+Case}} (std\+::string \&token)
+\begin{DoxyCompactList}\small\item\em Standardizes tokens (to allow for case-\/insensitive keyword matching) \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_answer_scorer_a7bd10049fb6e18ddb13da0f691841b9b}{remove\+Punctuation}} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Remove punctuation from a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class for scoring user answers based on keyword comparison. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_answer_scorer_aac550a8225994b52024f16257add2f4c}\label{class_answer_scorer_aac550a8225994b52024f16257add2f4c} 
+\index{AnswerScorer@{AnswerScorer}!calculateAnswerScore@{calculateAnswerScore}}
+\index{calculateAnswerScore@{calculateAnswerScore}!AnswerScorer@{AnswerScorer}}
+\doxysubsubsection{\texorpdfstring{calculateAnswerScore()}{calculateAnswerScore()}}
+{\footnotesize\ttfamily std\+::tuple$<$ double, std\+::string $>$ Answer\+Scorer\+::calculate\+Answer\+Score (\begin{DoxyParamCaption}\item[{const std\+::string}]{user\+Answer,  }\item[{const \mbox{\hyperlink{class_q_a}{QA}} \&}]{correct\+Answer }\end{DoxyParamCaption})}
+
+
+
+Calculate the score for a user\textquotesingle{}s answer based on keyword matching. 
+
+This function calculates a score for the user\textquotesingle{}s answer based on keyword matching.
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Answer} & The user\textquotesingle{}s answer represented as a \doxylink{class_q_a}{QA} object. \\
+\hline
+{\em correct\+Answer} & The correct answer represented as a \doxylink{class_q_a}{QA} object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tuple containing the user\textquotesingle{}s score, and the keywords missing in their provided answer (if any)
+\end{DoxyReturn}
+This function calculates a score for the user\textquotesingle{}s answer based on keyword matching.
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Answer} & The user\textquotesingle{}s answer represented as a \doxylink{class_q_a}{QA} object. \\
+\hline
+{\em correct\+Answer} & The correct answer and the question. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tuple containing the user\textquotesingle{}s score, and the keywords missing in their provided answer (if any) 
+\end{DoxyReturn}
+\Hypertarget{class_answer_scorer_a0833cbf0a41b78abe8913f11fa98427f}\label{class_answer_scorer_a0833cbf0a41b78abe8913f11fa98427f} 
+\index{AnswerScorer@{AnswerScorer}!extractKeywords@{extractKeywords}}
+\index{extractKeywords@{extractKeywords}!AnswerScorer@{AnswerScorer}}
+\doxysubsubsection{\texorpdfstring{extractKeywords()}{extractKeywords()}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+set$<$ std\+::string $>$ Answer\+Scorer\+::extract\+Keywords (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Extract keywords from a given text. 
+
+This function extracts keywords from the input text by tokenizing it and removing common stop words.
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The input text from which keywords will be extracted. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A set of keywords. 
+\end{DoxyReturn}
+\Hypertarget{class_answer_scorer_a7bd10049fb6e18ddb13da0f691841b9b}\label{class_answer_scorer_a7bd10049fb6e18ddb13da0f691841b9b} 
+\index{AnswerScorer@{AnswerScorer}!removePunctuation@{removePunctuation}}
+\index{removePunctuation@{removePunctuation}!AnswerScorer@{AnswerScorer}}
+\doxysubsubsection{\texorpdfstring{removePunctuation()}{removePunctuation()}}
+{\footnotesize\ttfamily std\+::string Answer\+Scorer\+::remove\+Punctuation (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Remove punctuation from a string. 
+
+This function removes punctuation characters from a string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The input string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The input string with punctuation characters removed. 
+\end{DoxyReturn}
+\Hypertarget{class_answer_scorer_a0bf84d4c372936c0d44dc0f465ddec6a}\label{class_answer_scorer_a0bf84d4c372936c0d44dc0f465ddec6a} 
+\index{AnswerScorer@{AnswerScorer}!tokenize@{tokenize}}
+\index{tokenize@{tokenize}!AnswerScorer@{AnswerScorer}}
+\doxysubsubsection{\texorpdfstring{tokenize()}{tokenize()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Answer\+Scorer\+::tokenize (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Tokenize a string into words and remove punctuation. 
+
+Tokenize a string into words.
+
+This function splits a string into individual words using space as a delimiter and removes punctuation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & The input string to tokenize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of tokens with punctuation removed.
+\end{DoxyReturn}
+This function splits a string into individual words using space as a delimiter, and removes punctuation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & The input string to tokenize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of tokens. 
+\end{DoxyReturn}
+\Hypertarget{class_answer_scorer_a84cc81da25ccfc6c4477f915e9831e43}\label{class_answer_scorer_a84cc81da25ccfc6c4477f915e9831e43} 
+\index{AnswerScorer@{AnswerScorer}!toLowerCase@{toLowerCase}}
+\index{toLowerCase@{toLowerCase}!AnswerScorer@{AnswerScorer}}
+\doxysubsubsection{\texorpdfstring{toLowerCase()}{toLowerCase()}}
+{\footnotesize\ttfamily std\+::string Answer\+Scorer\+::to\+Lower\+Case (\begin{DoxyParamCaption}\item[{std\+::string \&}]{token }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Standardizes tokens (to allow for case-\/insensitive keyword matching) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The token \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An equivalent token, but entirely in lowercase 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/answer\+Scorer.\+h\item 
+src/answer\+Scorer.\+cpp\end{DoxyCompactItemize}

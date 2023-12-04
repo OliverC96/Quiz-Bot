@@ -1,0 +1,719 @@
+\doxysection{GUI Class Reference}
+\hypertarget{class_g_u_i}{}\label{class_g_u_i}\index{GUI@{GUI}}
+
+
+A class representing the graphical user interface for a quiz application.  
+
+
+
+
+{\ttfamily \#include $<$gui.\+h$>$}
+
+Inheritance diagram for GUI\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_u_i}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_g_u_i_aec53197f68dda93e68c7e892439a1228}{GUI}} (const Wt\+::\+WEnvironment \&env)
+\begin{DoxyCompactList}\small\item\em Constructor to initialize the \doxylink{class_g_u_i}{GUI}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_g_u_i_a8f8062ad70a53695a4b30dc91e51a216}{\texorpdfstring{$\sim$}{\string~}\+GUI}} (void)
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ \mbox{\hyperlink{class_g_u_i_a1f01f1b2165bcd950bd2ec02aec6d999}{generate\+Nav\+Bar}} (bool show\+Private\+Pages)
+\begin{DoxyCompactList}\small\item\em Generates a navigation bar component. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a51be995e4095b1bcb4d7fe2ab4f62cde}{initialize\+Main\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the main page of the application. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a2c461cd07c1de20eb8532d6d36eacfb1}{initialize\+Login\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the login page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a562cb900643bfbd54147ad5f36ec02f3}{initialize\+Register\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the register page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_ae8181dcb12ee1108c127ecf1ec6bafe4}{initialize\+Leaderboard\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the leaderboard page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a7379371be37566bfb53870fda31f4082}{initialize\+Difficulty\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the difficulty page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_acd8d304a65126afe2efca86b85ba46f8}{initialize\+Question\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the question page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a83dddb590f0d0d3ecfbf3083cf013779}{initialize\+Profile\+Page}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the profile page containing all information relevant to the currently logged in user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a2d350ca00302e4944c6c48f4e46caf37}{load\+Leaderboard}} (std\+::string file\+Path)
+\begin{DoxyCompactList}\small\item\em Fetches the current leaderboard data from the specified file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_aed59b1827616e6bd3a5368873960ec44}{save\+Leaderboard}} (std\+::string file\+Path)
+\begin{DoxyCompactList}\small\item\em Writes the current contents of the leaderboard to the specified file at the end of a user\textquotesingle{}s session. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a9e1db53cce7a72263c90469430930e4e}{display\+Question\+Page}} (std\+::string difficulty)
+\begin{DoxyCompactList}\small\item\em Display the question page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a2eae6be7686795bd8d100d529917ee1d}{retrieve\+Questions}} (std\+::vector$<$ std\+::string $>$ \&questions, std\+::string file\+Path, char difficulty\+Code)
+\begin{DoxyCompactList}\small\item\em Helper method which retrieves all questions from the specified question file that match the given difficulty. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a88ec257c5ab5162f64a54a5b9ca4d680}{load\+Question\+Set}} (std\+::string category, std\+::string difficulty, int amount=5)
+\begin{DoxyCompactList}\small\item\em Randomly selects a set of questions of the correct category and difficulty level for a quiz. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a048a74dbc31241f52285f0e436beba1f}{update\+Question\+Page}} ()
+\begin{DoxyCompactList}\small\item\em Updates the question page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a34960914a5a7fb77c7db6f9a4f51e6d9}{update\+Profile\+Page}} ()
+\begin{DoxyCompactList}\small\item\em Updates the profile page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_ac7672b03f8a41298c4d666a81267e1f9}{display\+Answer}} ()
+\begin{DoxyCompactList}\small\item\em Displays the current question\textquotesingle{}s answer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_ac43642e462ad8bc79766ee004641c087}{display\+Difficulty\+Page}} (std\+::string category)
+\begin{DoxyCompactList}\small\item\em Display the difficulty page. \end{DoxyCompactList}\item 
+\Hypertarget{class_g_u_i_a4c0d3907d6e5e4f715b0636f5f6ae55f}\label{class_g_u_i_a4c0d3907d6e5e4f715b0636f5f6ae55f} 
+void {\bfseries display\+User\+Profile} ()
+\begin{DoxyCompactList}\small\item\em Display the user profile page. \end{DoxyCompactList}\item 
+\Hypertarget{class_g_u_i_a345d90d3a143eb64000aa18656b88c26}\label{class_g_u_i_a345d90d3a143eb64000aa18656b88c26} 
+void {\bfseries display\+Leaderboard} ()
+\begin{DoxyCompactList}\small\item\em Display the leaderboard page. \end{DoxyCompactList}\item 
+\Hypertarget{class_g_u_i_a2e7d120a8cfb021eee0418e54701354a}\label{class_g_u_i_a2e7d120a8cfb021eee0418e54701354a} 
+void {\bfseries display\+Main\+Page} ()
+\begin{DoxyCompactList}\small\item\em Display the main/welcome page. \end{DoxyCompactList}\item 
+\Hypertarget{class_g_u_i_a28b759ce6b6d08a724f0823a1e12b205}\label{class_g_u_i_a28b759ce6b6d08a724f0823a1e12b205} 
+void {\bfseries display\+Login\+Page} ()
+\begin{DoxyCompactList}\small\item\em Display the login page. \end{DoxyCompactList}\item 
+\Hypertarget{class_g_u_i_accdeb102e1920123aabef8320bdde31a}\label{class_g_u_i_accdeb102e1920123aabef8320bdde31a} 
+void {\bfseries display\+Register\+Page} ()
+\begin{DoxyCompactList}\small\item\em Display the register page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a2e3a14832036b154e63b340950fdb90b}{update\+Leaderboard}} ()
+\begin{DoxyCompactList}\small\item\em Update the leaderboard. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_aca874936f9a7c78303fc8b8017b6e962}{update\+Score}} (int amount)
+\begin{DoxyCompactList}\small\item\em Update the user\textquotesingle{}s score. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a8d6b5f32a671a1264a3906df869ca26f}{store\+User\+Score}} ()
+\begin{DoxyCompactList}\small\item\em Store the user\textquotesingle{}s score. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a38d2a085555cde27b98ac61aa9d10389}{process\+Curr\+Answer}} ()
+\begin{DoxyCompactList}\small\item\em Process the current answer submitted by the user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a3285abf9c99937fbb05e3c39db5981ed}{login\+User}} ()
+\begin{DoxyCompactList}\small\item\em Log in the user. \end{DoxyCompactList}\item 
+\Hypertarget{class_g_u_i_acfef83820482665414b0d113a9c9981c}\label{class_g_u_i_acfef83820482665414b0d113a9c9981c} 
+void {\bfseries logout\+User} ()
+\begin{DoxyCompactList}\small\item\em Log out the user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a457837919535cd799d8eea506739a0c8}{register\+User}} ()
+\begin{DoxyCompactList}\small\item\em Register a new user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_g_u_i_a8230aef2fec3d80cb4ca9a4789cd83dd}{change\+PW}} ()
+\begin{DoxyCompactList}\small\item\em Change password of a current user. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_q_a_set}{QASet}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_g_u_i_a638b3aa1d51c15347d459277a2faf044}{answer\+Key}}
+\item 
+\mbox{\hyperlink{class_q_a_set}{QASet}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_g_u_i_ad5fdfd636ab335354a49dd2b705a749f}{user\+Answers}}
+\item 
+\mbox{\hyperlink{class_user}{User}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_g_u_i_a54a55e1f33e6a7ec7deea6a9c90d99e5}{current\+User}}
+\item 
+\mbox{\hyperlink{class_answer_scorer}{Answer\+Scorer}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_g_u_i_a2b9aeaa5bb047fbe7ee81fd2362dfd84}{score\+Answer}}
+\item 
+Wt\+::\+WStacked\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_g_u_i_a546c3031d15a88dd0a1ac6f1fd68659d}{pages}}
+\item 
+std\+::vector$<$ std\+::tuple$<$ std\+::string, int, std\+::string, std\+::string $>$ $>$ \mbox{\hyperlink{class_g_u_i_ae9e9d53da437684ec0892da1e6433b94}{leaderboard}}
+\item 
+int \mbox{\hyperlink{class_g_u_i_ae1e2f1f2231ba3d9629c4491dc0a30f7}{current\+Question\+ID}}
+\item 
+int \mbox{\hyperlink{class_g_u_i_acd78e859d28b01e56425e0b3302688c0}{final\+Score}}
+\item 
+\Hypertarget{class_g_u_i_a4e6d5de4233cdc6fb92d83c07400c269}\label{class_g_u_i_a4e6d5de4233cdc6fb92d83c07400c269} 
+std\+::string {\bfseries missing\+Keywords}
+\item 
+\Hypertarget{class_g_u_i_ad7e65d974d139deb1ba51f6df43e5e03}\label{class_g_u_i_ad7e65d974d139deb1ba51f6df43e5e03} 
+std\+::string {\bfseries selected\+Category}
+\item 
+\Hypertarget{class_g_u_i_ab838ed83ac3ee40290801551cd620a7d}\label{class_g_u_i_ab838ed83ac3ee40290801551cd620a7d} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries login\+Page}
+\item 
+\Hypertarget{class_g_u_i_af6576cb7459559ad8c06be762888aa09}\label{class_g_u_i_af6576cb7459559ad8c06be762888aa09} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries register\+Page}
+\item 
+\Hypertarget{class_g_u_i_a4cc017380b80aabcaec2199713683a22}\label{class_g_u_i_a4cc017380b80aabcaec2199713683a22} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries main\+Page}
+\item 
+\Hypertarget{class_g_u_i_ad2d41b6a7aac875ac76099bef67681eb}\label{class_g_u_i_ad2d41b6a7aac875ac76099bef67681eb} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries difficulty\+Page}
+\item 
+\Hypertarget{class_g_u_i_ab6630329e59e0c770969951d9acd1a4a}\label{class_g_u_i_ab6630329e59e0c770969951d9acd1a4a} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries profile\+Page}
+\item 
+\Hypertarget{class_g_u_i_a7c1a22db8f46346c3dfaa88aecd29586}\label{class_g_u_i_a7c1a22db8f46346c3dfaa88aecd29586} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries leaderboard\+Page}
+\item 
+\Hypertarget{class_g_u_i_a63b79e538cbab9920c8f468ab1524ab0}\label{class_g_u_i_a63b79e538cbab9920c8f468ab1524ab0} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries question\+Page}
+\item 
+\Hypertarget{class_g_u_i_ac92064fa3a3491289a6968817e9762c7}\label{class_g_u_i_ac92064fa3a3491289a6968817e9762c7} 
+std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ {\bfseries change\+PWPage}
+\item 
+\Hypertarget{class_g_u_i_a6b8c3522acae796622d62849f89644bb}\label{class_g_u_i_a6b8c3522acae796622d62849f89644bb} 
+Wt\+::\+WText\+Area \texorpdfstring{$\ast$}{*} {\bfseries question\+Area}
+\item 
+\Hypertarget{class_g_u_i_a3473078895bad3d373bf284efc373239}\label{class_g_u_i_a3473078895bad3d373bf284efc373239} 
+Wt\+::\+WText\+Area \texorpdfstring{$\ast$}{*} {\bfseries answer\+Area}
+\item 
+\Hypertarget{class_g_u_i_afa567d64cf12b9cfaadf4eec47983790}\label{class_g_u_i_afa567d64cf12b9cfaadf4eec47983790} 
+Wt\+::\+WPush\+Button \texorpdfstring{$\ast$}{*} {\bfseries submit\+Button}
+\item 
+\Hypertarget{class_g_u_i_a3bd9bbd54eb3cd37fc8575920f8ab171}\label{class_g_u_i_a3bd9bbd54eb3cd37fc8575920f8ab171} 
+Wt\+::\+WPush\+Button \texorpdfstring{$\ast$}{*} {\bfseries answer\+Button}
+\item 
+\Hypertarget{class_g_u_i_ace8ffd8e9cc1bd437acf8924ae81076f}\label{class_g_u_i_ace8ffd8e9cc1bd437acf8924ae81076f} 
+Wt\+::\+WText \texorpdfstring{$\ast$}{*} {\bfseries score\+Display}
+\item 
+\Hypertarget{class_g_u_i_a5b6eec549a11c42f360bea52d2959c17}\label{class_g_u_i_a5b6eec549a11c42f360bea52d2959c17} 
+Wt\+::\+WText \texorpdfstring{$\ast$}{*} {\bfseries question\+Progress}
+\item 
+\Hypertarget{class_g_u_i_acaf2cd629c7b1548ee278234d4141122}\label{class_g_u_i_acaf2cd629c7b1548ee278234d4141122} 
+Wt\+::\+WTable \texorpdfstring{$\ast$}{*} {\bfseries leaderboard\+Table}
+\item 
+\Hypertarget{class_g_u_i_a60a136b211e44a77c9f6366ba7ce6727}\label{class_g_u_i_a60a136b211e44a77c9f6366ba7ce6727} 
+Wt\+::\+WContainer\+Widget \texorpdfstring{$\ast$}{*} {\bfseries user\+History}
+\item 
+\Hypertarget{class_g_u_i_a8a89b0049873ef9d6de4e21fe2fa7407}\label{class_g_u_i_a8a89b0049873ef9d6de4e21fe2fa7407} 
+Wt\+::\+WText \texorpdfstring{$\ast$}{*} {\bfseries user\+ID}
+\item 
+\Hypertarget{class_g_u_i_a090d27f8ead37ef7a68602f411cb74a9}\label{class_g_u_i_a090d27f8ead37ef7a68602f411cb74a9} 
+Wt\+::\+Signals\+::connection {\bfseries verify\+Answer\+On}
+\item 
+\Hypertarget{class_g_u_i_ad0ff93b6574e6bb1285b839245ad72e1}\label{class_g_u_i_ad0ff93b6574e6bb1285b839245ad72e1} 
+Wt\+::\+Signals\+::connection {\bfseries clicked\+Game\+On}
+\item 
+\Hypertarget{class_g_u_i_a7414cfef306a47b8f96c00e4bcfcf983}\label{class_g_u_i_a7414cfef306a47b8f96c00e4bcfcf983} 
+Wt\+::\+Signals\+::connection {\bfseries clicked\+Game\+Over}
+\item 
+\Hypertarget{class_g_u_i_a82ff98e9b7b33b33fc5e2d2df12d54bf}\label{class_g_u_i_a82ff98e9b7b33b33fc5e2d2df12d54bf} 
+Wt\+::\+Signals\+::connection {\bfseries enter\+Game\+On}
+\item 
+\Hypertarget{class_g_u_i_a1df6c4fc3b8a2d16a170e18fa1fcef54}\label{class_g_u_i_a1df6c4fc3b8a2d16a170e18fa1fcef54} 
+Wt\+::\+Signals\+::connection {\bfseries enter\+Game\+Over}
+\item 
+\Hypertarget{class_g_u_i_a9a11bd813c3094ea69346e47ad6782fd}\label{class_g_u_i_a9a11bd813c3094ea69346e47ad6782fd} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries username\+Field}
+\item 
+\Hypertarget{class_g_u_i_ac02b15f45c1cdfd620f91930767de3b2}\label{class_g_u_i_ac02b15f45c1cdfd620f91930767de3b2} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries password\+Field}
+\item 
+\Hypertarget{class_g_u_i_a9e5c7045d5d4d929faca3970f5b531ca}\label{class_g_u_i_a9e5c7045d5d4d929faca3970f5b531ca} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries login\+Username\+Field}
+\item 
+\Hypertarget{class_g_u_i_a3cfa48b02dc9d73fff29db3c1213b4af}\label{class_g_u_i_a3cfa48b02dc9d73fff29db3c1213b4af} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries login\+Password\+Field}
+\item 
+\Hypertarget{class_g_u_i_a25db8f799a5fd332a133d701a33c6175}\label{class_g_u_i_a25db8f799a5fd332a133d701a33c6175} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries confirm\+Password\+Field}
+\item 
+\Hypertarget{class_g_u_i_a18e66430b104f1d28230e82d25d00b14}\label{class_g_u_i_a18e66430b104f1d28230e82d25d00b14} 
+Wt\+::\+WText \texorpdfstring{$\ast$}{*} {\bfseries login\+Error\+Message}
+\item 
+\Hypertarget{class_g_u_i_a67e24e6f62507335bec2a5cd374186b3}\label{class_g_u_i_a67e24e6f62507335bec2a5cd374186b3} 
+Wt\+::\+WText \texorpdfstring{$\ast$}{*} {\bfseries register\+Error\+Message}
+\item 
+\Hypertarget{class_g_u_i_a56e1d1b13c719971841779aa8e896e7b}\label{class_g_u_i_a56e1d1b13c719971841779aa8e896e7b} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries change\+Password}
+\item 
+\Hypertarget{class_g_u_i_ab06e8080e8de4bef0475f3f6aab9b760}\label{class_g_u_i_ab06e8080e8de4bef0475f3f6aab9b760} 
+Wt\+::\+WLine\+Edit \texorpdfstring{$\ast$}{*} {\bfseries confirm\+Password}
+\item 
+\Hypertarget{class_g_u_i_a730a3312bf790f595a2858a0863aff6e}\label{class_g_u_i_a730a3312bf790f595a2858a0863aff6e} 
+Wt\+::\+WText \texorpdfstring{$\ast$}{*} {\bfseries change\+PWError\+Message}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{class_g_u_i_a0e6a4271c380aa641e1e21411fb1a59e}{pressed}} = true
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class representing the graphical user interface for a quiz application. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_g_u_i_aec53197f68dda93e68c7e892439a1228}\label{class_g_u_i_aec53197f68dda93e68c7e892439a1228} 
+\index{GUI@{GUI}!GUI@{GUI}}
+\index{GUI@{GUI}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{GUI()}{GUI()}}
+{\footnotesize\ttfamily GUI\+::\+GUI (\begin{DoxyParamCaption}\item[{const Wt\+::\+WEnvironment \&}]{env }\end{DoxyParamCaption})}
+
+
+
+Constructor to initialize the \doxylink{class_g_u_i}{GUI}. 
+
+Initializes the Wt \doxylink{class_g_u_i}{GUI} for the Quiz\+Bot application.
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & \\
+\hline
+{\em env} & the Wt environment \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_g_u_i_a8f8062ad70a53695a4b30dc91e51a216}\label{class_g_u_i_a8f8062ad70a53695a4b30dc91e51a216} 
+\index{GUI@{GUI}!````~GUI@{\texorpdfstring{$\sim$}{\string~}GUI}}
+\index{````~GUI@{\texorpdfstring{$\sim$}{\string~}GUI}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}GUI()}{\string~GUI()}}
+{\footnotesize\ttfamily GUI\+::\texorpdfstring{$\sim$}{\string~}\+GUI (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+Destructor for the \doxylink{class_g_u_i}{GUI}. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_g_u_i_a8230aef2fec3d80cb4ca9a4789cd83dd}\label{class_g_u_i_a8230aef2fec3d80cb4ca9a4789cd83dd} 
+\index{GUI@{GUI}!changePW@{changePW}}
+\index{changePW@{changePW}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{changePW()}{changePW()}}
+{\footnotesize\ttfamily void GUI\+::change\+PW (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Change password of a current user. 
+
+Initialize the change password page where the user can change the password.
+
+\begin{DoxyAuthor}{Author}
+Jiho Choi 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_ac7672b03f8a41298c4d666a81267e1f9}\label{class_g_u_i_ac7672b03f8a41298c4d666a81267e1f9} 
+\index{GUI@{GUI}!displayAnswer@{displayAnswer}}
+\index{displayAnswer@{displayAnswer}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{displayAnswer()}{displayAnswer()}}
+{\footnotesize\ttfamily void GUI\+::display\+Answer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Displays the current question\textquotesingle{}s answer. 
+
+Display the current question\textquotesingle{}s answer. Once the answer is check, the user can proceed to next Q.
+
+\begin{DoxyAuthor}{Author}
+Taegyun Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_ac43642e462ad8bc79766ee004641c087}\label{class_g_u_i_ac43642e462ad8bc79766ee004641c087} 
+\index{GUI@{GUI}!displayDifficultyPage@{displayDifficultyPage}}
+\index{displayDifficultyPage@{displayDifficultyPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{displayDifficultyPage()}{displayDifficultyPage()}}
+{\footnotesize\ttfamily void GUI\+::display\+Difficulty\+Page (\begin{DoxyParamCaption}\item[{std\+::string}]{category }\end{DoxyParamCaption})}
+
+
+
+Display the difficulty page. 
+
+Displays the difficulty page.
+
+
+\begin{DoxyParams}{Parameters}
+{\em category} & The category chosen by the user \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_g_u_i_a9e1db53cce7a72263c90469430930e4e}\label{class_g_u_i_a9e1db53cce7a72263c90469430930e4e} 
+\index{GUI@{GUI}!displayQuestionPage@{displayQuestionPage}}
+\index{displayQuestionPage@{displayQuestionPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{displayQuestionPage()}{displayQuestionPage()}}
+{\footnotesize\ttfamily void GUI\+::display\+Question\+Page (\begin{DoxyParamCaption}\item[{std\+::string}]{difficulty }\end{DoxyParamCaption})}
+
+
+
+Display the question page. 
+
+Displays the question page.
+
+
+\begin{DoxyParams}{Parameters}
+{\em difficulty} & The difficulty level chosen by the user \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_g_u_i_a1f01f1b2165bcd950bd2ec02aec6d999}\label{class_g_u_i_a1f01f1b2165bcd950bd2ec02aec6d999} 
+\index{GUI@{GUI}!generateNavBar@{generateNavBar}}
+\index{generateNavBar@{generateNavBar}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{generateNavBar()}{generateNavBar()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$ Wt\+::\+WContainer\+Widget $>$ GUI\+::generate\+Nav\+Bar (\begin{DoxyParamCaption}\item[{bool}]{show\+Private\+Pages }\end{DoxyParamCaption})}
+
+
+
+Generates a navigation bar component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em show\+Private\+Pages} & used to customize the navbar links to reflect the user\textquotesingle{}s current status (logged-\/in or anonymous) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The navbar widget
+\end{DoxyReturn}
+Creates a navigation bar component (allows for the easy reuse of the navbar across all pages in the application) Note\+: this method is necessary because Wt does not directly support the sharing of widgets (due to unique pointers) 
+\begin{DoxyParams}{Parameters}
+{\em show\+Private\+Pages} & used to customize the navbar links to reflect the user\textquotesingle{}s current status (logged-\/in or anonymous)\\
+\hline
+\end{DoxyParams}
+Public pages\+: Login Register Private pages\+: Home Profile Leaderboard Logout
+
+\begin{DoxyReturn}{Returns}
+The resulting navbar widget 
+\end{DoxyReturn}
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a7379371be37566bfb53870fda31f4082}\label{class_g_u_i_a7379371be37566bfb53870fda31f4082} 
+\index{GUI@{GUI}!initializeDifficultyPage@{initializeDifficultyPage}}
+\index{initializeDifficultyPage@{initializeDifficultyPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeDifficultyPage()}{initializeDifficultyPage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Difficulty\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the difficulty page. 
+
+Initializes the difficulty page (where the user selects a difficulty level for the quiz)
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_ae8181dcb12ee1108c127ecf1ec6bafe4}\label{class_g_u_i_ae8181dcb12ee1108c127ecf1ec6bafe4} 
+\index{GUI@{GUI}!initializeLeaderboardPage@{initializeLeaderboardPage}}
+\index{initializeLeaderboardPage@{initializeLeaderboardPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeLeaderboardPage()}{initializeLeaderboardPage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Leaderboard\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the leaderboard page. 
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a2c461cd07c1de20eb8532d6d36eacfb1}\label{class_g_u_i_a2c461cd07c1de20eb8532d6d36eacfb1} 
+\index{GUI@{GUI}!initializeLoginPage@{initializeLoginPage}}
+\index{initializeLoginPage@{initializeLoginPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeLoginPage()}{initializeLoginPage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Login\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the login page. 
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan, Sung Kim, Taegyun Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a51be995e4095b1bcb4d7fe2ab4f62cde}\label{class_g_u_i_a51be995e4095b1bcb4d7fe2ab4f62cde} 
+\index{GUI@{GUI}!initializeMainPage@{initializeMainPage}}
+\index{initializeMainPage@{initializeMainPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeMainPage()}{initializeMainPage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Main\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the main page of the application. 
+
+Initializes the main page of the \doxylink{class_g_u_i}{GUI}.
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a83dddb590f0d0d3ecfbf3083cf013779}\label{class_g_u_i_a83dddb590f0d0d3ecfbf3083cf013779} 
+\index{GUI@{GUI}!initializeProfilePage@{initializeProfilePage}}
+\index{initializeProfilePage@{initializeProfilePage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeProfilePage()}{initializeProfilePage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Profile\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the profile page containing all information relevant to the currently logged in user. 
+
+Initialize the profile page which shows all information of the current user logged in.
+
+\begin{DoxyAuthor}{Author}
+Jiho Choi 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_acd8d304a65126afe2efca86b85ba46f8}\label{class_g_u_i_acd8d304a65126afe2efca86b85ba46f8} 
+\index{GUI@{GUI}!initializeQuestionPage@{initializeQuestionPage}}
+\index{initializeQuestionPage@{initializeQuestionPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeQuestionPage()}{initializeQuestionPage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Question\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the question page. 
+
+Initializes the question page (where the user can view and answer a question in the quiz)
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a562cb900643bfbd54147ad5f36ec02f3}\label{class_g_u_i_a562cb900643bfbd54147ad5f36ec02f3} 
+\index{GUI@{GUI}!initializeRegisterPage@{initializeRegisterPage}}
+\index{initializeRegisterPage@{initializeRegisterPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{initializeRegisterPage()}{initializeRegisterPage()}}
+{\footnotesize\ttfamily void GUI\+::initialize\+Register\+Page (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the register page. 
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan, Sung Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a2d350ca00302e4944c6c48f4e46caf37}\label{class_g_u_i_a2d350ca00302e4944c6c48f4e46caf37} 
+\index{GUI@{GUI}!loadLeaderboard@{loadLeaderboard}}
+\index{loadLeaderboard@{loadLeaderboard}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{loadLeaderboard()}{loadLeaderboard()}}
+{\footnotesize\ttfamily void GUI\+::load\+Leaderboard (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Path }\end{DoxyParamCaption})}
+
+
+
+Fetches the current leaderboard data from the specified file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & \\
+\hline
+{\em file\+Path} & The path to the input data file (relative to the root directory of the project) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a88ec257c5ab5162f64a54a5b9ca4d680}\label{class_g_u_i_a88ec257c5ab5162f64a54a5b9ca4d680} 
+\index{GUI@{GUI}!loadQuestionSet@{loadQuestionSet}}
+\index{loadQuestionSet@{loadQuestionSet}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{loadQuestionSet()}{loadQuestionSet()}}
+{\footnotesize\ttfamily void GUI\+::load\+Question\+Set (\begin{DoxyParamCaption}\item[{std\+::string}]{category,  }\item[{std\+::string}]{difficulty,  }\item[{int}]{amount = {\ttfamily 5} }\end{DoxyParamCaption})}
+
+
+
+Randomly selects a set of questions of the correct category and difficulty level for a quiz. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em category} & The selected category \\
+\hline
+{\em difficulty} & The selected difficulty level (1 = "{}easy"{}, 2 = "{}medium"{}, 3 = "{}hard"{}) \\
+\hline
+{\em amount} & The number of questions to be chosen for the quiz\\
+\hline
+{\em category} & The selected category \\
+\hline
+{\em difficulty} & The selected difficulty level ("{}easy"{}, "{}medium"{}, or "{}hard"{}) \\
+\hline
+{\em amount} & The number of questions to be chosen for the quiz (default = 5) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a3285abf9c99937fbb05e3c39db5981ed}\label{class_g_u_i_a3285abf9c99937fbb05e3c39db5981ed} 
+\index{GUI@{GUI}!loginUser@{loginUser}}
+\index{loginUser@{loginUser}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{loginUser()}{loginUser()}}
+{\footnotesize\ttfamily void GUI\+::login\+User (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Log in the user. 
+
+\begin{DoxyAuthor}{Author}
+Sung Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a38d2a085555cde27b98ac61aa9d10389}\label{class_g_u_i_a38d2a085555cde27b98ac61aa9d10389} 
+\index{GUI@{GUI}!processCurrAnswer@{processCurrAnswer}}
+\index{processCurrAnswer@{processCurrAnswer}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{processCurrAnswer()}{processCurrAnswer()}}
+{\footnotesize\ttfamily void GUI\+::process\+Curr\+Answer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Process the current answer submitted by the user. 
+
+Partial marks given depending on capitalization, wording etc. \begin{DoxyAuthor}{Authors}
+Taegyun Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a457837919535cd799d8eea506739a0c8}\label{class_g_u_i_a457837919535cd799d8eea506739a0c8} 
+\index{GUI@{GUI}!registerUser@{registerUser}}
+\index{registerUser@{registerUser}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{registerUser()}{registerUser()}}
+{\footnotesize\ttfamily void GUI\+::register\+User (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Register a new user. 
+
+\begin{DoxyAuthor}{Author}
+Sung Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a2eae6be7686795bd8d100d529917ee1d}\label{class_g_u_i_a2eae6be7686795bd8d100d529917ee1d} 
+\index{GUI@{GUI}!retrieveQuestions@{retrieveQuestions}}
+\index{retrieveQuestions@{retrieveQuestions}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{retrieveQuestions()}{retrieveQuestions()}}
+{\footnotesize\ttfamily void GUI\+::retrieve\+Questions (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$ \&}]{questions,  }\item[{std\+::string}]{file\+Path,  }\item[{char}]{difficulty\+Code }\end{DoxyParamCaption})}
+
+
+
+Helper method which retrieves all questions from the specified question file that match the given difficulty. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em questions} & A reference to the \textquotesingle{}master\textquotesingle{} collection of questions to be chosen from for the quiz \\
+\hline
+{\em file\+Path} & The path to a question file in the \textquotesingle{}questions\textquotesingle{} directory (relative to the root of the project directory) \\
+\hline
+{\em difficulty} & The difficulty level selected by the user\\
+\hline
+{\em questions} & A reference to the \textquotesingle{}master\textquotesingle{} collection of questions to be chosen from for the quiz \\
+\hline
+{\em file\+Path} & The path to a question file in the \textquotesingle{}questions\textquotesingle{} directory (relative to the root of the project directory) \\
+\hline
+{\em difficulty} & The difficulty level selected by the user \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_aed59b1827616e6bd3a5368873960ec44}\label{class_g_u_i_aed59b1827616e6bd3a5368873960ec44} 
+\index{GUI@{GUI}!saveLeaderboard@{saveLeaderboard}}
+\index{saveLeaderboard@{saveLeaderboard}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{saveLeaderboard()}{saveLeaderboard()}}
+{\footnotesize\ttfamily void GUI\+::save\+Leaderboard (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Path }\end{DoxyParamCaption})}
+
+
+
+Writes the current contents of the leaderboard to the specified file at the end of a user\textquotesingle{}s session. 
+
+Writes the current contents of the leaderboard to the specified output file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & \\
+\hline
+{\em file\+Path} & The path to the output file (relative to the root directory of the project) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a8d6b5f32a671a1264a3906df869ca26f}\label{class_g_u_i_a8d6b5f32a671a1264a3906df869ca26f} 
+\index{GUI@{GUI}!storeUserScore@{storeUserScore}}
+\index{storeUserScore@{storeUserScore}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{storeUserScore()}{storeUserScore()}}
+{\footnotesize\ttfamily void GUI\+::store\+User\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Store the user\textquotesingle{}s score. 
+
+\begin{DoxyAuthor}{Author}
+Taegyun Kim 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a2e3a14832036b154e63b340950fdb90b}\label{class_g_u_i_a2e3a14832036b154e63b340950fdb90b} 
+\index{GUI@{GUI}!updateLeaderboard@{updateLeaderboard}}
+\index{updateLeaderboard@{updateLeaderboard}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{updateLeaderboard()}{updateLeaderboard()}}
+{\footnotesize\ttfamily void GUI\+::update\+Leaderboard (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Update the leaderboard. 
+
+Updates the leaderboard with the current user\textquotesingle{}s score.
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a34960914a5a7fb77c7db6f9a4f51e6d9}\label{class_g_u_i_a34960914a5a7fb77c7db6f9a4f51e6d9} 
+\index{GUI@{GUI}!updateProfilePage@{updateProfilePage}}
+\index{updateProfilePage@{updateProfilePage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{updateProfilePage()}{updateProfilePage()}}
+{\footnotesize\ttfamily void GUI\+::update\+Profile\+Page (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Updates the profile page. 
+
+Updates the contents of the profile page.
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_a048a74dbc31241f52285f0e436beba1f}\label{class_g_u_i_a048a74dbc31241f52285f0e436beba1f} 
+\index{GUI@{GUI}!updateQuestionPage@{updateQuestionPage}}
+\index{updateQuestionPage@{updateQuestionPage}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{updateQuestionPage()}{updateQuestionPage()}}
+{\footnotesize\ttfamily void GUI\+::update\+Question\+Page (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Updates the question page. 
+
+Updates the question page with the information relevant to the next question in the quiz.
+
+\begin{DoxyAuthor}{Author}
+Oliver Clennan 
+\end{DoxyAuthor}
+\Hypertarget{class_g_u_i_aca874936f9a7c78303fc8b8017b6e962}\label{class_g_u_i_aca874936f9a7c78303fc8b8017b6e962} 
+\index{GUI@{GUI}!updateScore@{updateScore}}
+\index{updateScore@{updateScore}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{updateScore()}{updateScore()}}
+{\footnotesize\ttfamily void GUI\+::update\+Score (\begin{DoxyParamCaption}\item[{int}]{amount }\end{DoxyParamCaption})}
+
+
+
+Update the user\textquotesingle{}s score. 
+
+\begin{DoxyAuthor}{Author}
+Taegyun Kim 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_g_u_i_a638b3aa1d51c15347d459277a2faf044}\label{class_g_u_i_a638b3aa1d51c15347d459277a2faf044} 
+\index{GUI@{GUI}!answerKey@{answerKey}}
+\index{answerKey@{answerKey}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{answerKey}{answerKey}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_q_a_set}{QASet}}\texorpdfstring{$\ast$}{*} GUI\+::answer\+Key\hspace{0.3cm}{\ttfamily [private]}}
+
+The answer key for questions. \Hypertarget{class_g_u_i_ae1e2f1f2231ba3d9629c4491dc0a30f7}\label{class_g_u_i_ae1e2f1f2231ba3d9629c4491dc0a30f7} 
+\index{GUI@{GUI}!currentQuestionID@{currentQuestionID}}
+\index{currentQuestionID@{currentQuestionID}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{currentQuestionID}{currentQuestionID}}
+{\footnotesize\ttfamily int GUI\+::current\+Question\+ID\hspace{0.3cm}{\ttfamily [private]}}
+
+The current question being displayed. \Hypertarget{class_g_u_i_a54a55e1f33e6a7ec7deea6a9c90d99e5}\label{class_g_u_i_a54a55e1f33e6a7ec7deea6a9c90d99e5} 
+\index{GUI@{GUI}!currentUser@{currentUser}}
+\index{currentUser@{currentUser}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{currentUser}{currentUser}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_user}{User}}\texorpdfstring{$\ast$}{*} GUI\+::current\+User\hspace{0.3cm}{\ttfamily [private]}}
+
+The currently logged-\/in user. \Hypertarget{class_g_u_i_acd78e859d28b01e56425e0b3302688c0}\label{class_g_u_i_acd78e859d28b01e56425e0b3302688c0} 
+\index{GUI@{GUI}!finalScore@{finalScore}}
+\index{finalScore@{finalScore}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{finalScore}{finalScore}}
+{\footnotesize\ttfamily int GUI\+::final\+Score\hspace{0.3cm}{\ttfamily [private]}}
+
+The user\textquotesingle{}s final score. \Hypertarget{class_g_u_i_ae9e9d53da437684ec0892da1e6433b94}\label{class_g_u_i_ae9e9d53da437684ec0892da1e6433b94} 
+\index{GUI@{GUI}!leaderboard@{leaderboard}}
+\index{leaderboard@{leaderboard}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{leaderboard}{leaderboard}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::tuple$<$std\+::string, int, std\+::string, std\+::string$>$ $>$ GUI\+::leaderboard\hspace{0.3cm}{\ttfamily [private]}}
+
+The leaderboard data. \Hypertarget{class_g_u_i_a546c3031d15a88dd0a1ac6f1fd68659d}\label{class_g_u_i_a546c3031d15a88dd0a1ac6f1fd68659d} 
+\index{GUI@{GUI}!pages@{pages}}
+\index{pages@{pages}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{pages}{pages}}
+{\footnotesize\ttfamily Wt\+::\+WStacked\+Widget\texorpdfstring{$\ast$}{*} GUI\+::pages\hspace{0.3cm}{\ttfamily [private]}}
+
+Stores references to the various application pages. \Hypertarget{class_g_u_i_a0e6a4271c380aa641e1e21411fb1a59e}\label{class_g_u_i_a0e6a4271c380aa641e1e21411fb1a59e} 
+\index{GUI@{GUI}!pressed@{pressed}}
+\index{pressed@{pressed}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{pressed}{pressed}}
+{\footnotesize\ttfamily bool GUI\+::pressed = true\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+Just a dummy variable to check if a button is pressed \Hypertarget{class_g_u_i_a2b9aeaa5bb047fbe7ee81fd2362dfd84}\label{class_g_u_i_a2b9aeaa5bb047fbe7ee81fd2362dfd84} 
+\index{GUI@{GUI}!scoreAnswer@{scoreAnswer}}
+\index{scoreAnswer@{scoreAnswer}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{scoreAnswer}{scoreAnswer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_answer_scorer}{Answer\+Scorer}}\texorpdfstring{$\ast$}{*} GUI\+::score\+Answer\hspace{0.3cm}{\ttfamily [private]}}
+
+evaluating user\textquotesingle{}s answer. \Hypertarget{class_g_u_i_ad5fdfd636ab335354a49dd2b705a749f}\label{class_g_u_i_ad5fdfd636ab335354a49dd2b705a749f} 
+\index{GUI@{GUI}!userAnswers@{userAnswers}}
+\index{userAnswers@{userAnswers}!GUI@{GUI}}
+\doxysubsubsection{\texorpdfstring{userAnswers}{userAnswers}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_q_a_set}{QASet}}\texorpdfstring{$\ast$}{*} GUI\+::user\+Answers\hspace{0.3cm}{\ttfamily [private]}}
+
+The user\textquotesingle{}s answers. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/gui.\+h\item 
+src/gui.\+cpp\end{DoxyCompactItemize}

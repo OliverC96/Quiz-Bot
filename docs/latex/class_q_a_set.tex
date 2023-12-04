@@ -1,0 +1,165 @@
+\doxysection{QASet Class Reference}
+\hypertarget{class_q_a_set}{}\label{class_q_a_set}\index{QASet@{QASet}}
+
+
+A class to manage a set of questions and their answers.  
+
+
+
+
+{\ttfamily \#include $<$qa\+Set.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_q_a_set_a109ff1437a16e929b0bd1308ba18908c}{QASet}} (std\+::string category, std\+::string difficulty)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{class_q_a}{QA} set. \end{DoxyCompactList}\item 
+\Hypertarget{class_q_a_set_ad3134d5d8a314ce8fea7724a2fcf71fd}\label{class_q_a_set_ad3134d5d8a314ce8fea7724a2fcf71fd} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+QASet} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_q_a_set_af5763844fac920c876a974fbc5261956}{add\+Question}} (\mbox{\hyperlink{class_q_a}{QA}} question)
+\begin{DoxyCompactList}\small\item\em Adds the specified question to the question bank. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_q_a_set_a73bb9b8063f26421fd43eac7633b2bc8}{get\+Size}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieves the size of the \doxylink{class_q_a}{QA} set (i.\+e., the number of \doxylink{class_q_a}{QA} pairs in the quiz) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_q_a}{QA}} \mbox{\hyperlink{class_q_a_set_aa154b5a58b161678ee1a91a5cadef139}{get\+Question}} (int id)
+\begin{DoxyCompactList}\small\item\em Get a specific question by its ID. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_q_a_set_a64559fb3e547d2f74bee54bd15d23421}{get\+Category}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieves the category associated with this \doxylink{class_q_a}{QA} set. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_q_a_set_a70289c3fc750f94cdf5cb0180e78ff27}{get\+Difficulty\+Level}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieves the difficulty level associated with this \doxylink{class_q_a}{QA} set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ int, \mbox{\hyperlink{class_q_a}{QA}} $>$ \mbox{\hyperlink{class_q_a_set_a226d1fbe67e375759d658f09b5381409}{questions}}
+\item 
+\Hypertarget{class_q_a_set_a594766a71de5ca38100901938e0ffe96}\label{class_q_a_set_a594766a71de5ca38100901938e0ffe96} 
+std\+::string {\bfseries category}
+\item 
+\Hypertarget{class_q_a_set_afce78859e1877e77b2f6ca3629bc4da4}\label{class_q_a_set_afce78859e1877e77b2f6ca3629bc4da4} 
+std\+::string {\bfseries difficulty\+Level}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class to manage a set of questions and their answers. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_q_a_set_a109ff1437a16e929b0bd1308ba18908c}\label{class_q_a_set_a109ff1437a16e929b0bd1308ba18908c} 
+\index{QASet@{QASet}!QASet@{QASet}}
+\index{QASet@{QASet}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{QASet()}{QASet()}}
+{\footnotesize\ttfamily QASet\+::\+QASet (\begin{DoxyParamCaption}\item[{std\+::string}]{category,  }\item[{std\+::string}]{difficulty }\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{class_q_a}{QA} set. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em category} & The category of questions in the set \\
+\hline
+{\em difficulty} & The difficulty level of questions in the set\\
+\hline
+{\em category} & The category of questions in the set \\
+\hline
+{\em difficulty} & The difficulty level \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_q_a_set_af5763844fac920c876a974fbc5261956}\label{class_q_a_set_af5763844fac920c876a974fbc5261956} 
+\index{QASet@{QASet}!addQuestion@{addQuestion}}
+\index{addQuestion@{addQuestion}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{addQuestion()}{addQuestion()}}
+{\footnotesize\ttfamily void QASet\+::add\+Question (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_q_a}{QA}}}]{question }\end{DoxyParamCaption})}
+
+
+
+Adds the specified question to the question bank. 
+
+Inserts the given question into the collection.
+
+
+\begin{DoxyParams}{Parameters}
+{\em question} & The \doxylink{class_q_a}{QA} object\\
+\hline
+{\em question} & The question to be inserted \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_q_a_set_a64559fb3e547d2f74bee54bd15d23421}\label{class_q_a_set_a64559fb3e547d2f74bee54bd15d23421} 
+\index{QASet@{QASet}!getCategory@{getCategory}}
+\index{getCategory@{getCategory}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{getCategory()}{getCategory()}}
+{\footnotesize\ttfamily std\+::string QASet\+::get\+Category (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves the category associated with this \doxylink{class_q_a}{QA} set. 
+
+\begin{DoxyReturn}{Returns}
+The category of the set
+
+The category 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_set_a70289c3fc750f94cdf5cb0180e78ff27}\label{class_q_a_set_a70289c3fc750f94cdf5cb0180e78ff27} 
+\index{QASet@{QASet}!getDifficultyLevel@{getDifficultyLevel}}
+\index{getDifficultyLevel@{getDifficultyLevel}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{getDifficultyLevel()}{getDifficultyLevel()}}
+{\footnotesize\ttfamily std\+::string QASet\+::get\+Difficulty\+Level (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves the difficulty level associated with this \doxylink{class_q_a}{QA} set. 
+
+\begin{DoxyReturn}{Returns}
+The difficulty level of the set
+
+The difficulty level 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_set_aa154b5a58b161678ee1a91a5cadef139}\label{class_q_a_set_aa154b5a58b161678ee1a91a5cadef139} 
+\index{QASet@{QASet}!getQuestion@{getQuestion}}
+\index{getQuestion@{getQuestion}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{getQuestion()}{getQuestion()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_q_a}{QA}} QASet\+::get\+Question (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+Get a specific question by its ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The ID of the question to retrieve. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The \doxylink{class_q_a}{QA} object for the specified question ID. Returns an empty \doxylink{class_q_a}{QA} object if the question ID is not found. 
+\end{DoxyReturn}
+\Hypertarget{class_q_a_set_a73bb9b8063f26421fd43eac7633b2bc8}\label{class_q_a_set_a73bb9b8063f26421fd43eac7633b2bc8} 
+\index{QASet@{QASet}!getSize@{getSize}}
+\index{getSize@{getSize}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{getSize()}{getSize()}}
+{\footnotesize\ttfamily int QASet\+::get\+Size (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves the size of the \doxylink{class_q_a}{QA} set (i.\+e., the number of \doxylink{class_q_a}{QA} pairs in the quiz) 
+
+\begin{DoxyReturn}{Returns}
+The size of the quiz 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_q_a_set_a226d1fbe67e375759d658f09b5381409}\label{class_q_a_set_a226d1fbe67e375759d658f09b5381409} 
+\index{QASet@{QASet}!questions@{questions}}
+\index{questions@{questions}!QASet@{QASet}}
+\doxysubsubsection{\texorpdfstring{questions}{questions}}
+{\footnotesize\ttfamily std\+::map$<$int, \mbox{\hyperlink{class_q_a}{QA}}$>$ QASet\+::questions\hspace{0.3cm}{\ttfamily [private]}}
+
+A map of question IDs to \doxylink{class_q_a}{QA} objects. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/qa\+Set.\+h\item 
+src/qa\+Set.\+cpp\end{DoxyCompactItemize}

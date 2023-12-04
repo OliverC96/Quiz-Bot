@@ -48,7 +48,6 @@ GUI::~GUI() {
 /**
  * @brief Display the current question's answer.
  * Once the answer is check, the user can proceed to next Q
- * @todo Make sure the answer doesn't appear when pressed multiple times at once
  * @author Taegyun Kim
  */
 void GUI::displayAnswer() {

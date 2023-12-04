@@ -1,0 +1,37 @@
+\doxysection{qa\+Set.\+h}
+\hypertarget{qa_set_8h_source}{}\label{qa_set_8h_source}\index{include/qaSet.h@{include/qaSet.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ QASET\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ QASET\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}qa.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_q_a_set}{QASet}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_q_a_set}{QASet}}(std::string\ category,\ std::string\ difficulty);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_q_a_set_ad3134d5d8a314ce8fea7724a2fcf71fd}{\string~QASet}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_q_a_set_af5763844fac920c876a974fbc5261956}{addQuestion}}(\mbox{\hyperlink{class_q_a}{QA}}\ question);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_q_a_set_a73bb9b8063f26421fd43eac7633b2bc8}{getSize}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{class_q_a}{QA}}\ \mbox{\hyperlink{class_q_a_set_aa154b5a58b161678ee1a91a5cadef139}{getQuestion}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00050\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_set_a64559fb3e547d2f74bee54bd15d23421}{getCategory}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00056\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_set_a70289c3fc750f94cdf5cb0180e78ff27}{getDifficultyLevel}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00059\ \ \ \ \ std::map<int,\ QA>\ \mbox{\hyperlink{class_q_a_set_a226d1fbe67e375759d658f09b5381409}{questions}};\ }
+\DoxyCodeLine{00060\ \ \ \ \ std::string\ category;}
+\DoxyCodeLine{00061\ \ \ \ \ std::string\ difficultyLevel;}
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

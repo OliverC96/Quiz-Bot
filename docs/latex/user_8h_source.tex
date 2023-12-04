@@ -1,0 +1,48 @@
+\doxysection{user.\+h}
+\hypertarget{user_8h_source}{}\label{user_8h_source}\index{include/user.h@{include/user.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ USER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ USER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_user}{User}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_user}{User}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_user_a23edbe719dce1faa2f50f858c211f652}{userID}},\ \textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{class_user_ad898af54b966b29ccf532952ca4c8809}{userPW}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_user_ae9e504aea9a14a5426e51d6f59fdaa74}{ranking}},\ std::vector<std::tuple<int,\ std::string,\ std::string>>\ scoreHistory);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00027\ \ \ \ \ std::string\ \mbox{\hyperlink{class_user_a16baa02a2dadb74269c9a7341aa53a4a}{getID}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00033\ \ \ \ \ std::string\ \mbox{\hyperlink{class_user_a989dd25012ef596a2b9df3fa9a7d8f88}{getPW}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_user_a87ee923c73297319e7172be2869f953d}{setPW}}(\textcolor{keyword}{const}\ std::string\&\ newPassword);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_user_ad38b0ed63288fe93952b60eb706e4b92}{setID}}(\textcolor{keyword}{const}\ std::string\&\ newID);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_user_ab3889068429854901e823e4d5fe3fd84}{getUserScore}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_user_ad97f4974d5d318954c64669316255162}{setUserScore}}(\textcolor{keywordtype}{int}\ newScore);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00063\ \ \ \ \ std::vector<std::tuple<int,\ std::string,\ std::string>>\ \mbox{\hyperlink{class_user_a16fa02ab676e57de04a067324f429450}{getScoreHistory}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_user_a80a1ad382dbb51155b7f4642b9023492}{updateScoreHistory}}(std::string\ category,\ std::string\ difficulty);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_user_aa981df34478ba01a445db46899204f6f}{saveUserData}}(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_user_a6eccc9c19165d3f130623bd74b46e0ee}{getUserRank}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_user_ae23dab07321cfffa8de3323f6ba3ab02}{setUserRank}}(\textcolor{keywordtype}{int}\ newRank);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00090\ \ \ \ \ std::vector<std::tuple<int,\ std::string,\ std::string>>\ scoreHistory;}
+\DoxyCodeLine{00091\ \ \ \ \ std::string\ \mbox{\hyperlink{class_user_a23edbe719dce1faa2f50f858c211f652}{userID}};\ }
+\DoxyCodeLine{00092\ \ \ \ \ std::string\ \mbox{\hyperlink{class_user_ad898af54b966b29ccf532952ca4c8809}{userPW}};\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_user_ab5621f78dc93a813368fbe1ded3b8fae}{userScore}};\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_user_ae9e504aea9a14a5426e51d6f59fdaa74}{ranking}};\ }
+\DoxyCodeLine{00095\ \};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

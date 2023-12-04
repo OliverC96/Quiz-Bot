@@ -1,0 +1,270 @@
+\doxysection{User Class Reference}
+\hypertarget{class_user}{}\label{class_user}\index{User@{User}}
+
+
+A class representing a user in the application.  
+
+
+
+
+{\ttfamily \#include $<$user.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_user_a20d42bacb0ad10d28da2778a25a88a9d}{User}} (const std\+::string \&\mbox{\hyperlink{class_user_a23edbe719dce1faa2f50f858c211f652}{user\+ID}}, const std\+::string \&\mbox{\hyperlink{class_user_ad898af54b966b29ccf532952ca4c8809}{user\+PW}}, int \mbox{\hyperlink{class_user_ae9e504aea9a14a5426e51d6f59fdaa74}{ranking}}, std\+::vector$<$ std\+::tuple$<$ int, std\+::string, std\+::string $>$ $>$ score\+History)
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_user}{User} class. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_user_a16baa02a2dadb74269c9a7341aa53a4a}{get\+ID}} () const
+\begin{DoxyCompactList}\small\item\em Get the user\textquotesingle{}s ID. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_user_a989dd25012ef596a2b9df3fa9a7d8f88}{get\+PW}} () const
+\begin{DoxyCompactList}\small\item\em Get the user\textquotesingle{}s password. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_user_a87ee923c73297319e7172be2869f953d}{set\+PW}} (const std\+::string \&new\+Password)
+\begin{DoxyCompactList}\small\item\em Set the user\textquotesingle{}s password. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_user_ad38b0ed63288fe93952b60eb706e4b92}{set\+ID}} (const std\+::string \&new\+ID)
+\begin{DoxyCompactList}\small\item\em Set the user\textquotesingle{}s ID. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_ab3889068429854901e823e4d5fe3fd84}{get\+User\+Score}} () const
+\begin{DoxyCompactList}\small\item\em Get the user\textquotesingle{}s score for the current session. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_user_ad97f4974d5d318954c64669316255162}{set\+User\+Score}} (int new\+Score)
+\begin{DoxyCompactList}\small\item\em Set the user\textquotesingle{}s score for the current session. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::tuple$<$ int, std\+::string, std\+::string $>$ $>$ \mbox{\hyperlink{class_user_a16fa02ab676e57de04a067324f429450}{get\+Score\+History}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves a comprehensive history of the user\textquotesingle{}s scores on previous quizzes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_user_a80a1ad382dbb51155b7f4642b9023492}{update\+Score\+History}} (std\+::string category, std\+::string difficulty)
+\begin{DoxyCompactList}\small\item\em Updates the score history with the user\textquotesingle{}s current score, and the provided arguments. \end{DoxyCompactList}\item 
+\Hypertarget{class_user_aa981df34478ba01a445db46899204f6f}\label{class_user_aa981df34478ba01a445db46899204f6f} 
+void {\bfseries save\+User\+Data} (void) const
+\begin{DoxyCompactList}\small\item\em Saves all user data to the user\textquotesingle{}s file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_user_a6eccc9c19165d3f130623bd74b46e0ee}{get\+User\+Rank}} () const
+\begin{DoxyCompactList}\small\item\em Get the user\textquotesingle{}s rank. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_user_ae23dab07321cfffa8de3323f6ba3ab02}{set\+User\+Rank}} (int new\+Rank)
+\begin{DoxyCompactList}\small\item\em Set the user\textquotesingle{}s rank. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_user_acee8c9468c207d8dddcbe536f61bf42e}\label{class_user_acee8c9468c207d8dddcbe536f61bf42e} 
+std\+::vector$<$ std\+::tuple$<$ int, std\+::string, std\+::string $>$ $>$ {\bfseries score\+History}
+\item 
+std\+::string \mbox{\hyperlink{class_user_a23edbe719dce1faa2f50f858c211f652}{user\+ID}}
+\item 
+std\+::string \mbox{\hyperlink{class_user_ad898af54b966b29ccf532952ca4c8809}{user\+PW}}
+\item 
+int \mbox{\hyperlink{class_user_ab5621f78dc93a813368fbe1ded3b8fae}{user\+Score}}
+\item 
+int \mbox{\hyperlink{class_user_ae9e504aea9a14a5426e51d6f59fdaa74}{ranking}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class representing a user in the application. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_user_a20d42bacb0ad10d28da2778a25a88a9d}\label{class_user_a20d42bacb0ad10d28da2778a25a88a9d} 
+\index{User@{User}!User@{User}}
+\index{User@{User}!User@{User}}
+\doxysubsubsection{\texorpdfstring{User()}{User()}}
+{\footnotesize\ttfamily User\+::\+User (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{user\+ID,  }\item[{const std\+::string \&}]{user\+PW,  }\item[{int}]{ranking,  }\item[{std\+::vector$<$ std\+::tuple$<$ int, std\+::string, std\+::string $>$ $>$}]{score\+History }\end{DoxyParamCaption})}
+
+
+
+Constructor for the \doxylink{class_user}{User} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+ID} & The user\textquotesingle{}s ID. \\
+\hline
+{\em user\+PW} & The user\textquotesingle{}s password. \\
+\hline
+{\em ranking} & The user\textquotesingle{}s ranking. \\
+\hline
+{\em score\+History} & A comprehensive record of the user\textquotesingle{}s scores in previous quizzes. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_user_a16baa02a2dadb74269c9a7341aa53a4a}\label{class_user_a16baa02a2dadb74269c9a7341aa53a4a} 
+\index{User@{User}!getID@{getID}}
+\index{getID@{getID}!User@{User}}
+\doxysubsubsection{\texorpdfstring{getID()}{getID()}}
+{\footnotesize\ttfamily std\+::string User\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the user\textquotesingle{}s ID. 
+
+\begin{DoxyReturn}{Returns}
+The user\textquotesingle{}s ID. 
+\end{DoxyReturn}
+\Hypertarget{class_user_a989dd25012ef596a2b9df3fa9a7d8f88}\label{class_user_a989dd25012ef596a2b9df3fa9a7d8f88} 
+\index{User@{User}!getPW@{getPW}}
+\index{getPW@{getPW}!User@{User}}
+\doxysubsubsection{\texorpdfstring{getPW()}{getPW()}}
+{\footnotesize\ttfamily std\+::string User\+::get\+PW (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the user\textquotesingle{}s password. 
+
+\begin{DoxyReturn}{Returns}
+The user\textquotesingle{}s password. 
+\end{DoxyReturn}
+\Hypertarget{class_user_a16fa02ab676e57de04a067324f429450}\label{class_user_a16fa02ab676e57de04a067324f429450} 
+\index{User@{User}!getScoreHistory@{getScoreHistory}}
+\index{getScoreHistory@{getScoreHistory}!User@{User}}
+\doxysubsubsection{\texorpdfstring{getScoreHistory()}{getScoreHistory()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::tuple$<$ int, std\+::string, std\+::string $>$ $>$ User\+::get\+Score\+History (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retrieves a comprehensive history of the user\textquotesingle{}s scores on previous quizzes. 
+
+\begin{DoxyReturn}{Returns}
+A collection of scores 
+\end{DoxyReturn}
+\Hypertarget{class_user_a6eccc9c19165d3f130623bd74b46e0ee}\label{class_user_a6eccc9c19165d3f130623bd74b46e0ee} 
+\index{User@{User}!getUserRank@{getUserRank}}
+\index{getUserRank@{getUserRank}!User@{User}}
+\doxysubsubsection{\texorpdfstring{getUserRank()}{getUserRank()}}
+{\footnotesize\ttfamily int User\+::get\+User\+Rank (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the user\textquotesingle{}s rank. 
+
+Retrieve the highest leaderboard rank associated with this user.
+
+\begin{DoxyReturn}{Returns}
+The user\textquotesingle{}s rank.
+
+The highest rank 
+\end{DoxyReturn}
+\Hypertarget{class_user_ab3889068429854901e823e4d5fe3fd84}\label{class_user_ab3889068429854901e823e4d5fe3fd84} 
+\index{User@{User}!getUserScore@{getUserScore}}
+\index{getUserScore@{getUserScore}!User@{User}}
+\doxysubsubsection{\texorpdfstring{getUserScore()}{getUserScore()}}
+{\footnotesize\ttfamily int User\+::get\+User\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the user\textquotesingle{}s score for the current session. 
+
+Get the user\textquotesingle{}s score.
+
+\begin{DoxyReturn}{Returns}
+The user\textquotesingle{}s score. 
+\end{DoxyReturn}
+\Hypertarget{class_user_ad38b0ed63288fe93952b60eb706e4b92}\label{class_user_ad38b0ed63288fe93952b60eb706e4b92} 
+\index{User@{User}!setID@{setID}}
+\index{setID@{setID}!User@{User}}
+\doxysubsubsection{\texorpdfstring{setID()}{setID()}}
+{\footnotesize\ttfamily void User\+::set\+ID (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{new\+ID }\end{DoxyParamCaption})}
+
+
+
+Set the user\textquotesingle{}s ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+ID} & The new user ID to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_user_a87ee923c73297319e7172be2869f953d}\label{class_user_a87ee923c73297319e7172be2869f953d} 
+\index{User@{User}!setPW@{setPW}}
+\index{setPW@{setPW}!User@{User}}
+\doxysubsubsection{\texorpdfstring{setPW()}{setPW()}}
+{\footnotesize\ttfamily void User\+::set\+PW (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{new\+Password }\end{DoxyParamCaption})}
+
+
+
+Set the user\textquotesingle{}s password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Password} & The new password to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_user_ae23dab07321cfffa8de3323f6ba3ab02}\label{class_user_ae23dab07321cfffa8de3323f6ba3ab02} 
+\index{User@{User}!setUserRank@{setUserRank}}
+\index{setUserRank@{setUserRank}!User@{User}}
+\doxysubsubsection{\texorpdfstring{setUserRank()}{setUserRank()}}
+{\footnotesize\ttfamily void User\+::set\+User\+Rank (\begin{DoxyParamCaption}\item[{int}]{new\+Rank }\end{DoxyParamCaption})}
+
+
+
+Set the user\textquotesingle{}s rank. 
+
+Update the user\textquotesingle{}s ranking with the specified rank.
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Rank} & The new rank to set.\\
+\hline
+{\em new\+Rank} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_user_ad97f4974d5d318954c64669316255162}\label{class_user_ad97f4974d5d318954c64669316255162} 
+\index{User@{User}!setUserScore@{setUserScore}}
+\index{setUserScore@{setUserScore}!User@{User}}
+\doxysubsubsection{\texorpdfstring{setUserScore()}{setUserScore()}}
+{\footnotesize\ttfamily void User\+::set\+User\+Score (\begin{DoxyParamCaption}\item[{int}]{new\+Score }\end{DoxyParamCaption})}
+
+
+
+Set the user\textquotesingle{}s score for the current session. 
+
+Set the user\textquotesingle{}s score.
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Score} & The new score to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_user_a80a1ad382dbb51155b7f4642b9023492}\label{class_user_a80a1ad382dbb51155b7f4642b9023492} 
+\index{User@{User}!updateScoreHistory@{updateScoreHistory}}
+\index{updateScoreHistory@{updateScoreHistory}!User@{User}}
+\doxysubsubsection{\texorpdfstring{updateScoreHistory()}{updateScoreHistory()}}
+{\footnotesize\ttfamily void User\+::update\+Score\+History (\begin{DoxyParamCaption}\item[{std\+::string}]{category,  }\item[{std\+::string}]{difficulty }\end{DoxyParamCaption})}
+
+
+
+Updates the score history with the user\textquotesingle{}s current score, and the provided arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em category} & The category of the quiz in which this score was attained \\
+\hline
+{\em difficulty} & The difficulty level of the quiz in which this score was attained \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_user_ae9e504aea9a14a5426e51d6f59fdaa74}\label{class_user_ae9e504aea9a14a5426e51d6f59fdaa74} 
+\index{User@{User}!ranking@{ranking}}
+\index{ranking@{ranking}!User@{User}}
+\doxysubsubsection{\texorpdfstring{ranking}{ranking}}
+{\footnotesize\ttfamily int User\+::ranking\hspace{0.3cm}{\ttfamily [private]}}
+
+The user\textquotesingle{}s ranking. \Hypertarget{class_user_a23edbe719dce1faa2f50f858c211f652}\label{class_user_a23edbe719dce1faa2f50f858c211f652} 
+\index{User@{User}!userID@{userID}}
+\index{userID@{userID}!User@{User}}
+\doxysubsubsection{\texorpdfstring{userID}{userID}}
+{\footnotesize\ttfamily std\+::string User\+::user\+ID\hspace{0.3cm}{\ttfamily [private]}}
+
+The user\textquotesingle{}s ID. \Hypertarget{class_user_ad898af54b966b29ccf532952ca4c8809}\label{class_user_ad898af54b966b29ccf532952ca4c8809} 
+\index{User@{User}!userPW@{userPW}}
+\index{userPW@{userPW}!User@{User}}
+\doxysubsubsection{\texorpdfstring{userPW}{userPW}}
+{\footnotesize\ttfamily std\+::string User\+::user\+PW\hspace{0.3cm}{\ttfamily [private]}}
+
+The user\textquotesingle{}s password. \Hypertarget{class_user_ab5621f78dc93a813368fbe1ded3b8fae}\label{class_user_ab5621f78dc93a813368fbe1ded3b8fae} 
+\index{User@{User}!userScore@{userScore}}
+\index{userScore@{userScore}!User@{User}}
+\doxysubsubsection{\texorpdfstring{userScore}{userScore}}
+{\footnotesize\ttfamily int User\+::user\+Score\hspace{0.3cm}{\ttfamily [private]}}
+
+The user\textquotesingle{}s score. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/user.\+h\item 
+src/user.\+cpp\end{DoxyCompactItemize}

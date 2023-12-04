@@ -1,0 +1,36 @@
+\doxysection{qa.\+h}
+\hypertarget{qa_8h_source}{}\label{qa_8h_source}\index{include/qa.h@{include/qa.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ QA\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ QA\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_q_a}{QA}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_q_a}{QA}}(\textcolor{keywordtype}{int}\ questionId,\ \textcolor{keyword}{const}\ std::string\&\ questionText,\ std::string\ answerText,\ \textcolor{keyword}{const}\ std::string\&\ difficultyLevel,\ \textcolor{keyword}{const}\ std::string\&\ category);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_q_a_afdeb8399f5ad4f61d07ea6427f41329f}{getQuestionId}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00032\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_a19731388706161206383b3e99db1f8ec}{getQuestionText}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00038\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_abecd0abababd2263758a95cbf01c1c06}{getAnswerText}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_q_a_a684fd93124e0ce95a27102ff13ef29f5}{setAnswerText}}(std::string\ userAnswer);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00050\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_ae734357ef2b10bdefafccf9c2b3dd626}{getDifficultyLevel}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00056\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_aad31b319016f8880f3de73f132634bbc}{getCategory}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_q_a_a52984382bc76446439a5d0c28cfe896b}{\_questionId}};\ }
+\DoxyCodeLine{00060\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_a6afaeb0e35d9f5dfaa05a41cde872cd9}{\_questionText}};\ }
+\DoxyCodeLine{00061\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_aa808c562a8859f3b77e6a9b33d2bf4aa}{\_answerText}};\ }
+\DoxyCodeLine{00062\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_a317cef74b117c655e3719f71092336f3}{\_difficultyLevel}};\ }
+\DoxyCodeLine{00063\ \ \ \ \ std::string\ \mbox{\hyperlink{class_q_a_a12303c25b82048a888df3ff42cc25368}{\_category}};\ }
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
