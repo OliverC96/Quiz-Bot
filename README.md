@@ -22,3 +22,15 @@
 </ol>
 <p>Or, simply make an alias:</p> 
 <b> alias gui='make gui && ./gui --docroot . --http-listen 0.0.0.0:8080' </b>
+
+<h2> Welcome Page </h2>
+
+![A screenshot of the welcome/home page.](./welcome_page.png)
+
+<h2> Question Page </h2>
+
+![A screenshot of the question page.](./question_page.png)
+
+<h2> Leaderboard </h2>
+
+![A screenshot of the leaderboard page.](./leaderboard.png)
