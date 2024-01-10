@@ -1,4 +1,5 @@
 <h1> Welcome to QuizBot! </h1>
+<h3> Developers: Oliver Clennan, Taegyun Kim, Sung Kim, Jiho Choi, and Isra Alabbasi </h3>
 
 <h2> Overview </h2>
 <p>QuizBot is an interactive trivia platform which allows users to test their knowledge in a variety of categories, and at multiple difficulty levels. The following are the primary features supported by QuizBot:</p>
